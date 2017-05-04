@@ -1,0 +1,7 @@
+<%- include('header') %>
+<div class="news-list">
+  <% articles.forEach(function (article) { %>
+    <%- include('components/new-item', { article: article }) %>
+  <% }) %>
+</div>
+<%- include('footer') %>
