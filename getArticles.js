@@ -38,22 +38,28 @@ module.exports = {
               $img.each((index, img) => {
                 let imgUrl = $(img).attr('data-original')
                 let r = imgUrl.match(/(http:\/\/)?\w+\.(jpg|jpeg|gif|png)/) // 提取图片名
-                imgs.push({
-                  name: r[0],
-                  url: imgUrl
-                })
-                $(img).attr('src', '/news/' + r[0]) //替换成本地路径
+                if (r && r.length > 0) {
+                  imgs.push({
+                    name: r[0],
+                    url: imgUrl
+                  })
+                  $(img).attr('src', '/news/' + r[0]) //替换成本地路径
+                }
               })
             }
             // 
             let content = $new.html().replace(/<script.*<\/script>/g, '')
             let pdate = $('#pubtime_baidu').text()
+            let ts = (new Date(pdate)).getTime()
+            let tag = $('.hot_tags').text().substr(4)
             let author = $('#author_baidu strong').text()
             let sourceurl = article.link
             NewModel.create({
               title,
               content,
               sourceurl,
+              ts,
+              tag,
               pdate,
               author
             })

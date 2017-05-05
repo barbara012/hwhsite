@@ -1,8 +1,9 @@
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var extractSass = new ExtractTextPlugin('../../dist/css/[name]_[hash].css');
-var AssetsPlugin = require('assets-webpack-plugin');
-var assetsPluginInstance = new AssetsPlugin(
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const extractSass = new ExtractTextPlugin('../../dist/css/[name]_[hash].css')
+const AssetsPlugin = require('assets-webpack-plugin')
+const CleanDir = require('clean-webpack-plugin')
+const assetsPluginInstance = new AssetsPlugin(
     {
         filename: 'asset.json',
         includeManifest: true,
@@ -14,10 +15,10 @@ var assetsPluginInstance = new AssetsPlugin(
 module.exports = {
     devtool: 'eval-source-map',
     entry: {
-        index: __dirname + '/public/js/entry.js'
+        index: __dirname + '/static/entry.js'
     },
     output: {
-        path: __dirname + '/public/dist/js',
+        path: __dirname + '/static/dist/js',
         filename: '[name]_[hash].js'
     },
     module: {
@@ -31,6 +32,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanDir([__dirname + '/static/dist']),
         extractSass,
         new webpack.BannerPlugin('This file is created by hwh'),
         assetsPluginInstance

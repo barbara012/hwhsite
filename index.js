@@ -22,8 +22,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 // 设置静态文件目录
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(favicon(__dirname + '/public/favicon.ico'))
+app.use(express.static(path.join(__dirname, 'static')))
+app.use(favicon(__dirname + '/static/favicon.png'))
 // session 中间件
 app.use(session({
   name: config.session.key,// 设置 cookie 中保存 session id 的字段名称
@@ -41,7 +41,7 @@ app.use(session({
 app.use(flash())
 // 处理表单及文件上传的中间件
 app.use(require('express-formidable')({
-  uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
+  uploadDir: path.join(__dirname, 'static/img'),// 上传文件目录
   keepExtensions: true// 保留后缀
 }))
 

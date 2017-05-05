@@ -1,17 +1,8 @@
-<div class="post-content">
-    <div class="ui grid">
-        <div class="four wide column">
-        </div>
-
-        <div class="eight wide column">
-            <div class="ui segment">
-                <h3><a href="/news/<%= article._id %>"><%= article.title %></a></h3>
-                <div class="new_other-info">
-                    <span class="new_author"><%= article.author %></span>
-                    <span class="new_date"><%= article.pdate %></span>
-                </div>
-                <div><%- article.content %></div>
-            </div>
-        </div>
-    </div>
+<div class="new-content">
+  <h3><a href="/news/<%= article._id %>"><%= article.title %></a></h3>
+  <div class="new_other-info">
+    <span class="new_author"><%= article.author %></span>
+    <span class="new_date"><%= article.pdate %></span>
+  </div>
+  <div><%- article.content %></div>
 </div>

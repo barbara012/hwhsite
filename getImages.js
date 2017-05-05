@@ -13,10 +13,11 @@ module.exports = {
     .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
     .end((err, res) => {
       if (err || !res.ok) {
-         console.log('出错了')
-         cb4()
+        console.log(img.url)
+        console.log('出错了')
+        cb4()
       } else {
-        fs.writeFile(__dirname + '/public/news/' + img.name, res.body, "binary", (err) => {
+        fs.writeFile(__dirname + '/static/news/' + img.name, res.body, "binary", (err) => {
           console.log('获取了一张图，好图')
           cb4()
         })
