@@ -49,6 +49,7 @@ module.exports = {
             }
             // 
             let content = $new.html().replace(/<script.*<\/script>/g, '')
+            content = content.replace(/IT之家/g, '火星')
             let pdate = $('#pubtime_baidu').text()
             let ts = (new Date(pdate)).getTime()
             let tag = $('.hot_tags').text().substr(4)
@@ -75,7 +76,7 @@ module.exports = {
           (imgs, cb3) => { // 把图片存到本地库
             if (imgs.length > 0) {
               async.eachSeries(imgs, (item, cb4) => {
-                GetImages.go(item, cb4)
+                GetImages.go(item, 'news', cb4)
               }, (res) => {
                 console.log('完成一篇')
                 cb3()

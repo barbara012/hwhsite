@@ -1,6 +1,5 @@
 const NewsModel = require('../models/news')
 const express = require('express')
-var asset = require('../asset.json')
 const async = require('async')
 const router = express.Router()
 router.get('/', function(req, res, next) {
@@ -9,23 +8,23 @@ router.get('/', function(req, res, next) {
   let pCount = NewsModel.getCount()
   let pNews = NewsModel.getNews(page)
   Promise.all([pCount, pNews]).then(function (result) {
-    let news = result[1].map((item) => {
-      let r = item.content.match(/<img.+?>/)
-      let p = item.content.match(/<p.+?p>/)
+    let articles = result[1].map((article) => {
+      let r = article.content.match(/<img.+?>/)
+      let p = article.content.match(/<p.+?p>/)
       if (p) {
         p[0].replace(/<img.+?>/g, '')
       }
-      item.img = r ? r[0] : ''
-      item.content = p ? p[0] : ''
-      item.tag = item.tag.split('，')
-      return item
+      article.img = r ? r[0] : ''
+      article.content = p ? p[0] : ''
+      article.tag = article.tag.split('，')
+      return article
     })
-    res.render('news', {
-      articles: news,
+    res.render('articles', {
+      articles: articles,
       isFirstPage: page === 1,
+      articleType: 'news',
       isLastPage: page * 10 >= result[0],
-      page: page,
-      stats: asset.index
+      page: page
     })
   }).catch(next)
 })
@@ -33,9 +32,11 @@ router.get('/:newId', function(req, res, next) {
   const newId = req.params.newId
   NewsModel.getOne(newId)
     .then(function (article) {
-      res.render('new', {
+      article.tag = article.tag.split('，')
+      res.render('article', {
         article: article,
-        stats: asset.index
+        articleType: 'articles',
+        disclaimer: '内容均来自网络，侵删'
       })
     })
     .catch(next)

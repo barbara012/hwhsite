@@ -11,8 +11,10 @@ const routes = require('./routes')
 const pkg = require('./package')
 const winston = require('winston')
 const expressWinston = require('express-winston')
-const GetNews = require('./getData')
+const GetNews = require('./getIthome')
+const GetJshu = require('./getJianshu')
 const url = 'http://www.ithome.com/'
+const jsUrl = 'http://www.jianshu.com'
 
 const app = express()
 
@@ -41,13 +43,13 @@ app.use(session({
 app.use(flash())
 // 处理表单及文件上传的中间件
 app.use(require('express-formidable')({
-  uploadDir: path.join(__dirname, 'static/img'),// 上传文件目录
+  uploadDir: path.join(__dirname, 'static/img-db'),// 上传文件目录
   keepExtensions: true// 保留后缀
 }))
 
 // 设置模板全局常量
 app.locals.blog = {
-  title: pkg.name,
+  title: pkg.name + '没有态度的小站',
   description: pkg.description
 }
 
@@ -60,17 +62,17 @@ app.use(function (req, res, next) {
 })
 
 // 正常请求的日志
-app.use(expressWinston.logger({
-  transports: [
-    new (winston.transports.Console)({
-      json: true,
-      colorize: true
-    }),
-    new winston.transports.File({
-      filename: 'logs/success.log'
-    })
-  ]
-}))
+// app.use(expressWinston.logger({
+//   transports: [
+//     new (winston.transports.Console)({
+//       json: true,
+//       colorize: true
+//     }),
+//     new winston.transports.File({
+//       filename: 'logs/success.log'
+//     })
+//   ]
+// }))
 // 路由
 routes(app);
 // 错误请求的日志
@@ -84,7 +86,7 @@ app.use(expressWinston.errorLogger({
       filename: 'logs/error.log'
     })
   ]
-}));
+}))
 
 // error page
 app.use(function (err, req, res, next) {
@@ -101,4 +103,5 @@ if (module.parent) {
     console.log(`${pkg.name} listening on port ${config.port}`)
   })
   GetNews.go(url)
+  GetJshu.go(jsUrl)
 }

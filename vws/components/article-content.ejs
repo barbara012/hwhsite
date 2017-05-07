@@ -1,0 +1,17 @@
+<div class="article-content">
+  <h1><a class="article_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h1>
+  <div class="article_other-info">
+    <a href="/<%= articleType %>/<%= article.author %>" class="article_avatar"><%- article.author.substr(0,1) %></a>
+    <a class="article_author"><span class="author-tag">作者</span><%= article.author %></a>
+    <span class="article_date"><%= article.pdate %></span>
+    <span class="disclaimer"><%= disclaimer %></span>
+  </div>
+  <div class="article_content"><%- article.content %></div>
+  <% if (article.tag.length > 0) {%>
+  <div class="new_tags">
+    <% article.tag.forEach(function(tg){ %>
+    <span class="new_tag"><%= tg %></span>
+    <% }) %>
+  </div>
+  <% } %>
+</div>

@@ -44,7 +44,6 @@ module.exports = {
       ], (res) => {
         console.log('完美！')
         console.log('scheduleRecurrenceRule:' + new Date())
-        // process.exit()
       })
     })
   }

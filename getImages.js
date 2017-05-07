@@ -6,7 +6,7 @@ const path = require('path')
 const superAgent = require('superagent')
 const async = require('async')
 module.exports = {
-  go: (img, cb4) => {
+  go: (img, file, cb4) => {
     superAgent
     .get(img.url)
     .set('Content-Type', 'multipart/form-data')
@@ -17,7 +17,7 @@ module.exports = {
         console.log('出错了')
         cb4()
       } else {
-        fs.writeFile(__dirname + '/static/news/' + img.name, res.body, "binary", (err) => {
+        fs.writeFile(`${__dirname}/static/${file}/${img.name}`, res.body, "binary", (err) => {
           console.log('获取了一张图，好图')
           cb4()
         })
