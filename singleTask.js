@@ -16,7 +16,7 @@ async.waterfall([
         .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
         .end(function(err, res){
            if (err || !res.ok) {
-             alert('Oh no! error')
+             console.log('Oh no! error')
              cb(false)
            } else {
              var $ = cheerio.load(res.text);
@@ -31,7 +31,7 @@ async.waterfall([
              async.eachSeries(links, (item, callback) => {
                GetArticle.go(item, count++, callback)
              }, () => {
-               cb(true)
+               cb(null, 'it')
              })
            }
          })
@@ -44,7 +44,7 @@ async.waterfall([
         .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
         .end(function(err, res){
            if (err || !res.ok) {
-             alert('Oh no! error')
+             console.log('Oh no! error')
              cb(false)
            } else {
             var $ = cheerio.load(res.text);
@@ -61,7 +61,7 @@ async.waterfall([
              async.eachSeries(links, (item, callback) => {
                GetJArticle.go(item, count++, callback)
              }, () => {
-               cb(true)
+               cb()
              })
            }
          })

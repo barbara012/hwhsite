@@ -8,14 +8,16 @@
     <div class="app app-news">
       <%- include('components/nav') %>
       <div class="app-main clearfix">
+        <div class="app-banner">
+          <img src="/jsimg/738c2f7fc67b5956.jpg" alt="">
+        </div>
         <div class="app-main_content news-list">
           <% articles.forEach(function (article) { %>
             <%- include('components/article-item', { article: article }) %>
           <% }) %>
           <%- include('components/page-nav') %>
         </div>
-        <div class="app-main_side">
-        </div>
+        <%- include('components/side') %>
       </div>
       <%- include('components/footer') %>
     </div>

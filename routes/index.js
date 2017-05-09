@@ -8,6 +8,7 @@ module.exports = function (app) {
   app.use('/posts', require('./posts'))
   app.use('/news', require('./news'))
   app.use('/articles', require('./articles'))
+  app.use('/movies', require('./movies'))
   // 404 page
   app.use(function (req, res) {
     if (!res.headersSent) {

@@ -42,6 +42,7 @@
     "istanbul": "^0.4.5",
     "node-schedule": "^1.2.1",
     "run-sequence": "^1.2.2",
-    "superagent": "^3.5.2"
+    "superagent": "^3.5.2",
+    "superagent-charset": "^1.2.0"
   }
 }

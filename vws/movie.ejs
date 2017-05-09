@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= movie.title %></title>
+    <link rel="stylesheet" href="/dist/css/app.css">
+  </head>
+<body>
+  <div class="app app-new-page">
+    <%- include('components/nav') %>
+    <div class="app-main">
+      <div class="page-content">
+        <h1><a class="article_title" href="/<%= articleType %>/<%= movie._id %>"><%= movie.title %></a></h1>
+        <div class="article_content"><%- movie.content %></div>
+      </div>
+      <%- include('components/back-top')%>
+    </div>
+    <%- include('components/footer') %>
+  </div>
+</body>
+</html>
