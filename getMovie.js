@@ -58,6 +58,10 @@ module.exports = {
             let content = $content.html().replace(/<script.*<\/script>/g, '')
             content = content.replace(/<center.*<\/center>/g, '')
             // content = content.replace(/IT之家/g, '火星')
+            let score = content.match(/◎IMDb评分\s*(\d.?\d?).*users/)
+            if (score) {
+              score = score[1]
+            }
             let pdate = $('#pubtime_baidu').text()
             let cover = imgs[0].url
             let ts = (new Date()).getTime()
@@ -68,6 +72,7 @@ module.exports = {
               content,
               sourceurl,
               cover,
+              score,
               ts,
               // tag,
               pdate
