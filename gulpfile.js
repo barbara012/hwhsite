@@ -53,7 +53,7 @@ gulp.task('lessWithOutCompress', function () {
     .pipe(gulp.dest(config.destCss))
 })
 gulp.task('mainFest', function() {
-  return gulp.src(['./static/dist/css/*.css', './static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico}'])
+  gulp.src(['./static/dist/css/*.css', './static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico}'])
     .pipe(rev())
     .pipe(rev.manifest())
     .pipe(gulp.dest('./static/dist'))

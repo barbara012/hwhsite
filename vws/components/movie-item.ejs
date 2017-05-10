@@ -1,8 +1,14 @@
 <div class="movie-item">
-  <div class="movie_cover">
+  <a class="movie_cover">
     <img src="<%= movie.cover %>" alt="movie.title">
-  </div>
-  <div class="movie_title">
-    <a href="/movies/<%= movie._id %>">评分：<%= movie.score %> <%= movie.title %></a>
+    <div class="movie_title">
+      <%- movie.name %>
+    </div>
+  </a>
+  <div class="movie_info">
+    <div class="movie_other">
+      <div class="movie_score">评分：<b><%= movie.score %></b></div>
+      <div class="movie_type">类型：<b><%- movie.movieType %></b></div>
+    </div>
   </div>
 </div>
