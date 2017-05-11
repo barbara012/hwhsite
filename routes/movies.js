@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   let pCount = MoviesModel.getCount()
-  let pMovies = MoviesModel.getMovies(page)
+  let pMovies = MoviesModel.getMovies(page, 12)
   Promise.all([pCount, pMovies]).then(result => {
     // console.log(result)
     // let articles = result[1].map((article) => {

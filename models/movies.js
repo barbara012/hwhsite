@@ -5,12 +5,12 @@ module.exports = {
   create: function create(article) {
     return MoviesPost.create(article).exec();
   },
-  getMovies: function getMovies(page) {
+  getMovies: function getMovies(page, size) {
     let query = {}
     return MoviesPost
       .find(query, {
-        skip: (page - 1) * 12,
-        limit: 12
+        skip: (page - 1) * size,
+        limit: size
       })
       .addCreatedAt()
       .sort({ ts: -1 })

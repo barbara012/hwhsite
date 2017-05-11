@@ -1,4 +1,5 @@
 const NewsModel = require('../models/news')
+const MoviesModel = require('../models/movies')
 const express = require('express')
 const async = require('async')
 const router = express.Router()
@@ -7,7 +8,8 @@ router.get('/', function(req, res, next) {
   page = page * 1
   let pCount = NewsModel.getCount()
   let pNews = NewsModel.getNews(page)
-  Promise.all([pCount, pNews]).then(function (result) {
+  let pMovies = MoviesModel.getMovies(1, 3)
+  Promise.all([pCount, pNews, pMovies]).then(function (result) {
     let articles = result[1].map((article) => {
       let r = article.content.match(/<img.+?>/)
       let rendNumber = Math.random() * (200 - 150 + 1) + 150
@@ -19,6 +21,7 @@ router.get('/', function(req, res, next) {
     })
     res.render('articles', {
       articles: articles,
+      movies: result[2],
       isFirstPage: page === 1,
       articleType: 'news',
       isLastPage: page * 10 >= result[0],

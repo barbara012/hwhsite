@@ -1,4 +1,5 @@
 const JshuModel = require('../models/jsarticle')
+const MoviesModel = require('../models/movies')
 const express = require('express')
 const async = require('async')
 const router = express.Router()
@@ -7,7 +8,8 @@ router.get('/', function(req, res, next) {
   page = page * 1
   let pCount = JshuModel.getCount()
   let pArticles = JshuModel.getArticles(page)
-  Promise.all([pCount, pArticles]).then(result => {
+  let pMovies = MoviesModel.getMovies(1, 3)
+  Promise.all([pCount, pArticles, pMovies]).then(result => {
     // console.log(result)
     let articles = result[1].map((article) => {
       let r = article.content.match(/<img.+?>/)
@@ -21,6 +23,7 @@ router.get('/', function(req, res, next) {
     })
     res.render('articles', {
       articles: articles,
+      movies: result[2],
       isFirstPage: page === 1,
       articleType: 'articles',
       isLastPage: page * 10 >= result[0],

@@ -75,5 +75,5 @@ gulp.task('release', function(done) {
   runSequence('js', 'less', 'img', 'font', 'views',  'mainFest', 'replaceEjs', 'replaceCss', done)
 })
 gulp.task('default', ['dev'], function () {
-  gulp.watch([config.less, config.js, './vws/**/*.ejs'], ['dev'])
+  gulp.watch([config.less, config.js, config.font, './vws/**/*.ejs'], ['dev'])
 })

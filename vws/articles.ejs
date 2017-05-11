@@ -2,6 +2,7 @@
   <head>
     <meta charset="utf-8">
     <title><%= blog.title %></title>
+    <link rel="stylesheet" href="/lib/swiper/swiper-3.4.2.min.css">
     <link rel="stylesheet" href="/dist/css/app.css">
   </head>
   <body>
@@ -9,7 +10,16 @@
       <%- include('components/nav') %>
       <div class="app-main clearfix">
         <div class="app-banner">
-          <img src="/jsimg/34ee15c7eb35a2b6.jpg" alt="">
+          <div class="swiper-container movie-swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">Slide 1</div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
         </div>
         <div class="app-main_content news-list">
           <% articles.forEach(function (article) { %>
@@ -21,7 +31,14 @@
       </div>
       <%- include('components/footer') %>
     </div>
+    <script src="/lib/swiper/swiper-3.4.2.jquery.min.js"></script>
     <script>
+      var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+      })
       $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
         var s=""
         var r=""
@@ -40,6 +57,20 @@
           }
           console.log(r)
         }
+        var date = new Date()
+        var hour = date.getHours()
+        var weather = hour > 19 ? r.night_weather : r.day_weather  //天气
+        $weatherIcon = $('.weather_icon')
+        // ℃
+        if (weather.indexOf('小雨') != -1) {
+          $weatherIcon.addClass('icon-drizzle')
+        } else {
+          $weatherIcon.addClass('icon-sun')
+        }
+        $('.temp_max').text(r.day_temp + '℃')
+        $('.temp_min').text(r.night_temp + '℃')
+        $('.weather_city').text(r.city)
+        $('.weather_date').text(r.date)
       })
     </script>
   </body>
