@@ -2,10 +2,30 @@
   <div class="nav-content">
     <a class="logo" href="/news">HwH</a>
     <ul class="nav_menu">
+      <% if (articleType == 'news') { %>
+      <li><a class="nav_menu_item active" href="/news">IT资讯</a></li>
+      <li><a class="nav_menu_item" href="/articles">文集</a></li>
+      <li><a class="nav_menu_item" href="/movies">电影</a></li>
+      <% } else if (articleType == 'articles') { %>
+      <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
+      <li><a class="nav_menu_item active" href="/articles">文集</a></li>
+      <li><a class="nav_menu_item" href="/movies">电影</a></li>
+      <% } else if (articleType == 'movies') { %>
+      <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
+      <li><a class="nav_menu_item" href="/articles">文集</a></li>
+      <li><a class="nav_menu_item active" href="/movies">电影</a></li>
+      <% } else { %>
       <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
       <li><a class="nav_menu_item" href="/articles">文集</a></li>
       <li><a class="nav_menu_item" href="/movies">电影</a></li>
+      <% } %>
     </ul>
+    <div class="nav-_form-wrapper">
+      <form method="get">
+        <input type="text" class="nav_form_input">
+        <button style="submit" class="nav_form_submit">搜索</button>
+      </form>
+    </div>
     <div class="login-wrapper">
       <% if (!user) { %>
       <a href="/signin" class="signin">登录</a>

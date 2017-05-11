@@ -13,8 +13,10 @@ const winston = require('winston')
 const expressWinston = require('express-winston')
 const GetNews = require('./getIthome')
 const GetJshu = require('./getJianshu')
+const GetDy = require('./getDy')
 const url = 'http://www.ithome.com/'
 const jsUrl = 'http://www.jianshu.com'
+const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
 
@@ -104,4 +106,5 @@ if (module.parent) {
   })
   GetNews.go(url)
   GetJshu.go(jsUrl)
+  GetDy.go(dyUrl)
 }
