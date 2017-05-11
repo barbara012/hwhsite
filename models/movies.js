@@ -9,8 +9,8 @@ module.exports = {
     let query = {}
     return MoviesPost
       .find(query, {
-        skip: (page - 1) * 9,
-        limit: 9
+        skip: (page - 1) * 12,
+        limit: 12
       })
       .addCreatedAt()
       .sort({ ts: -1 })
