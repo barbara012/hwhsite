@@ -12,7 +12,11 @@
         <div class="app-banner">
           <div class="swiper-container movie-swiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide">Slide 1</div>
+              <% movies.forEach(function (movie) {%>
+              <div class="swiper-slide">
+                <img src="<%= movie.cover %>" alt="">
+              </div>
+              <%})%>
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>

@@ -295,8 +295,15 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   height: 300px;
   overflow: hidden;
   .movie-swiper {
-    width: 250px;
+    width: 200px;
     float: right;
+    .swiper-slide {
+      overflow: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 }
 .app-main_content {
