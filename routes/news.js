@@ -33,7 +33,7 @@ router.get('/:newId', function(req, res, next) {
       article.tag = article.tag.split('，')
       res.render('article', {
         article: article,
-        articleType: 'articles',
+        articleType: 'news',
         disclaimer: '内容均来自网络，侵删'
       })
     })
