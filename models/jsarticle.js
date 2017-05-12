@@ -20,6 +20,18 @@ module.exports = {
     let query = {}
     return JshuPost.count(query).exec()
   },
+  removeOne: function removeOne (articleId) {
+    return JshuPost
+      .remove({
+        _id: articleId
+      })
+      .exec()
+  },
+  incPv: function incPv(articleId) {
+    return JshuPost
+      .update({ _id: articleId }, { $inc: { pv: 1 } })
+      .exec();
+  },
   getOne: function getOne(articleId) {
     return JshuPost
       .findOne({_id: articleId})

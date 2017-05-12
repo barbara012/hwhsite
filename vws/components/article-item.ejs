@@ -1,30 +1,34 @@
-<div class="new-item">
-  <div class="new_other-info">
-    <a href="/<%= articleType %>/<%= article.author %>" class="new_avatar"><%- article.author.substr(0,1) %></a>
-    <span class="new_author"><%= article.author %></span>
-    <span class="new_date"><%= article.pdate %></span>
+<div class="article-item">
+  <% if (user && user.name == '胡文华') {%>
+  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-delete" data-url="/<%= articleType %>/delete/<%= article._id %>">删除</a>
+  <%}%>
+  <div class="article_other-info">
+    <a href="/<%= articleType %>/<%= article.author %>" class="article_avatar"><%- article.author.substr(0,1) %></a>
+    <span class="article_author"><%= article.author %></span>
+    <span class="article_date"><%= article.pdate %></span>
+    <span class="article_hot"><%= article.pv %>℃</span>
   </div>
   <% if (article.img) {%>
-  <div class="new-item-inner with-img">
-    <h3><a class="new_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
-    <div class="new_text"><%- article.content %></div>
-    <div class="new_img"><%- article.img %></div>
+  <div class="article-item-inner with-img">
+    <h3><a class="aticle_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
+    <div class="article_text"><%- article.content %></div>
+    <div class="article_img"><%- article.img %></div>
     <% if (article.tag.length > 0) {%>
-    <div class="new_tags">
+    <div class="article_tags">
     <% article.tag.forEach(function(tg){ %>
-      <span class="new_tag"><%= tg %></span>
+      <span class="article_tag"><%= tg %></span>
     <% }) %>
     </div>
     <%}%>
   </div>
   <% } else { %>
-  <div class="new-item-inner">
-    <h3><a class="new_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
-    <div class="new_text"><%- article.content %></div>
+  <div class="article-item-inner">
+    <h3><a class="article_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
+    <div class="article_text"><%- article.content %></div>
     <% if (article.tag.length > 0) {%>
-    <div class="new_tags">
+    <div class="article_tags">
     <% article.tag.forEach(function(tg){ %>
-      <span class="new_tag"><%= tg %> </span>
+      <span class="article_tag"><%= tg %> </span>
     <% }) %> 
     </div>
     <%}%>

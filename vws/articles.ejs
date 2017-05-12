@@ -3,23 +3,28 @@
     <meta charset="utf-8">
     <title><%= blog.title %></title>
     <link rel="stylesheet" href="/lib/swiper/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="/lib/noty/noty.min.css">
     <link rel="stylesheet" href="/dist/css/app.css">
   </head>
   <body>
-    <div class="app app-news">
+    <div class="app app-articles">
       <%- include('components/nav') %>
       <div class="app-main clearfix">
         <div class="app-banner">
           <div class="swiper-container movie-swiper">
             <div class="swiper-wrapper">
               <% movies.forEach(function (movie) {%>
-              <div class="swiper-slide">
+              <a class="swiper-slide" href="/movies/<%= movie._id %>">
                 <img src="<%= movie.cover %>" alt="">
-              </div>
+                <div class="movie-info">
+                  <p class="p1"><%- movie.name %></p>
+                  <p class="p2">
+                    <span class="movie_score">IMDb：<%- movie.score %></span>
+                  </p>
+                </div>
+              </a>
               <%})%>
             </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
             <!-- Add Arrows -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -37,16 +42,26 @@
     </div>
     <script src="/lib/swiper/swiper-3.4.2.jquery.min.js"></script>
     <script>
-      var swiper = new Swiper('.swiper-container', {
+      new Swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         paginationClickable: true,
         nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
+        prevButton: '.swiper-button-prev',
+        autoplay: 3000,
+        speed: 300,
+        effect : 'cube',
+        cube: {
+          slideShadows: true,
+          shadow: true,
+          shadowOffset: 100,
+          shadowScale: 0.6
+        },
+        loop: true
       })
       $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
-        var s=""
-        var r=""
-        var q=""
+        var s = ""
+        var r = ""
+        var q = ""
         for(s in window.SWther.w){
           q = SWther.w[s][0]
           r = {
@@ -59,15 +74,16 @@
             day_wind: q.p1,
             night_wind: q.p2
           }
-          console.log(r)
         }
+        console.log(r)
         var date = new Date()
         var hour = date.getHours()
         var weather = hour > 19 ? r.night_weather : r.day_weather  //天气
         $weatherIcon = $('.weather_icon')
-        // ℃
         if (weather.indexOf('小雨') != -1) {
           $weatherIcon.addClass('icon-drizzle')
+        } else if (weather.indexOf('中雨') != -1 || weather.indexOf('大雨') != -1){
+          $weatherIcon.addClass('icon-rain')
         } else {
           $weatherIcon.addClass('icon-sun')
         }
@@ -75,6 +91,14 @@
         $('.temp_min').text(r.night_temp + '℃')
         $('.weather_city').text(r.city)
         $('.weather_date').text(r.date)
+        var $weatherLoading = $('.weather_loading')
+        setTimeout(function () {
+          $weatherLoading.animate({
+            opacity: 0
+          }, 500, function() {
+            $weatherLoading.hide()
+          })
+        }, 1000)
       })
     </script>
   </body>

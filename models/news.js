@@ -20,6 +20,18 @@ module.exports = {
     let query = {}
     return NewPost.count(query).exec()
   },
+  removeOne: function removeOne (newId) {
+    return NewPost
+      .remove({
+        _id: newId
+      })
+      .exec()
+  },
+  incPv: function incPv(newId) {
+    return NewPost
+      .update({ _id: newId }, { $inc: { pv: 1 } })
+      .exec();
+  },
   getOne: function getOne(newId) {
     return NewPost
       .findOne({_id: newId})

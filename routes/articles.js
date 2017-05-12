@@ -13,12 +13,12 @@ router.get('/', function(req, res, next) {
     // console.log(result)
     let articles = result[1].map((article) => {
       let r = article.content.match(/<img.+?>/)
-      // let content = article.content.replace(/\s/g, '')
       let rendNumber = Math.random() * (200 - 150 + 1) + 150
       let p = article.content.replace(/<[^>]+>/g, '')
       article.img = r ? r[0] : ''
       article.content = p.substr(0, rendNumber) + '...'
       article.tag = article.tag ? article.tag.split(/，|,|·|&|‖/) : []
+      article.pv = article.pv || 0
       return article
     })
     res.render('articles', {
@@ -33,15 +33,35 @@ router.get('/', function(req, res, next) {
 })
 router.get('/:articleId', function(req, res, next) {
   const articleId = req.params.articleId
-  JshuModel.getOne(articleId)
-    .then(function (article) {
-      article.tag = article.tag ? article.tag.split('，') : []
-      res.render('article', {
-        article: article,
-        articleType: 'articles',
-        disclaimer: '内容均来自网络，侵删'
-      })
+  Promise.all([
+    JshuModel.getOne(articleId),
+    JshuModel.incPv(articleId)
+  ])
+  .then(result => {
+    let article = result[0]
+    article.tag = article.tag ? article.tag.split('，') : []
+    article.pv = article.pv || 0
+    res.render('article', {
+      article: article,
+      articleType: 'articles',
+      disclaimer: '内容均来自网络，侵删'
     })
-    .catch(next)
+  })
+  .catch(next)
+})
+router.post('/delete/:articleId', function(req, res, next) {
+  if (req.session.user && req.session.user.name == '胡文华') {
+    const articleId = req.params.articleId
+    JshuModel.removeOne(articleId)
+      .then(function (result) {
+        res.send(result.result)
+      })
+      .catch(next)
+  } else {
+    res.send({
+      n: '没有权限',
+      ok: false
+    })
+  }
 })
 module.exports = router

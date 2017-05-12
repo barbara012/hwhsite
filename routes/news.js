@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
       article.img = r ? r[0] : ''
       article.content = p.substr(0, rendNumber) + '...'
       article.tag = article.tag.split('，')
+      article.pv = article.pv || 0
       return article
     })
     res.render('articles', {
@@ -31,15 +32,35 @@ router.get('/', function(req, res, next) {
 })
 router.get('/:newId', function(req, res, next) {
   const newId = req.params.newId
-  NewsModel.getOne(newId)
-    .then(function (article) {
-      article.tag = article.tag.split('，')
-      res.render('article', {
-        article: article,
-        articleType: 'news',
-        disclaimer: '内容均来自网络，侵删'
-      })
+  Promise.all([
+    NewsModel.getOne(newId),
+    NewsModel.incPv(newId)
+  ])
+  .then(result => {
+    let article = result[0]
+    article.tag = article.tag ? article.tag.split('，') : []
+    article.pv = article.pv || 0
+    res.render('article', {
+      article: article,
+      articleType: 'news',
+      disclaimer: '内容均来自网络，侵删'
     })
-    .catch(next)
+  })
+  .catch(next)
+})
+router.post('/delete/:newId', function(req, res, next) {
+  if (req.session.user && req.session.user.name == '胡文华') {
+    const newId = req.params.newId
+    NewsModel.removeOne(newId)
+      .then(function (result) {
+        res.send(result.result)
+      })
+      .catch(next)
+  } else {
+    res.send({
+      n: '没有权限',
+      ok: false
+    })
+  }
 })
 module.exports = router
