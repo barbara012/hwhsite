@@ -1,12 +1,12 @@
 <div class="article-item">
   <% if (user && user.name == '胡文华') {%>
-  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-delete" data-url="/<%= articleType %>/delete/<%= article._id %>">删除</a>
+  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="/<%= articleType %>/delete/<%= article._id %>"></a>
   <%}%>
   <div class="article_other-info">
     <a href="/<%= articleType %>/<%= article.author %>" class="article_avatar"><%- article.author.substr(0,1) %></a>
     <span class="article_author"><%= article.author %></span>
     <span class="article_date"><%= article.pdate %></span>
-    <span class="article_hot"><%= article.pv %>℃</span>
+    <span class="article_hot icon icon-fire"><%= article.pv %>℃</span>
   </div>
   <% if (article.img) {%>
   <div class="article-item-inner with-img">

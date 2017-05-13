@@ -10,7 +10,7 @@ const revCollector = require('./modules/gulp-rev-collector')
 const config = {
   less: './static/less/*.less',
   js: './static/js/*.js',
-  img: './static/img/*.{png,jpg,gif,ico}',
+  img: './static/img/*.{png,jpg,gif,ico,jpeg}',
   font: './static/font/*.{eot,svg,ttf,woff,woff2}',
   destCss: './static/dist/css',
   destJs: './static/dist/js',
@@ -48,7 +48,7 @@ gulp.task('views', ['less'], function() {
     .pipe(gulp.dest('./views'))
 })
 gulp.task('mainFest', ['views'], function() {
-  gulp.src(['./static/dist/css/*.css', './static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico}', './static/font/*.{eot,svg,ttf,woff,woff2}'])
+  gulp.src(['./static/dist/css/*.css', './static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico,jpeg}', './static/font/*.{eot,svg,ttf,woff,woff2}'])
     .pipe(rev())
     .pipe(rev.manifest())
     .pipe(gulp.dest('./static/dist'))

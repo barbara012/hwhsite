@@ -1,12 +1,10 @@
 const path = require('path')
 const express = require('express')
-const fs = require('fs')
-const http = require('http')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 const favicon = require('serve-favicon')
-const config = require('config-lite')
+const config = require('config-lite')(__dirname)
 const routes = require('./routes')
 const pkg = require('./package')
 const winston = require('winston')
@@ -101,7 +99,7 @@ if (module.parent) {
   module.exports = app
 } else {
   // 监听端口，启动程序
-  http.createServer(app).listen(config.port, function () {
+  app.listen(config.port, function () {
     console.log(`${pkg.name} listening on port ${config.port}`)
   })
   GetNews.go(url)

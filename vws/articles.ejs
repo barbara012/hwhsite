@@ -11,6 +11,47 @@
       <%- include('components/nav') %>
       <div class="app-main clearfix">
         <div class="app-banner">
+          <div class="swiper-container hlw-swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw0.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw7.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw8.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw1.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw2.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw3.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw4.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw5.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+              <div class="swiper-slide">
+                <img data-src="/dist/img/hlw6.jpeg" class="swiper-lazy">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
           <div class="swiper-container movie-swiper">
             <div class="swiper-wrapper">
               <% movies.forEach(function (movie) {%>
@@ -26,8 +67,8 @@
               <%})%>
             </div>
             <!-- Add Arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
         </div>
         </div>
         <div class="app-main_content news-list">
@@ -42,13 +83,12 @@
     </div>
     <script src="/lib/swiper/swiper-3.4.2.jquery.min.js"></script>
     <script>
-      new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
+      new Swiper('.movie-swiper', {
         paginationClickable: true,
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-        autoplay: 3000,
-        speed: 300,
+        autoplay: 4000,
+        speed: 1000,
         effect : 'cube',
         cube: {
           slideShadows: true,
@@ -57,6 +97,17 @@
           shadowScale: 0.6
         },
         loop: true
+      })
+      new Swiper('.hlw-swiper', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        effect : 'fade',
+        autoplay: 3000,
+        speed: 1000,
+        // Disable preloading of all images
+        preloadImages: true,
+        // Enable lazy loading
+        lazyLoading: true
       })
       $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
         var s = ""
