@@ -8,9 +8,9 @@
   </div>
   <div class="article_content"><%- article.content %></div>
   <% if (article.tag.length > 0) {%>
-  <div class="new_tags">
+  <div class="article_tags">
     <% article.tag.forEach(function(tg){ %>
-    <span class="new_tag"><%= tg %></span>
+    <span class="article_tag"><%= tg %></span>
     <% }) %>
   </div>
   <% } %>
