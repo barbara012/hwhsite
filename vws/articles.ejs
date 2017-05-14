@@ -108,7 +108,10 @@
           // Enable lazy loading
           lazyLoading: true
         })
-        $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(a){
+        $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(res){
+          if (window.SWther.w.length === 0) {
+            return
+          }
           var s = ""
           var r = ""
           var q = ""
