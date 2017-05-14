@@ -13,6 +13,9 @@ const url = 'http://www.jianshu.com'
 const dyUrl = 'http://www.dy2018.com'
 async.waterfall([
     (cb) => {
+      cb(false, 'done')
+      console.log(12)
+      return
       superAgent
         .get('http://www.ithome.com/')
         .set('Connection', 'keep-alive')
@@ -41,6 +44,9 @@ async.waterfall([
          })
     },
     (res, cb) => {
+      cb(false, 'done')
+      console.log(13)
+      return
       superAgent
         .get(url)
         .set('Connection', 'keep-alive')

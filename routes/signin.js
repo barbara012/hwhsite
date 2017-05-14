@@ -17,7 +17,6 @@ router.get('/', checkNotLogin, function(req, res, next) {
 router.post('/', checkNotLogin, function(req, res, next) {
   const name = req.fields.name
   const password = req.fields.password
-  console.log(name)
   UserModel.getUserByName(name)
     .then(function (user) {
       if (!user) {
@@ -33,8 +32,8 @@ router.post('/', checkNotLogin, function(req, res, next) {
       // 用户信息写入 session
       delete user.password
       req.session.user = user
-      // 跳转到主页
-      res.redirect('/news')
+      // 跳转到上一页
+      return res.redirect('/news')
     })
     .catch(next)
 })

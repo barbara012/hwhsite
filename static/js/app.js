@@ -4,7 +4,6 @@ $(document).ready(function() {
       scrollTop: 0
     }, 500)
   })
-  var $deleteBtn = $('.delete-btn')
   var animat = {
     open: function (promise) {
       var n = this
@@ -49,6 +48,52 @@ $(document).ready(function() {
       })
     }
   }
+  var animatRight = {
+    open: function (promise) {
+      var n = this
+      Velocity(n.barDom, {
+        right: 450,
+        scaleY: 2
+      }, {
+        duration: 0
+      })
+      Velocity(n.barDom, {
+        right: 0,
+        scaleY: 1
+      }, {
+        easing: [ 8, 8 ],
+        complete: function() {
+          promise(function(resolve) {
+            resolve();
+          })
+        }
+      })
+    },
+    close: function (promise) {
+      var n = this
+      Velocity(n.barDom, {
+        right: '+=-50'
+      }, {
+        easing: [ 8, 8, 2],
+        duration: 350
+      })
+      Velocity(n.barDom, {
+        right: 450,
+        scaleY: .2,
+        height: 0,
+        margin: 0
+      }, {
+        easing: [ 8, 8 ],
+        complete: function () {
+          promise(function(resolve) {
+              resolve();
+          })
+        }
+      })
+    }
+  }
+  //删除
+  var $deleteBtn = $('.delete-btn')
   if ($deleteBtn) {
     $deleteBtn.on('click', function () {
       var that = this
@@ -120,6 +165,111 @@ $(document).ready(function() {
           conditions: []
         }
       }).show()
+    })
+  }
+  //评论
+  var $commentBtn = $('.commenter_button')
+  var $commentText = $('.commenter_text')
+  var submitFlag = true
+  if ($commentBtn) {
+    $commentBtn.click(function () {
+      if (!submitFlag) {
+        new Noty({
+          type: 'error',
+          layout: 'bottomLeft',
+          text: '慢点点老哥',
+          timeout: 2000,
+          progressBar: true,
+          animation: animatRight,
+        }).show()
+        return
+      }
+      submitFlag = false
+      var val = $commentText.val()
+      val = val ? val.replace(/\s/g, ''): null
+      if (!val) {
+        new Noty({
+          type: 'error',
+          layout: 'bottomLeft',
+          text: '随便说点什么再提交？',
+          timeout: 2000,
+          progressBar: true,
+          animation: animatRight,
+        }).show()
+        submitFlag = true
+        return
+      }
+      $.ajax({
+        type: 'post',
+        url: location.pathname + '/comment',
+        data: {
+          content: val
+        },
+        success: function(res) {
+          if (res.status === 'ok') {
+             new Noty({
+              type: 'success',
+              layout: 'bottomLeft',
+              text: res.mes,
+              timeout: 2000,
+              progressBar: true,
+              animation: animatRight,
+              callbacks: {
+                onTemplate: function() {
+                  location.reload()
+                }
+              }
+            }).show()
+            submitFlag = true
+          }
+        }
+      })
+    })
+  }
+  // 删除评论
+  var $commentReply = $('.comment_reply')
+  if ($commentReply) {
+    $commentReply.click(function() {
+      var commentId = $(this).data('id')
+      var $this = $(this)
+      $.ajax({
+        type: 'post',
+        url: location.pathname + '/remove',
+        data: {
+          commentId: commentId
+        },
+        success: function(res) {
+          if (res.status === 'ok') {
+             new Noty({
+              type: 'success',
+              layout: 'bottomLeft',
+              text: res.mes,
+              timeout: 2000,
+              progressBar: true,
+              animation: animatRight
+            }).show()
+            submitFlag = true
+            var $target = $this.parents('.comment')
+            Velocity($target, {
+              right: '+=-50'
+            }, {
+              easing: [ 8, 8, 2],
+              duration: 600
+            })
+            Velocity($target, {
+              right: 1000,
+              scaleY: 0,
+              height: 0,
+              margin: 0
+            }, {
+              easing: [ 8, 8 ],
+              complete: function () {
+                $target.remove()
+              }
+            })
+          }
+        }
+      })
     })
   }
 })

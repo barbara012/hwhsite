@@ -8,17 +8,6 @@ router.get('/', function(req, res, next) {
   let pCount = MoviesModel.getCount()
   let pMovies = MoviesModel.getMovies(page, 12)
   Promise.all([pCount, pMovies]).then(result => {
-    // console.log(result)
-    // let articles = result[1].map((article) => {
-    //   let r = article.content.match(/<img.+?>/)
-    //   // let content = article.content.replace(/\s/g, '')
-    //   let rendNumber = Math.random() * (200 - 150 + 1) + 150
-    //   let p = article.content.replace(/<[^>]+>/g, '')
-    //   article.img = r ? r[0] : ''
-    //   article.content = p.substr(0, rendNumber) + '...'
-    //   article.tag = article.tag ? article.tag.split(/，|,|·|&|‖/) : []
-    //   return article
-    // })
     res.render('movies', {
       movies: result[1],
       isFirstPage: page === 1,

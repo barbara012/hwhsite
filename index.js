@@ -1,4 +1,5 @@
 const path = require('path')
+const http = require('http')
 const express = require('express')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -17,12 +18,14 @@ const jsUrl = 'http://www.jianshu.com'
 const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
+httpServer = http.createServer(app)
+require('events').EventEmitter.prototype._maxListeners = 100
 
 // 设置模板目录
 app.set('views', path.join(__dirname, 'views'))
 // 设置模板引擎为 ejs
 app.set('view engine', 'ejs')
-
+// 解析json 
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'static')))
 app.use(favicon(__dirname + '/static/favicon.png'))
@@ -74,7 +77,7 @@ app.use(function (req, res, next) {
 //   ]
 // }))
 // 路由
-routes(app);
+routes(app)
 // 错误请求的日志
 app.use(expressWinston.errorLogger({
   transports: [
@@ -99,7 +102,7 @@ if (module.parent) {
   module.exports = app
 } else {
   // 监听端口，启动程序
-  app.listen(config.port, function () {
+  httpServer.listen(config.port, function () {
     console.log(`${pkg.name} listening on port ${config.port}`)
   })
   GetNews.go(url)

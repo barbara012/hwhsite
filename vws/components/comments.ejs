@@ -1,39 +1,34 @@
-<div class="ui grid">
-    <div class="four wide column"></div>
-    <div class="eight wide column">
-        <div class="ui segment">
-            <div class="ui minimal comments">
-                <h3 class="ui dividing header">留言</h3>
-                <% comments.forEach(function (comment) { %>
-                <div class="comment">
-                  <span class="avatar">
-                    <img src="/img/<%= comment.author.avatar %>">
-                  </span>
-                  <div class="content">
-                      <a class="author" href="/posts?author=<%= comment.author._id %>"><%= comment.author.name %></a>
-                      <div class="metadata">
-                          <span class="date"><%= comment.created_at %></span>
-                      </div>
-                      <div class="text"><%- comment.content %></div>
-
-                      <% if (user && comment.author._id && user._id.toString() === comment.author._id.toString()) { %>
-                      <div class="actions">
-                          <a class="reply" href="/posts/<%= post._id %>/comment/<%= comment._id %>/remove">删除</a>
-                      </div>
-                      <% } %>
-                  </div>
-                </div>
-                <% }) %>
-
-                <% if (user) { %>
-                <form class="ui reply form" method="post" action="/posts/<%= post._id %>/comment">
-                    <div class="field">
-                        <textarea name="content" required></textarea>
-                    </div>
-                    <input type="submit" class="ui icon button" value="留言" />
-                </form>
-                <% } %>
-            </div>
-        </div>
+<div class="comments">
+  <h3 class="comment_header">留言</h3>
+  <div class="commenter">
+    <% if (user) { %>
+    <div class="commenter_field">
+      <textarea name="content" class="commenter_text" required></textarea>
     </div>
+    <input type="submit" class="commenter_button" value="留言" data-id="<%= article._id %>" />
+    <% } else { %>
+    <a href="javascript:;" class="commenter_avatar">无</a>
+    <div class="commenter_field">
+      <a href="/signin" class="commenter_login">登录</a>
+    </div>
+    <% } %>
+  </div>
+  <div class="comments-list">
+    <% comments.forEach(function (comment) { %>
+    <div class="comment">
+      <a href="javascript:;" class="commenter_avatar">
+        <%- comment.author.name.substr(0,1) %>
+      </a>
+      <div class="content">
+        <a class="commnet_author" href="/posts?author=<%= comment.author._id %>"><%= comment.author.name %></a>
+        <div class="text"><%- comment.content %></div>
+        <% if (user && comment.author._id && user._id.toString() === comment.author._id.toString()) { %>
+        <div class="actions">
+          <a class="comment_reply" href="javascript:;" data-id="<%= comment._id %>">删除</a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <% }) %>
+  </div>
 </div>
