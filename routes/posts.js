@@ -2,7 +2,6 @@ var PostModel = require('../models/posts')
 var CommentModel = require('../models/comments')
 var express = require('express')
 var router = express.Router()
-var asset = require('../asset.json')
 var checkLogin = require('../middlewares/check').checkLogin
 
 // GET /posts 所有用户或者特定用户的文章页

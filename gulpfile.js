@@ -3,9 +3,10 @@ const uglify       = require('gulp-uglify')
 const less         = require('gulp-less')
 const watch        = require('gulp-watch')
 const runSequence  = require('run-sequence')
-const rev          = require('./modules/gulp-rev')
+const rev          = require('gulp-rev')
+const clean          = require('gulp-clean')
 const htmlMin      = require('gulp-htmlmin')
-const revCollector = require('./modules/gulp-rev-collector')
+const revCollector = require('gulp-rev-collector')
 
 const config = {
   less: './static/less/*.less',
@@ -15,54 +16,71 @@ const config = {
   destCss: './static/dist/css',
   destJs: './static/dist/js',
   destImg: './static/dist/img',
-  destFont: './static/dist/font'
+  destFont: './static/dist/font',
+  rev: './static/dist/rev/'
 }
-gulp.task('font',function() {
+
+gulp.task('clean1', function() {
+  return gulp.src('./views', {read: false}).pipe(clean())
+})
+gulp.task('clean2', function() {
+  return gulp.src('./static/dist', {read: false}).pipe(clean())
+})
+gulp.task('font', function() {
   return gulp.src(config.font)
+    .pipe(rev())
     .pipe(gulp.dest(config.destFont))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest(config.rev + 'font'))
 })
-gulp.task('img', ['font'], function() {
+gulp.task('img', function() {
   return gulp.src(config.img)
+    .pipe(rev())
     .pipe(gulp.dest(config.destImg))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest(config.rev + 'img'))
 })
-gulp.task('js', ['img'], function () {
+gulp.task('js', function () {
   return gulp.src(config.js)
     .pipe(uglify())
+    .pipe(rev())
     .pipe(gulp.dest(config.destJs))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest(config.rev + 'js'))
 })
-gulp.task('less', ['js'],  function () {
+gulp.task('less',  function () {
   return gulp.src(config.less)
     .pipe(less({
-        compress: true
+        compress: false
     }))
-    .pipe(gulp.dest(config.destCss))
-})
-gulp.task('views', ['less'], function() {
-  return gulp.src('./vws/**/*.ejs', {base: './vws'})
-    .pipe(htmlMin({
-      removeComments: true,
-      collapseWhitespace: true,
-      removeEmptyAttributes: true,
-      minifyJS: true
-    }))
-    .pipe(gulp.dest('./views'))
-})
-gulp.task('mainFest', ['views'], function() {
-  gulp.src(['./static/dist/css/*.css', './static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico,jpeg}', './static/font/*.{eot,svg,ttf,woff,woff2}'])
     .pipe(rev())
+    .pipe(gulp.dest(config.destCss))
     .pipe(rev.manifest())
-    .pipe(gulp.dest('./static/dist'))
+    .pipe(gulp.dest(config.rev + 'css'))
 })
-gulp.task('replaceEjs', ['mainFest'], function() {
-  return gulp.src(['./static/**/*.json', './views/**/*.ejs'])
+gulp.task('views', function() {
+  return gulp.src('./vws/**/*.ejs', {base: './vws'})
+    .pipe(gulp.dest('./views'))
+})
+// gulp.task('mainFest', ['views'], function() {
+//   gulp.src(['./static/dist/js/*.js', './static/dist/img/*.{png,jpg,gif,ico,jpeg}', './static/font/*.{eot,svg,ttf,woff,woff2}'])
+//     .pipe(rev())
+//     .pipe(rev.manifest())
+//     .pipe(gulp.dest('./static/dist'))
+// })
+gulp.task('replaceEjs', function() {
+  return gulp.src([config.rev + '**/*.json', './views/**/*.ejs'])
     .pipe(revCollector())
     .pipe(gulp.dest('./views'))
 })
-gulp.task('replaceCss', ['replaceEjs'], function() {
-  return gulp.src(['./static/**/*.json', './static/dist/css/*.css'])
+gulp.task('replaceCss', function() {
+  return gulp.src([config.rev + '**/*.json', './static/dist/css/*.css'])
     .pipe(revCollector())
     .pipe(gulp.dest(config.destCss))
 })
-gulp.task('default', ['replaceCss'], function () {
-  gulp.watch([config.less, config.js, config.font, './vws/**/*.ejs'], ['replaceCss'])
+gulp.task('dev', function(done) {
+  runSequence('clean1', 'clean2', 'font', 'img', 'js', 'less', 'views', 'replaceEjs', 'replaceCss', done)
+})
+gulp.task('default', ['dev'], function () {
+  gulp.watch([config.less, config.js, config.font, './vws/**/*.ejs'], ['dev'])
 })

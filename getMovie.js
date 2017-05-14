@@ -67,18 +67,17 @@ module.exports = {
             pushDate = pushDate[1].replace('◎年　　代', '')
             pushDate = pushDate.replace(/\s/g, '')
 
-            let country = content.match(/<p>(◎国　　家.*|◎地　　区.*)<\/p>/)
-            country = country[1].replace(/◎国　　家|◎地　　区/, '')
+            console.log(content)
+            let country = content.match(/<p>(◎国　　家.*|◎地　　区.*|◎产　　地.*)<\/p>/)
+            country = country[1].replace(/◎国　　家|◎地　　区|◎产　　地/, '')
             country = country.replace(/\s/g, '')
 
 
             let movieType = content.match(/<p>(◎类　　别.*|◎类　　型.*)<\/p>/)
-            console.log(movieType[1])
             movieType = movieType[1].replace(/◎类　　别|◎类　　型/, '')
             movieType = movieType.replace(/\s/g, '')
 
             console.log('电影类型')
-            console.log(movieType)
 
             let language = content.match(/<p>(◎语　　言.*)<\/p>/)
             language = language[1].replace('◎语　　言', '')
