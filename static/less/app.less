@@ -446,10 +446,21 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       margin: 20px 5px 0 0;
       display: inline-block;
       font-size: 12px;
-      padding: 1px 5px;
+      padding: 1px 5px 1px 14px;
       border-radius: 2px;
       background-color: #b56969;
       color: #fff;
+      position: relative;
+      &:before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+          top: 8px;
+          left: 6px;
+      }
     }
   }
 }
