@@ -1,4 +1,33 @@
-<%- include('header') %>
-<%- include('components/post-content') %>
-<%- include('components/comments') %>
-<%- include('footer') %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= blog.title %></title>
+    <link rel="stylesheet" href="/lib/noty/noty.min.css">
+    <link rel="stylesheet" href="/lib/simditor/simditor.css">
+    <link rel="stylesheet" href="/dist/css/app.css">
+  </head>
+<body>
+  <div class="app app-post">
+    <%- include('components/nav') %>
+    <div class="app-main">
+      <div class="editor-panel">
+        <div class="post-title-wrapper">
+          <input type="text" id="title" placeholder="输入标题">
+        </div>
+        <textarea id="editor" cols="30" rows="10"></textarea>
+        <div class="post-btn-wrapper clearfix">
+          <input type="text" class="post-tag" id="tag" placeholder="给文章打标签，以‘/’分割">
+          <a href="javascript:;" id="post-btn" class="post-btn">提交</a>
+        </div>
+      </div>
+    </div>
+    <%- include('components/footer') %>
+    <script src="/lib/simditor/module.min.js"></script>
+    <script src="/lib/simditor/hotkeys.min.js"></script>
+    <script src="/lib/simditor/uploader.min.js"></script>
+    <script src="/lib/simditor/simditor.min.js"></script>
+    <script src="/dist/js/post.js"></script>
+  </div>
+</body>
+</html>

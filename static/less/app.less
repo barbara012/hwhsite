@@ -100,6 +100,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
 .app-selector {
   position: relative;
   height: 100%;
+  display: inline-block;
+  vertical-align: middle;
   .selector_text {
     height: 100%;
     padding-right: 20px;
@@ -229,6 +231,12 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     position: absolute;
     right: 20px;
     top: 0;
+  }
+  .post {
+    display: inline-block;
+    line-height: 49px;
+    color: #999;
+    vertical-align: middle;
   }
   .signin,
   .signup {
@@ -497,6 +505,9 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .article_date {
     color: #999;
   }
+  .simditor {
+    border: none;
+  }
   .article_content {
     font-size: 16px;
     a {
@@ -604,6 +615,50 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     .comment_reply {
       color: #999;
       font-size: 12px;
+    }
+  }
+}
+.app-post {
+  .app-main {
+    width: auto;
+  }
+  .editor-panel {
+    width: 840px;
+    margin: auto;
+    padding-top: 50px;
+  }
+  .post-title-wrapper {
+    margin-bottom: 30px;
+  }
+  #title {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #e8edf3;
+    outline: none;
+    font-size: 30px;
+  }
+  .post-btn-wrapper {
+    margin-top: 20px;
+  }
+  .post-tag {
+    border: none;
+    border-bottom: 1px solid #e8edf3;
+    outline: none;
+    height: 35px;
+    width: 200px;
+    &:focus{
+      border-bottom-color: #e6cf8b
+    }
+  }
+  .post-btn {
+    float: right;
+    line-height: 35px;
+    padding: 0 20px;
+    color: #fff;
+    background-color: #e6cf8b;
+    &:hover {
+      background-color: darken(#e6cf8b, 10%);
     }
   }
 }
@@ -939,5 +994,14 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .logo {
     color: #22624b;
     font-size: 18px;
+  }
+}
+@media (max-width: 940px) {
+  .app-nav {
+    .nav_menu {
+      li {
+        margin-right: 20px;
+      }
+    }
   }
 }

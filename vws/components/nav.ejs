@@ -3,18 +3,22 @@
     <a class="logo" href="/news">HwH</a>
     <ul class="nav_menu">
       <% if (articleType == 'news') { %>
+      <li><a class="nav_menu_item" href="/posts">原创</a></li>
       <li><a class="nav_menu_item active" href="/news">IT资讯</a></li>
       <li><a class="nav_menu_item" href="/articles">文集</a></li>
       <li><a class="nav_menu_item" href="/movies">电影</a></li>
       <% } else if (articleType == 'articles') { %>
+      <li><a class="nav_menu_item" href="/movies">原创</a></li>
       <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
       <li><a class="nav_menu_item active" href="/articles">文集</a></li>
       <li><a class="nav_menu_item" href="/movies">电影</a></li>
       <% } else if (articleType == 'movies') { %>
+      <li><a class="nav_menu_item" href="/posts">原创</a></li>      
       <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
       <li><a class="nav_menu_item" href="/articles">文集</a></li>
       <li><a class="nav_menu_item active" href="/movies">电影</a></li>
       <% } else { %>
+      <li><a class="nav_menu_item active" href="/posts">原创</a></li>
       <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
       <li><a class="nav_menu_item" href="/articles">文集</a></li>
       <li><a class="nav_menu_item" href="/movies">电影</a></li>
@@ -27,9 +31,15 @@
       </form>
     </div>
     <div class="login-wrapper">
+      <a href="/posts/create" class="post">发表</a>
       <% if (!user) { %>
+        <% if(originalUrl) {%>
+      <a href="/signin?from=<%= originalUrl %>" class="signin">登录</a>
+      <a href="/signup?from=<%= originalUrl %>" class="signup">注册</a>
+        <%} else {%>
       <a href="/signin" class="signin">登录</a>
       <a href="/signup" class="signup">注册</a>
+        <% } %>
       <% } else {%>
       <div class="app-selector">
         <div class="selector_text">

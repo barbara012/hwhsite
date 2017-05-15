@@ -215,7 +215,7 @@ $(document).ready(function() {
               progressBar: true,
               animation: animatRight,
               callbacks: {
-                onTemplate: function() {
+                afterClose: function() {
                   location.reload()
                 }
               }
@@ -239,35 +239,34 @@ $(document).ready(function() {
           commentId: commentId
         },
         success: function(res) {
-          if (res.status === 'ok') {
-             new Noty({
-              type: 'success',
-              layout: 'bottomLeft',
-              text: res.mes,
-              timeout: 2000,
-              progressBar: true,
-              animation: animatRight
-            }).show()
-            submitFlag = true
-            var $target = $this.parents('.comment')
-            Velocity($target, {
-              right: '+=-50'
-            }, {
-              easing: [ 8, 8, 2],
-              duration: 600
-            })
-            Velocity($target, {
-              right: 1000,
-              scaleY: 0,
-              height: 0,
-              margin: 0
-            }, {
-              easing: [ 8, 8 ],
-              complete: function () {
-                $target.remove()
-              }
-            })
-          }
+          new Noty({
+            type: 'success',
+            layout: 'bottomLeft',
+            text: res.mes,
+            timeout: 2000,
+            progressBar: true,
+            animation: animatRight
+          }).show()
+          submitFlag = true
+          if (res.status === 'fail') return
+          var $target = $this.parents('.comment')
+          Velocity($target, {
+            right: '+=-50'
+          }, {
+            easing: [ 8, 8, 2],
+            duration: 600
+          })
+          Velocity($target, {
+            right: 1000,
+            scaleY: 0,
+            height: 0,
+            margin: 0
+          }, {
+            easing: [ 8, 8 ],
+            complete: function () {
+              $target.remove()
+            }
+          })
         }
       })
     })

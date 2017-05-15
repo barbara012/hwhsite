@@ -9,12 +9,14 @@ const checkNotLogin = require('../middlewares/check').checkNotLogin;
 router.get('/', checkNotLogin, function(req, res, next) {
   res.render('login', {
     type: 'signin',
-    articleType: null
+    articleType: null,
+    originalUrl: null
   })
 })
 
 // POST /signin 用户登录
 router.post('/', checkNotLogin, function(req, res, next) {
+  const from = req.query.from || '/'
   const name = req.fields.name
   const password = req.fields.password
   UserModel.getUserByName(name)
@@ -33,7 +35,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
       delete user.password
       req.session.user = user
       // 跳转到上一页
-      return res.redirect('/news')
+      return res.redirect(from)
     })
     .catch(next)
 })

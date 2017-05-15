@@ -51,7 +51,7 @@ gulp.task('js', function () {
 gulp.task('less',  function () {
   return gulp.src(config.less)
     .pipe(less({
-        compress: false
+        compress: true
     }))
     .pipe(rev())
     .pipe(gulp.dest(config.destCss))

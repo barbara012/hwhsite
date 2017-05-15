@@ -8,7 +8,7 @@
     <input type="submit" class="commenter_button" value="留言" data-id="<%= article._id %>" />
     <% } else { %>
     <div class="commenter_field">
-      <a href="/signin" class="commenter_login">登录</a>
+      <a href="/signin?from=<%= originalUrl %>" class="commenter_login">登录</a>
     </div>
     <% } %>
   </div>

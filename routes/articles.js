@@ -28,6 +28,7 @@ router.get('/', function(req, res, next) {
       movies: result[2],
       isFirstPage: page === 1,
       articleType: 'articles',
+      originalUrl: req.originalUrl,
       isLastPage: page * 10 >= result[0],
       page: page
     })
@@ -47,6 +48,7 @@ router.get('/:articleId', function(req, res, next) {
     res.render('article', {
       article: article,
       comments: result[1],
+      originalUrl: req.originalUrl,
       articleType: 'articles',
       disclaimer: '内容均来自网络，侵删'
     })
@@ -81,13 +83,21 @@ router.post('/:articleId/remove', checkLogin, function(req, res, next) {
   var author = req.session.user._id
 
   CommentModel.delCommentById(commentId, author)
-    .then(function () {
-      req.flash('success', '删除留言成功')
-      // 删除成功后跳转到上一页
-      res.send({
-        status: 'ok',
-        mes: '删除留言成功'
-      })
+    .then(function (result) {
+      if (result.result.n === 1 && result.result.ok === 1) {
+        req.flash('success', '删除留言成功')
+        // 删除成功后跳转到上一页
+        res.send({
+          status: 'ok',
+          mes: '删除留言成功'
+        })
+      } else {
+        req.flash('error', '系统错误')
+        res.send({
+          status: 'fail',
+          mes: 'oops！出错啦'
+        })
+      }
     })
     .catch(next)
 })
