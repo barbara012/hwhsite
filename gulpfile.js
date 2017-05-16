@@ -92,5 +92,5 @@ gulp.task('dev', function(done) {
   runSequence('clean1', 'clean2', 'font', 'img', 'js', 'less', 'views', 'replaceEjs', 'replaceCss', done)
 })
 gulp.task('default', ['dev'], function () {
-  gulp.watch([config.less, config.js, config.font, './vws/**/*.ejs'], ['dev'])
+  gulp.watch([config.less, config.js, config.font, './vws/components/*.ejs', './vws/*.ejs'], ['dev'])
 })

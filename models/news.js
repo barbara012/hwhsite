@@ -1,5 +1,6 @@
 var marked = require('marked');
 var NewPost = require('../lib/mongo').New
+const CommentModel = require('./comments')
 module.exports = {
     // 创建一篇文章
   create: function create(article) {
@@ -26,6 +27,12 @@ module.exports = {
         _id: newId
       })
       .exec()
+      .then(function (res) {
+        // 文章删除后，再删除该文章下的所有留言
+        if (res.result.ok && res.result.n > 0) {
+            return CommentModel.delCommentsByPostId(newId)
+        }
+      })
   },
   incPv: function incPv(newId) {
     return NewPost

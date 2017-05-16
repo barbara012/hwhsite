@@ -54,53 +54,53 @@ module.exports = {
                 }
               })
             }
+            console.log(imgs)
             // cb3(null, [])
+            // return
             // 
             let content = $content.html().replace(/<script.*<\/script>/g, '')
             content = content.replace(/<center.*<\/center>/g, '')
-            let name = content.match(/<p>\s?(◎译　　名.*|◎片　　名.*)<\/p>/)
+            let name = content.match(/<br>\s?(◎译　　名.[^<br>]*|◎片　　名.[^<br>]*)<br>/)
             name = name ? name[1].replace(/◎译　　名|◎片　　名/g, '') : article.title
             name = name.replace(/\s/g, '')
 
 
-            let pushDate = content.match(/<p>(◎年　　代.*)<\/p>/)
+            let pushDate = content.match(/<br>(◎年　　代.[^<br>]*)<br>/)
             pushDate = pushDate ? pushDate[1].replace('◎年　　代', '') : '和平年代'
             pushDate = pushDate.replace(/\s/g, '')
 
-            console.log(content)
-            let country = content.match(/<p>(◎国　　家.*|◎地　　区.*|◎产　　地.*)<\/p>/)
+            let country = content.match(/<br>(◎国　　家.[^<br>]*|◎地　　区.[^<br>]*|◎产　　地.[^<br>]*)<br>/)
             country = country ? country[1].replace(/◎国　　家|◎地　　区|◎产　　地/, '') : '火星'
             country = country.replace(/\s/g, '')
 
 
-            let movieType = content.match(/<p>(◎类　　别.*|◎类　　型.*)<\/p>/)
-            movieType =movieType ? movieType[1].replace(/◎类　　别|◎类　　型/, '') : '爱情动作'
+            let movieType = content.match(/<br>(◎类　　别.[^<br>]*|◎类　　型.[^<br>]*)<br>/)
+            movieType = movieType ? movieType[1].replace(/◎类　　别|◎类　　型/, '') : '爱情动作片'
             movieType = movieType.replace(/\s/g, '')
 
-            console.log('电影类型')
 
-            let language = content.match(/<p>(◎语　　言.*)<\/p>/)
+            let language = content.match(/<br>(◎语　　言.[^<br>]*)<br>/)
             language = language ? language[1].replace('◎语　　言', '') : '火星'
             language = language.replace(/\s/g, '')
 
 
-            let subtitles = content.match(/<p>(◎字　　幕.*)<\/p>/)
-            subtitles = subtitles ? subtitles[1].replace('◎字　　幕', '') : '火星'
+            let subtitles = content.match(/<br>(◎字　　幕.[^<br>]*)<br>/)
+            subtitles = subtitles ? subtitles[1].replace('◎字　　幕', '') : '火星语'
             subtitles = subtitles.replace(/\s/g, '')
 
 
-            let release = content.match(/<p>(◎上映日期.*)<\/p>/)
-            release = release ? release[1].replace('◎上映日期', '') : '可能是前几天吧'
+            let release = content.match(/<br>(◎上映日期.[^<br>]*)<br>/)
+            release = release ? release[1].replace('◎上映日期', '') : '不清楚'
             release = release.replace(/\s/g, '')
 
 
-            let duration = content.match(/<p>(◎片　　长.*)<\/p>/)
-            duration = duration ? duration[1].replace('◎片　　长', '') : '140分钟'
+            let duration = content.match(/<br>(◎片　　长.[^<br>]*)<br>/)
+            duration = duration ? duration[1].replace('◎片　　长', '') : '130分钟'
             duration = duration.replace(/\s/g, '')
             
 
-            let director = content.match(/<p>(◎导　　演.*)<\/p>/)
-            director = director ? director[1].replace('◎导　　演', '') : '葫芦娃'
+            let director = content.match(/<br>(◎导　　演.[^<br>]*)<br>/)
+            director = director ? director[1].replace('◎导　　演', '') : '匿名'
             director = director.replace(/\s/g, '')
 
 
@@ -114,14 +114,13 @@ module.exports = {
 
 
             // content = content.replace(/IT之家/g, '火星')
-            let score = content.match(/◎IMDb评分\s*(\d.?\d?).*users/)
+            let score = content.match(/◎IMDb评分.[^\d]*(\d.?\d?).*user/)
             if (score) {
               score = score[1]
             } else {
-              score = 7
+              score = 0
             }
-            content = content.match(/<p>◎简　　介<\/p>([\s|\S]*)<p>◎影片截图<\/p/)
-            content = content[1]
+            // content = content[1]
             let ts = (new Date()).getTime()
             // let tag = $('.hot_tags').text().substr(4)
             let sourceurl = article.link
@@ -150,18 +149,18 @@ module.exports = {
             })
             .catch((err) => {
               console.log('0000000000000000000000000000000')
-              console.log(err)
               console.log('已存在该部电影')
               console.log('000000000000000000000000')
               cb3(false, [])
             })
           },
           (imgs, cb3) => { // 把图片存到本地库
+            // cb3(null)
             if (imgs.length > 0) {
               async.eachSeries(imgs, (item, cb4) => {
                 GetImages.go(item, 'movie', cb4)
               }, (res) => {
-                console.log('完成一部')
+                console.log('完成一张')
                 cb3()
               })
             } else {

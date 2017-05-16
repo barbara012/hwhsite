@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= blog.title %></title>
+    <link rel="stylesheet" href="/lib/noty/noty.min.css">
+    <link rel="stylesheet" href="/dist/css/app.css">
+  </head>
+<body>
+  <div class="app admin">
+    <div class="app-main clearfix">
+      <%- include('components/admin-sider') %>
+      <%- include('components/admin-content') %>
+    </div>
+    <%- include('components/script')%>
+    <script src="/dist/js/app.js"></script>
+  </div>
+  <script>
+    $(document).ready(function() {
+      DeleteOperate.init($('.article_delete'), '.article-item')
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<div class="posts">
+  <% articles.forEach(function(article){ %>
+  <div class="article-item">
+    <span class="article_hot">[ comments：<i><%= article.commentsCount %></i> ]</span>
+    <a target="_blank" class="article_title" href="/posts/<%= article._id  %>"><%= article.title %></a>
+    <span class="article_date"><%= article.created_at %></span>
+    <a href="javascript:;" data-url="/admin/<%= article._id  %>/remove" class="article_delete">删除</a>
+  </div>
+  <% }) %>
+</div>

@@ -1,6 +1,6 @@
 <div class="article-item">
-  <% if (user && user.name == '胡文华') {%>
-  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="/<%= articleType %>/delete/<%= article._id %>"></a>
+  <% if (user && user.name == 'huwenhua') {%>
+  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="/<%= articleType %>/<%= article._id %>/remove"></a>
   <%}%>
   <div class="article_other-info">
     <% if (articleType == 'posts') { %>
@@ -15,7 +15,7 @@
   </div>
   <% if (article.img) {%>
   <div class="article-item-inner with-img">
-    <h3><a class="aticle_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
+    <h3><a class="article_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
     <div class="article_text"><%- article.content %></div>
     <div class="article_img"><%- article.img %></div>
     <% if (article.tag.length > 0) {%>

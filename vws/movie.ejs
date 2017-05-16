@@ -12,13 +12,7 @@
       <div class="page-content">
         <h1><a class="article_title" href="/<%= articleType %>/<%= movie._id %>"><%- movie.name %></a></h1>
         <div class="article_content">
-          <div class="cover">
-            <img src="<%= movie.cover %>" alt="<%- movie.name %>">
-          </div>
           <%- movie.content %>
-          <div class="with-map">
-            <img src="<%= movie.withMap %>" alt="<%- movie.name %>">
-          </div>
           <div class="download-link">
             <%= movie.download %>
           </div>

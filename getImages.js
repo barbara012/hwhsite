@@ -22,6 +22,7 @@ module.exports = {
         } else {
           cb4()
         }
+        // cb4()
       } else {
         fs.writeFile(`${__dirname}/static/${file}/${img.name}`, res.body, "binary", (err) => {
           console.log('获取了一张图，好图')

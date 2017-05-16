@@ -212,8 +212,8 @@ router.post('/:articleId/comment', checkLogin, function(req, res, next) {
     .catch(next)
 })
 //删除一条留言
-router.post('/:articleId/remove', checkLogin, function(req, res, next) {
-  var commentId = req.fields.commentId
+router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
+  var commentId = req.params.commentId
   var author = req.session.user._id
 
   CommentModel.delCommentById(commentId, author)
@@ -235,8 +235,8 @@ router.post('/:articleId/remove', checkLogin, function(req, res, next) {
     })
     .catch(next)
 })
-router.post('/delete/:articleId', function(req, res, next) {
-  if (req.session.user && req.session.user.name == '胡文华') {
+router.post('/:articleId/remove', function(req, res, next) {
+  if (req.session.user && req.session.user.name == 'huwenhua') {
     const articleId = req.params.articleId
     PostModel.removeOne(articleId)
       .then(function (result) {

@@ -31,7 +31,6 @@
       </form>
     </div>
     <div class="login-wrapper">
-      <a href="/posts/create" class="post icon icon-pencil-1"></a>
       <% if (!user) { %>
         <% if(originalUrl) {%>
       <a href="/signin?from=<%= originalUrl %>" class="signin">登录</a>
@@ -41,15 +40,14 @@
       <a href="/signup" class="signup">注册</a>
         <% } %>
       <% } else {%>
+      <a href="/posts/create" class="post icon icon-pencil-1"></a>
       <div class="app-selector">
         <div class="selector_text">
           <a href="/" class="user_avatar"><%= user.name.substr(0, 1) %></a>
           <span class="icon icon-down"></span>
         </div>
         <div class="selector_menu">
-          <% if (user && user.name == '胡文华') {%>
           <a href="/admin" class="selector_option"><span class="icon icon-cog"></span>后台管理</a>
-          <%}%>
           <a href="/signout" class="selector_option"><span class="icon icon-logout"></span>退出</a>
         </div>
       </div>

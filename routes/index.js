@@ -9,10 +9,12 @@ module.exports = function (app) {
   app.use('/news', require('./news'))
   app.use('/articles', require('./articles'))
   app.use('/movies', require('./movies'))
+  app.use('/admin', require('./admin'))
   // 404 page
   app.use(function (req, res) {
     if (!res.headersSent) {
       res.status(404).render('404')
     }
   })
-};
+}
+
