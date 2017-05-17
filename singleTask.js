@@ -81,10 +81,10 @@ async.waterfall([
          })
     },
     (res, cb) => {
-      cb(false, 'done')
+      // cb(false, 'done')
       console.log(17)
-      return
-      console.log(20)
+      // return
+      // console.log(20)
       superAgent
         .get(dyUrl)
         .set('Connection', 'keep-alive')
@@ -121,6 +121,8 @@ async.waterfall([
           })
     },
     (res, cb) => {
+      cb(false, 'done')
+      return
       superAgent
         .get(dtUrl2)
         .set('Connection', 'keep-alive')
@@ -137,7 +139,6 @@ async.waterfall([
                var $ = cheerio.load(html, {
                   decodeEntities: false
               })
-              // let $ = cheerio.load(html);
               let links = []
               let content = Array.from($('.co_area2'))
               content = content[1]

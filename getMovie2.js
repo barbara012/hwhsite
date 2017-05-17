@@ -21,7 +21,7 @@ module.exports = {
       if (err || !res.ok) {
         console.log(article.link)
          console.log('电影：' + article.title +'，出错了')
-         cb2(false)
+         cb2(false, 'done')
          return
       } else {
         var $ = cheerio.load(res.text, {
@@ -120,7 +120,9 @@ module.exports = {
             } else {
               score = 0
             }
-            // content = content[1]
+            content = content.replace(/[\s|\S]*<\!--Content Start-->/, '')
+            content = content.replace(/【下载地址】[\s|\S]*/, '</p>')
+            content = content.replace(/<span style="FONT-SIZE: 12px"><td>/, '')
             let ts = (new Date()).getTime()
             // let tag = $('.hot_tags').text().substr(4)
             let sourceurl = article.link
@@ -160,11 +162,11 @@ module.exports = {
               async.eachSeries(imgs, (item, cb4) => {
                 GetImages.go(item, 'movie', cb4)
               }, (res) => {
-                console.log('完成一张')
-                cb3()
+                console.log('完成一部')
+                cb3(true, 'done')
               })
             } else {
-              cb3()
+              cb3(true, 'done')
             }
           }
         ], (res) => {

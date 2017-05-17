@@ -8,7 +8,7 @@ const checkLogin = require('../middlewares/check').checkLogin
 
 // GET /posts 所有用户或者特定用户的文章页
 //   eg: GET /posts?author=xxx
-router.get('/', checkLogin, function(req, res, next) {
+router.get('/', function(req, res, next) {
   // var author = req.query.author;
   let page = req.query.p || 1
   page = page * 1
@@ -235,7 +235,7 @@ router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
     })
     .catch(next)
 })
-router.post('/:articleId/remove', function(req, res, next) {
+router.post('/:articleId/remove', checkLogin, function(req, res, next) {
   if (req.session.user && req.session.user.name == 'huwenhua') {
     const articleId = req.params.articleId
     PostModel.removeOne(articleId)

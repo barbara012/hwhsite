@@ -1,5 +1,5 @@
 module.exports = {
-  port: 4000,
+  port: 8080,
   session: {
     secret: 'huluwa',
     key: 'hwh',

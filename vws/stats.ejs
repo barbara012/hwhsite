@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Stats</title>
+<meta charset="utf8">
+
+<link rel="stylesheet" href="/lib/stats/stats.css">
+<script src="/lib/stats/sugar-1.4.1.min.js"></script>
+<script src="/lib/jquery-3.2.1.min.js"></script>
+<script src="/lib/stats/reconnecting-websocket.js"></script>
+<script src="/lib/stats/smoothie.js"></script>
+<script src="/lib/stats/chroma.min.js"></script>
+<script src="/dist/js/stats.js"></script>
+
+<main id="charts">
+  <section class="chart template">
+    <h2 class="title"></h2>
+    <canvas width="600" height="80"></canvas>
+    <ul class="stats">
+        <li class="stat template">
+            <span class="stat-name"></span>
+            <span class="stat-value"></span>
+        </li>
+    </ul>
+  </section>
+</main>

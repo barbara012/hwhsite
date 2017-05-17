@@ -42,4 +42,7 @@ router.post('/:articleId/remove', function(req, res, next) {
     })
   }
 })
+router.get('/stats', function (req, res, next) {
+  res.render('stats')
+})
 module.exports = router

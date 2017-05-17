@@ -1,5 +1,7 @@
 const path = require('path')
 const http = require('http')
+const https = require('https')
+const fs = require('fs')
 const express = require('express')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -18,7 +20,13 @@ const jsUrl = 'http://www.jianshu.com'
 const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
+
+const options = {
+  key: fs.readFileSync('./cert/server.key'),
+  cert: fs.readFileSync('./cert/server.crt')
+}
 httpServer = http.createServer(app)
+httpsServer = https.createServer(options, app)
 require('events').EventEmitter.prototype._maxListeners = 100
 
 // 设置模板目录
@@ -27,7 +35,9 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 // 解析json 
 // 设置静态文件目录
-app.use(express.static(path.join(__dirname, 'static')))
+app.use(express.static(path.join(__dirname, 'static'), {
+  maxAge: 1000 * 60 * 60 * 24 * 90
+}))
 app.use(favicon(__dirname + '/static/favicon.png'))
 // session 中间件
 app.use(session({
@@ -104,6 +114,9 @@ if (module.parent) {
   // 监听端口，启动程序
   httpServer.listen(config.port, function () {
     console.log(`${pkg.name} listening on port ${config.port}`)
+  })
+  httpsServer.listen(4001, function () {
+    console.log(`${pkg.name} listening on port 4001`)
   })
   GetNews.go(url)
   GetJshu.go(jsUrl)

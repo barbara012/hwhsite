@@ -11,8 +11,9 @@ router.get('/', function(req, res, next) {
     res.render('movies', {
       movies: result[1],
       isFirstPage: page === 1,
-      isLastPage: page * 9 >= result[0],
+      isLastPage: page * 12 >= result[0],
       articleType: 'movies',
+      originalUrl: req.originalUrl,
       page: page
     })
   }).catch(next)
@@ -25,6 +26,7 @@ router.get('/:movieId', function(req, res, next) {
       res.render('movie', {
         movie: movie,
         articleType: 'movies',
+        originalUrl: req.originalUrl,
         disclaimer: '内容均来自网络，侵删'
       })
     })

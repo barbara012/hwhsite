@@ -16,8 +16,8 @@ module.exports = {
       count++
       if (err || !res.ok) {
         console.log(img.url)
-        console.log('出错了')
-        if (file === 'movie' && count < 4) {
+        console.log('下载图片出错了')
+        if (file === 'movie' && count < 2) {
           getImg(img, file, cb4)
         } else {
           cb4()

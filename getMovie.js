@@ -21,7 +21,7 @@ module.exports = {
       if (err || !res.ok) {
         console.log(article.link)
          console.log('电影：' + article.title +'，出错了')
-         cb2(false)
+         cb2(false, 'done')
          return
       } else {
         var $ = cheerio.load(res.text, {
@@ -67,7 +67,6 @@ module.exports = {
             pushDate = pushDate ? pushDate[1].replace('◎年　　代', '') : '和平年代'
             pushDate = pushDate.replace(/\s/g, '')
 
-            console.log(content)
             let country = content.match(/<p>(◎国　　家.*|◎地　　区.*|◎产　　地.*)<\/p>/)
             country = country ? country[1].replace(/◎国　　家|◎地　　区|◎产　　地/, '') : '火星'
             country = country.replace(/\s/g, '')
@@ -120,10 +119,9 @@ module.exports = {
             } else {
               score = 7
             }
-            content = content.match(/<p>◎简　　介<\/p>([\s|\S]*)<p>◎影片截图<\/p/)
-            content = content[1]
+            content = content.replace(/<\!--duguPlayList Start-->[\s|\S]*/, '')
+            content = content.replace(/[\s|\S]*<\!--Content Start-->/, '')
             let ts = (new Date()).getTime()
-            // let tag = $('.hot_tags').text().substr(4)
             let sourceurl = article.link
             // cb3(null, [])
             MoviesModel.create({
@@ -161,14 +159,14 @@ module.exports = {
               async.eachSeries(imgs, (item, cb4) => {
                 GetImages.go(item, 'movie', cb4)
               }, (res) => {
-                console.log('完成一部')
-                cb3()
+                cb3(true, 'done')
               })
             } else {
-              cb3()
+              cb3(true, 'done')
             }
           }
         ], (res) => {
+          console.log('完成一部')
           cb2()
         })
       }
