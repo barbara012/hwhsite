@@ -116,10 +116,10 @@ if (module.parent) {
   httpServer.listen(config.port, function () {
     console.log(`${pkg.name} listening on port ${config.port}`)
   })
-  // httpsServer.listen(4001, function () {
-  //   console.log(`${pkg.name} listening on port 4001`)
-  // })
-  GetNews.go(url)
-  GetJshu.go(jsUrl)
-  GetDy.go(dyUrl)
+  httpsServer.listen(4001, function () {
+    console.log(`${pkg.name} listening on port 4001`)
+  })
+  // GetNews.go(url)
+  // GetJshu.go(jsUrl)
+  // GetDy.go(dyUrl)
 }
