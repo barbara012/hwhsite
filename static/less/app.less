@@ -6,12 +6,14 @@
 html, body {
   height: 100%;
 }
-// #22264b   #b56969 #e6cf8b  #e8edf3
+@color1: #0facf3;
+@color2: #22264b;
+@color3: #999999;
 body {
   font-size: 14px;
   line-height: 1.5;
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  color: #22624b;
+  color: @color2;
 }
 a {
   text-decoration: none;
@@ -167,7 +169,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
   .logo {
     display: inline-block;
-    color: #e6cf8b;
+    color: @color1;
     height: 100%;
     font-size: 30px;
     font-weight: bold;
@@ -198,7 +200,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     }
     .active {
       font-weight: bold;
-      border-bottom-color: #e6cf8b;
+      color: @color1;
+      border-bottom-color: @color1;
     }
   }
   .nav-_form-wrapper {
@@ -253,8 +256,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     height: 35px;
     line-height: 33px;
     display: inline-block;
-    border: 1px solid #e6cf8b;
-    border-radius: 3px;
+    border: 1px solid @color1;
+    border-radius: 5px;
     font-size: 15px;
     text-align: center;
     margin-top: 7px;
@@ -264,7 +267,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     border-color: transparent;
   }
   .signup {
-    color: #e6cf8b;
+    color: @color1;
   }
   .user_avatar {
     width: 35px;
@@ -274,14 +277,14 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     border-radius: 50%;
     line-height: 33px;
     text-align: center;
-    border: 1px solid #e6cf8b;
-    color: #e6cf8b;
+    border: 1px solid @color1;
+    color: @color1;
     vertical-align: middle;
   }
   .selector_menu {
     right: 0;
     .icon {
-      color: #e6cf8b;
+      color: @color1;
       margin-right: 15px;
       font-size: 16px;
     }
@@ -300,7 +303,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     font-size: 12px;
     padding: 1px 5px 1px 14px;
     border-radius: 2px;
-    background-color: #b56969;
+    background-color: @color3;
     color: #fff;
     position: relative;
     &:before {
@@ -329,7 +332,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       }
     }
     .swiper-pagination-bullet-active {
-      background-color: #e6cf8b;
+      background-color: @color1;
     }
   }
   .movie-swiper {
@@ -398,7 +401,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 40px;
     text-align: center;
     border-radius: 50%;
-    background-color: #e6cf8b;
+    background-color: @color1;
     color: #fff;
     font-size: 18px;
     font-weight: bold;
@@ -434,7 +437,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .article-item-inner {
     min-height: 120px;
     a {
-      color: #22264b;
+      color: @color2;
     }
     br {
       display: none;
@@ -480,7 +483,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
   .article_title {
     font-size: 34px;
-    color: #22264b;
+    color: @color2;
   }
   .article_other-info {
     margin-bottom: 30px;
@@ -493,7 +496,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     margin-right: 15px;
     text-align: center;
     border-radius: 50%;
-    background-color: #e6cf8b;
+    background-color: @color1;
     color: #fff;
     font-size: 18px;
     font-weight: bold;
@@ -503,12 +506,12 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     padding-right: 5px;
     margin-right: 14px;
     color: #999;
-    border: 1px solid #b56969;
+    border: 1px solid @color1;
     border-radius: 2px;
   }
   .author-tag {
     display: inline-block;
-    background-color: #b56969;
+    background-color: @color1;
     color: #fff;
     margin-right: 5px;
     padding: 0 3px;
@@ -535,7 +538,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     background-color: #e8edf3;
     position: relative;
     margin: 30px 0;
-    border-left: 4px solid #e6cf8b;
+    border-left: 4px solid @color1;
   }
   p,
   .image-package {
@@ -569,7 +572,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       padding: 10px;
       border: none;
       &:focus {
-        outline: 1px solid #e6cf8b;
+        outline: 3px solid @color1;
       }
     }
     .commenter_login {
@@ -582,21 +585,24 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       left: 50%;
       margin-top: -17px;
       margin-left: -40px;
-      background-color: #e6cf8b;
+      background-color: @color1;
       border-radius: 3px;
+      &:hover {
+        background-color: darken(@color1, 10%);
+      }
     }
     .commenter_button {
       width: 80px;
       height: 35px;
       margin-top: 10px;
-      background-color: #e6cf8b;
+      background-color: @color1;
       color: #fff;
       border: 1px solid rgba(0,0,0,0.01);
       float: right;
       cursor: pointer;
       outline: none;
       &:hover {
-        background-color: darken(#e6cf8b, 10%);
+        background-color: darken(@color1, 10%);
       }
     }
   }
@@ -614,8 +620,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       border-radius: 50%;
       line-height: 33px;
       text-align: center;
-      border: 1px solid #e6cf8b;
-      color: #e6cf8b;
+      border: 1px solid @color1;
+      color: @color1;
     }
     .actions {
       text-align: right;
@@ -659,7 +665,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     height: 35px;
     width: 200px;
     &:focus{
-      border-bottom-color: #e6cf8b
+      border-bottom-color: @color1
     }
   }
   .post-btn {
@@ -667,9 +673,9 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 35px;
     padding: 0 20px;
     color: #fff;
-    background-color: #e6cf8b;
+    background-color: @color1;
     &:hover {
-      background-color: darken(#e6cf8b, 10%);
+      background-color: darken(@color1, 10%);
     }
   }
 }
@@ -696,7 +702,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .side_section {
     margin-bottom: 20px;
     .section_title {
-      background-color: #e6cf8b;
+      background-color: @color1;
       line-height: 35px;
       color: #fff;
       padding: 0 10px;
@@ -709,7 +715,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     }
     &:nth-child(4) {
       .section_title {
-        background-color: #b56969;
+        background-color: @color1;
       }
     }
   }
@@ -763,12 +769,12 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   color: #666;
   span {
     padding: 3px;
-    background: #e6cf8b;
+    background: @color1;
     color: #fff;
     font-size: 12px;
     border-radius: 2px;
     &:hover {
-      background-color: darken(#e6cf8b, 10%);
+      background-color: darken(@color1, 10%);
     }
   }
   a {
@@ -788,17 +794,18 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     padding: 40px 0 50px;
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 50px;
     margin-top: -200px;
     background-color: #fff;
-    box-shadow: 3px 8px 18px rgba(0,0,0,0.1)
+    box-shadow: 3px 8px 18px rgba(0,0,0,0.1);
+    border-radius: 5px;
   }
   .error-tip {
     position: absolute;
     top: 0;
     right: 50px;
     padding: 2px 10px;
-    background-color: #b56969;
+    background-color: @color1;
     color: #fff;
     text-align: center;
     border-bottom-right-radius: 3px;
@@ -810,7 +817,6 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 40px;
     margin-bottom: 30px;
     a {
-      width: 50px;
       color: #22624b;
       display: inline-block;
     }
@@ -823,8 +829,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     }
     .selected {
       font-weight: bold;
-      color: #e6cf8b;
-      border-bottom: 2px solid #e6cf8b;
+      color: @color1;
+      border-bottom: 2px solid @color1;
     }
   }
   .form-field {
@@ -857,13 +863,13 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     display: block;
     margin: auto;
     border: 1px solid rgba(0,0,0,0.02);
-    background-color: #e6cf8b;
+    background-color: @color1;
     color: #fff;
     font-size: 16px;
-    border-radius: 3px;
     cursor: pointer;
+    border-radius: 20px;
     &:hover {
-      background-color: darken(#e6cf8b, 10%);
+      background-color: darken(@color1, 10%);
     }
   }
   .form-field_text {
@@ -872,6 +878,24 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     padding: 10px;
     border: none;
     outline: none;
+  }
+  .forget-password {
+    color: #c9c7c2;
+    float: right;
+    margin: 15px 10% 0 0;
+  }
+  .get-code {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    line-height: 35px;
+    padding: 0 15px;
+    color: #fff;
+    background-color: @color1;
+    border-radius: 5px;
+    &:hover {
+      background-color: darken(@color1, 10%);
+    }
   }
 }
 .app-movies {
@@ -930,7 +954,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
   .movie_score {
     b {
-      color: #e6cf8b;
+      color: @color1;
     }
   }
   .check-more-wrapper {
@@ -941,11 +965,11 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 40px;
     text-align: center;
     display: block;
-    background-color: #b56969;
+    background-color: @color1;
     color: #fff;
     font-size: 16px;
     &:hover {
-      background-color: darken(#b56969, 10%);
+      background-color: darken(@color1, 10%);
     }
   }
 }
@@ -961,9 +985,9 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   font-size: 35px;
   cursor: pointer;
   &:hover {
-    background-color: #e6cf8b;
+    background-color: @color1;
     color: #fff;
-    border-color: #e6cf8b;
+    border-color: @color1;
   }
 }
 .noty_layout {
@@ -1043,7 +1067,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 40px;
     text-align: center;
     border-radius: 50%;
-    background-color: #e6cf8b;
+    background-color: @color1;
     color: #fff;
     font-size: 18px;
     font-weight: bold;
@@ -1075,7 +1099,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     }
     .article_hot {
       margin-right: 5px;
-      color: #b56969;
+      color: @color1;
     }
     .article_title {
       color: #22624b;

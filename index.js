@@ -12,22 +12,23 @@ const routes = require('./routes')
 const pkg = require('./package')
 const winston = require('winston')
 const expressWinston = require('express-winston')
+const events = require('events')
 const GetNews = require('./getIthome')
 const GetJshu = require('./getJianshu')
 const GetDy = require('./getDy')
-const url = 'http://www.ithome.com/'
+const url = 'http://www.ithome.com'
 const jsUrl = 'http://www.jianshu.com'
 const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
 
-// const options = {
-//   key: fs.readFileSync('./cert/server.key'),
-//   cert: fs.readFileSync('./cert/server.crt')
-// }
+const options = {
+  key: fs.readFileSync('./cert/server.key'),
+  cert: fs.readFileSync('./cert/server.crt')
+}
 httpServer = http.createServer(app)
-// httpsServer = https.createServer(options, app)
-require('events').EventEmitter.prototype._maxListeners = 100
+httpsServer = https.createServer(options, app)
+events.EventEmitter.prototype._maxListeners = 100
 
 // 设置模板目录
 app.set('views', path.join(__dirname, 'views'))

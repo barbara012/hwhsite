@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
       let p = article.content.replace(/<[^>]+>/g, '')
       article.img = r ? r[0] : ''
       article.content = p.substr(0, rendNumber) + '...'
-      article.tag = article.tag ? article.tag.split(/，|,|·|&|‖/) : []
+      article.tag = article.tag ? article.tag.replace(/@/g, '').split(/，|\/|,|\\|-|&|\||@|·/) : []
       article.pv = article.pv || 0
       return article
     })
@@ -43,7 +43,7 @@ router.get('/:articleId', function(req, res, next) {
   ])
   .then(result => {
     let article = result[0]
-    article.tag = article.tag ? article.tag.split('，') : []
+    article.tag = article.tag ? article.tag.replace(/@/g, '').split(/，|\/|,|\\|-|&|\||@|·/) : []
     article.pv = article.pv || 0
     res.render('article', {
       article: article,
