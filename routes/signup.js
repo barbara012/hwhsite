@@ -28,8 +28,8 @@ router.post('/', checkNotLogin, function(req, res, next) {
 
     // 校验参数
   try {
-    if (!(name.length >= 1 && name.length <= 10)) {
-      throw new Error('名字请限制在 1-10 个字符')
+    if (!(name.length >= 5 && name.length <= 20)) {
+      throw new Error('名字请限制在 5-20 个字符')
     }
     // if (['m', 'f', 'x'].indexOf(gender) === -1) {
     //     throw new Error('性别只能是 m、f 或 x');

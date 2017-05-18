@@ -6,8 +6,6 @@ const express = require('express')
 const router = express.Router()
 const checkLogin = require('../middlewares/check').checkLogin
 
-// GET /posts 所有用户或者特定用户的文章页
-//   eg: GET /posts?author=xxx
 router.get('/', function(req, res, next) {
   // var author = req.query.author;
   let page = req.query.p || 1
@@ -144,19 +142,19 @@ router.get('/:postId/edit', checkLogin, function(req, res, next) {
     var author = req.session.user._id;
 
     PostModel.getRawPostById(postId)
-        .then(function (post) {
-            if (!post) {
-                throw new Error('该文章不存在');
-            }
-            if (author.toString() !== post.author._id.toString()) {
-                throw new Error('权限不足');
-            }
-            res.render('edit', {
-                post: post,
-                stats: index
-            });
-        })
-        .catch(next);
+      .then(function (post) {
+          if (!post) {
+              throw new Error('该文章不存在');
+          }
+          if (author.toString() !== post.author._id.toString()) {
+              throw new Error('权限不足');
+          }
+          res.render('edit', {
+              post: post,
+              stats: index
+          });
+      })
+      .catch(next);
 });
 
 // POST /posts/:postId/edit 更新一篇文章

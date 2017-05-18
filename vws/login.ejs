@@ -15,9 +15,11 @@
         <%}%>
         <% if (type == 'signin') { %>
         <%- include('components/signin') %>
-        <%} else {%>
+        <%} else if (type == 'signup') {%>
         <%- include('components/signup') %>
-        <%}%>
+        <%} else { %>
+        <%- include('components/password-reset') %>
+        <% } %>
       </div>
     </div>
     <%- include('components/footer') %>
