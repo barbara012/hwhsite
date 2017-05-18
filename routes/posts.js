@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
       article.userId = author._id
       article.img = r ? r[0] : ''
       article.content = p.substr(0, rendNumber) + '...'
-      article.tag = article.tag.split('，')
+      article.tag = article.tag.split(/，|\/|,|\\|-|&|\||@|·/)
       article.pv = article.pv || 0
       return article
     })
@@ -123,7 +123,7 @@ router.get('/:articleId', function(req, res, next) {
       throw new Error('该文章不存在')
     }
     const author = article.author
-    article.tag = article.tag ? article.tag.split('，') : []
+    article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
     article.pv = article.pv || 0
     article.author = author.name
     article.userId = author._id
