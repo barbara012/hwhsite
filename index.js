@@ -21,12 +21,12 @@ const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
 
-const options = {
-  key: fs.readFileSync('./cert/server.key'),
-  cert: fs.readFileSync('./cert/server.crt')
-}
+// const options = {
+//   key: fs.readFileSync('./cert/server.key'),
+//   cert: fs.readFileSync('./cert/server.crt')
+// }
 httpServer = http.createServer(app)
-httpsServer = https.createServer(options, app)
+// httpsServer = https.createServer(options, app)
 require('events').EventEmitter.prototype._maxListeners = 100
 
 // 设置模板目录
@@ -115,9 +115,9 @@ if (module.parent) {
   httpServer.listen(config.port, function () {
     console.log(`${pkg.name} listening on port ${config.port}`)
   })
-  httpsServer.listen(4001, function () {
-    console.log(`${pkg.name} listening on port 4001`)
-  })
+  // httpsServer.listen(4001, function () {
+  //   console.log(`${pkg.name} listening on port 4001`)
+  // })
   GetNews.go(url)
   GetJshu.go(jsUrl)
   GetDy.go(dyUrl)
