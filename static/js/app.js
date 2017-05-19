@@ -283,11 +283,30 @@
     }
     //
     (function() {
+      var getFlag = true
+      $('#email-code').on('input', function() {
+        var val = $(this).val()
+        $(this).val(val.toUpperCase())
+      })
+      var countDown = function ($target, times) {
+        if (times < 0) {
+          $target.text('获取验证码').removeClass('disabled')
+          return
+        }
+        $target.text(times + "''")
+        times--
+        setTimeout(function () {
+          countDown($target, times)
+        }, 1000)
+
+      }
       $('#get-code').click(function() {
+        var $this = $(this)
+        if (!getFlag || $this.hasClass('disabled')) return
         var mail = $('[name=name]').val()
-        console.log(mail)
         var reg = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/
         if (!reg.test(mail)) return
+        getFlag = false
         $.ajax({
           type: 'POST',
           url: location.pathname + '/code',
@@ -295,16 +314,19 @@
             email: mail
           },
           success: function (res) {
-            console.log(res)
-            new Noty({
-              type: 'error', // success
-              layout: 'bottomLeft',
-              text: res.mes,
-              timeout: 2000,
-              progressBar: true,
-              animation: animatRight,
-            }).show()
-            return
+            getFlag = true
+            if (res.status === 'ok') {
+              $this.addClass('disabled')
+              countDown($this, 179)
+              new Noty({
+                type: 'success', // success
+                layout: 'topRight',
+                text: res.mes,
+                timeout: 2000,
+                progressBar: true,
+                animation: animat,
+              }).show()
+            }
           }
         })
       })

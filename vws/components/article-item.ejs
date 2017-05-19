@@ -1,21 +1,18 @@
 <div class="article-item">
-  <% if (user && user.name == 'huwenhua') {%>
+  <% if (user && user.name == 'st_hlw@163.com') {%>
   <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="/<%= articleType %>/<%= article._id %>/remove"></a>
   <%}%>
   <div class="article_other-info">
-    <% if (articleType == 'posts') { %>
-    <a href="/user/<%= article.userId %>" class="article_avatar"><%- article.author.substr(0,1) %></a>
-    <span class="article_author"><%= article.author %></span>
-    <% } else { %>
-    <a href="javascript:;" class="article_avatar"><%- article.author.substr(0,1) %></a>
-    <span class="article_author"><%= article.author %></span>
-    <% } %>
+    <a href="javascript:;" class="article_avatar">
+      <%- article.author ? article.author.substr(0,1) : '无' %>
+    </a>
+    <span class="article_author"><%= article.author || '无名' %></span>
     <span class="article_date"><%= article.created_at %></span>
     <span class="article_hot icon icon-fire"><%= article.pv %>℃</span>
   </div>
   <% if (article.img) {%>
   <div class="article-item-inner with-img">
-    <h3><a class="article_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
+    <h3><a class="article_title" href="<%- article.path  + article._id %>"><%= article.title %></a></h3>
     <div class="article_text"><%- article.content %></div>
     <div class="article_img"><%- article.img %></div>
     <% if (article.tag.length > 0) {%>
@@ -28,7 +25,7 @@
   </div>
   <% } else { %>
   <div class="article-item-inner">
-    <h3><a class="article_title" href="/<%= articleType %>/<%= article._id %>"><%= article.title %></a></h3>
+    <h3><a class="article_title" href="<%- article.path  + article._id %>"><%= article.title %></a></h3>
     <div class="article_text"><%- article.content %></div>
     <% if (article.tag.length > 0) {%>
     <div class="article_tags">

@@ -53,7 +53,7 @@ module.exports = {
             let pdate = $('#pubtime_baidu').text()
             let ts = (new Date(pdate)).getTime()
             let tag = $('.hot_tags').text().substr(4)
-            let author = $('#author_baidu strong').text()
+            let author = $('#author_baidu strong').text().replace(/-|\s/g, '') || '无名'
             let sourceurl = article.link
             NewModel.create({
               title,
@@ -70,7 +70,7 @@ module.exports = {
             })
             .catch((err) => {
               console.log('已存在该篇文章')
-              cb3(false, [])
+              cb3(false, imgs)
             })
           },
           (imgs, cb3) => { // 把图片存到本地库

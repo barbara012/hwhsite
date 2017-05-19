@@ -101,19 +101,12 @@ router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
     })
     .catch(next)
 })
-router.post('/:articleId/remove', function(req, res, next) {
-  if (req.session.user && req.session.user.name == 'huwenhua') {
-    const articleId = req.params.articleId
-    JshuModel.removeOne(articleId)
-      .then(function (result) {
-        res.send(result.result)
-      })
-      .catch(next)
-  } else {
-    res.send({
-      n: '没有权限',
-      ok: false
+router.post('/:articleId/remove', checkLogin, function(req, res, next) {
+  const articleId = req.params.articleId
+  JshuModel.removeOne(articleId)
+    .then(function (result) {
+      res.send(result.result)
     })
-  }
+    .catch(next)
 })
 module.exports = router

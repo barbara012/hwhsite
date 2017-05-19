@@ -42,8 +42,9 @@ Post.plugin('addCommentsCount', {
 
 module.exports = {
     // 创建一篇文章
-  create: function create(post) {
-    return Post.create(post).exec()
+  create: function create(article) {
+    article.path = '/posts/'  // 添加pathname 区分it，文集，原创
+    return Post.create(article).exec()
   },
 
   // 通过文章 id 获取一篇文章

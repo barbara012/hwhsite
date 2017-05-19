@@ -14,15 +14,17 @@ module.exports = {
     superAgent
     .get(article.link)
     .set('Connection', 'keep-alive')
+    .timeout({
+      response: 10000 // Wait 10 seconds for the server to start sending,
+    })
     .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
     .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
     .charset('gb2312')
     .end((err, res) => {
       if (err || !res.ok) {
         console.log(article.link)
-         console.log('电影：' + article.title +'，出错了')
-         cb2(false, 'done')
-         return
+        console.log('电影：' + article.title +'，出错了')
+        return cb2('电影：' + article.title +'，出错了')
       } else {
         var $ = cheerio.load(res.text, {
             decodeEntities: false
@@ -144,14 +146,14 @@ module.exports = {
             })
             .then(function (result) {
               console.log('找到电影第' + count + '部')
-              cb3(false, imgs)
+              return cb3(null, imgs)
             })
             .catch((err) => {
               console.log('0000000000000000000000000000000')
               console.log(err)
               console.log('已存在该部电影')
               console.log('000000000000000000000000')
-              cb3(false, [])
+              return cb3(null, imgs)
             })
           },
           (imgs, cb3) => { // 把图片存到本地库
@@ -159,15 +161,15 @@ module.exports = {
               async.eachSeries(imgs, (item, cb4) => {
                 GetImages.go(item, 'movie', cb4)
               }, (res) => {
-                cb3(true, 'done')
+                return cb3(true)
               })
             } else {
-              cb3(true, 'done')
+              return cb3(true)
             }
           }
         ], (res) => {
           console.log('完成一部')
-          cb2()
+          return cb2()
         })
       }
     })

@@ -10,6 +10,7 @@ module.exports = function (app) {
   app.use('/articles', require('./articles'))
   app.use('/movies', require('./movies'))
   app.use('/admin', require('./admin'))
+  app.use('/search', require('./search'))
   // 404 page
   app.use(function (req, res) {
     if (!res.headersSent) {

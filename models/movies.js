@@ -2,8 +2,9 @@ var marked = require('marked');
 var MoviesPost = require('../lib/mongo').Movies
 module.exports = {
     // 创建一篇文章
-  create: function create(article) {
-    return MoviesPost.create(article).exec();
+  create: function create(movie) {
+    movie.path = '/movies/'  // 添加pathname 区分it，文集，原创
+    return MoviesPost.create(movie).exec();
   },
   getMovies: function getMovies(page, size) {
     let query = {}

@@ -344,6 +344,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       background-color: #000;
       position: relative;
       color: #fff;
+      text-align: center;
     }
     img {
       max-width: 100%;
@@ -493,7 +494,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     width: 40px;
     height: 40px;
     line-height: 40px;
-    margin-right: 15px;
+    margin-right: 5px;
     text-align: center;
     border-radius: 50%;
     background-color: @color1;
@@ -885,16 +886,20 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     margin: 15px 10% 0 0;
   }
   .get-code {
+    width: 100px;
+    text-align: center;
     position: absolute;
     right: 5px;
     top: 5px;
     line-height: 35px;
-    padding: 0 15px;
     color: #fff;
     background-color: @color1;
     border-radius: 5px;
     &:hover {
       background-color: darken(@color1, 10%);
+    }
+    &.disabled {
+      background-color: #c2c2c2;
     }
   }
 }
@@ -1029,6 +1034,15 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .logo {
     color: #22624b;
     font-size: 18px;
+  }
+}
+.app-search {
+  .app-main {
+    width: auto;
+  }
+  .articles-list {
+    width: 750px;
+    margin: auto;
   }
 }
 .admin {

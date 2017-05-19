@@ -22,7 +22,7 @@ module.exports = {
             .end(function(err, res){
                if (err || !res.ok) {
                  console.log('Oh no! error')
-                 cb(false)
+                 return cb('Oh no! error')
                } else {
                  var $ = cheerio.load(res.text);
                  let links = []
@@ -38,13 +38,13 @@ module.exports = {
                  async.eachSeries(links, (item, callback) => {
                    GetArticle.go(item, count++, callback)
                  }, () => {
-                   cb(true)
+                   return cb('完美')
                  })
                }
              })
         }
       ], (res) => {
-        console.log('完美！')
+        console.log(res)
         console.log('scheduleRecurrenceRule:' + new Date())
       })
     })

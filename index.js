@@ -119,7 +119,7 @@ if (module.parent) {
   httpsServer.listen(4001, function () {
     console.log(`${pkg.name} listening on port 4001`)
   })
-  // GetNews.go(url)
-  // GetJshu.go(jsUrl)
-  // GetDy.go(dyUrl)
+  GetNews.go(url)
+  GetJshu.go(jsUrl)
+  GetDy.go(dyUrl)
 }

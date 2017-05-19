@@ -68,7 +68,7 @@ module.exports = {
             })
             .catch((err) => {
               console.log('简书已存在该篇文章')
-              cb3(false, [])
+              cb3(false, imgs)
             })
           },
           (imgs, cb3) => { // 把图片存到本地库

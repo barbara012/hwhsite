@@ -21,6 +21,9 @@ module.exports = {
           superAgent
             .get(indexUrl)
             .set('Connection', 'keep-alive')
+            .timeout({
+              response: 10000 // Wait 10 seconds for the server to start sending,
+            })
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=gb2312')
             .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
             .charset('gb2312')
@@ -28,7 +31,7 @@ module.exports = {
               if (err || !res.ok) {
                   // console.log(err)
                   console.log('Oh no! error')
-                  cb(false, 'done')
+                  return cb(null, 'done')
               } else {
                   let html = res.text
                   let $ = cheerio.load(html, {
@@ -50,7 +53,7 @@ module.exports = {
                   async.eachSeries(links, (item, callback) => {
                     GetMovie2.go(item, count++, callback)
                   }, () => {
-                    cb(false, 'done')
+                    cb(null, 'done')
                   })
                 }
               })
@@ -59,13 +62,16 @@ module.exports = {
           superAgent
             .get(url)
             .set('Connection', 'keep-alive')
+            .timeout({
+              response: 10000 // Wait 10 seconds for the server to start sending,
+            })
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=gb2312')
             .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
             .charset('gb2312')
             .end(function(err, res){
               if (err || !res.ok) {
                 console.log('Oh no! error')
-                cb(false, 'done')
+                return cb(null, 'done')
               } else {
                   let html = res.text
                   let $ = cheerio.load(html, {
@@ -85,7 +91,7 @@ module.exports = {
                   async.eachSeries(links, (item, callback) => {
                     GetMovie.go(item, count++, callback)
                   }, () => {
-                    cb(true, 'done')
+                    cb('done')
                   })
                 }
               })

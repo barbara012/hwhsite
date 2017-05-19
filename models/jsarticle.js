@@ -4,6 +4,7 @@ const CommentModel = require('./comments')
 module.exports = {
     // 创建一篇文章
   create: function create(article) {
+    article.path = '/articles/'  // 添加pathname 区分it，文集，原创
     return JshuPost.create(article).exec();
   },
   getArticles: function getArticles(page) {

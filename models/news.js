@@ -1,9 +1,10 @@
-var marked = require('marked');
-var NewPost = require('../lib/mongo').New
+const marked = require('marked');
+const NewPost = require('../lib/mongo').New
 const CommentModel = require('./comments')
 module.exports = {
     // 创建一篇文章
   create: function create(article) {
+    article.path = '/news/'  // 添加pathname 区分it，文集，原创
     return NewPost.create(article).exec();
   },
   getNews: function getNews(page) {
@@ -38,6 +39,26 @@ module.exports = {
     return NewPost
       .update({ _id: newId }, { $inc: { pv: 1 } })
       .exec();
+  },
+  getByKeyWords: function getByKeyWords(keyWords) {
+    let pattern = new RegExp("^.*" + keyWords + ".*$", "i")
+    return NewPost
+      .find({
+        $or: [
+          {
+            title: pattern
+          },
+          {
+            content: pattern
+          },
+          {
+            tag: pattern
+          }
+        ]
+      })
+      .sort({ _id: -1 })
+      .addCreatedAt()
+      .exec()
   },
   getOne: function getOne(newId) {
     return NewPost

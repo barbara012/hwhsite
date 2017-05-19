@@ -16,9 +16,8 @@ const dtUrl = 'http://www.dytt8.net'
 const dtUrl2 = 'http://www.dytt8.net/index.htm'
 async.waterfall([
     (cb) => {
-      cb(false, 'done')
-      console.log(12)
-      return
+      // return cb('done')
+      return cb(null, 'done')
       superAgent
         .get('http://www.ithome.com/')
         .set('Connection', 'keep-alive')
@@ -41,16 +40,14 @@ async.waterfall([
              async.eachSeries(links, (item, callback) => {
                GetArticle.go(item, count++, callback)
              }, () => {
-               cb(null, 'done')
+               return cb(null, 'IT完美')
              })
            }
          })
     },
     (res, cb) => {
-      cb(false, 'done')
-      console.log(13)
-      return
-      console.log(14)
+      // return cb('done')
+      return cb(null, 'done')
       superAgent
         .get(url)
         .set('Connection', 'keep-alive')
@@ -59,7 +56,7 @@ async.waterfall([
         .end(function(err, res){
            if (err || !res.ok) {
              console.log('Oh no! error')
-             cb(false, 'done')
+             cb(null, 'done')
            } else {
             var $ = cheerio.load(res.text);
              let links = []
@@ -75,19 +72,19 @@ async.waterfall([
              async.eachSeries(links, (item, callback) => {
                GetJArticle.go(item, count++, callback)
              }, () => {
-               cb(false, 'done')
+                return cb(null, 'JS完美')
              })
            }
          })
     },
     (res, cb) => {
-      // cb(false, 'done')
-      console.log(17)
-      // return
-      // console.log(20)
+      // return cb(null, 'done')
       superAgent
         .get(dyUrl)
         .set('Connection', 'keep-alive')
+        .timeout({
+          response: 10000 // Wait 10 seconds for the server to start sending,
+        })
         .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
         .charset('gb2312')
@@ -95,7 +92,7 @@ async.waterfall([
           if (err || !res.ok) {
             // console.log(err)
               console.log('Oh no! error')
-              cb(false, 'done')
+              cb(null, 'done')
           } else {
               let html = res.text //iconv.decode(new Buffer(res.text, 'binary'), 'gb2312')
               let $ = cheerio.load(html);
@@ -115,17 +112,19 @@ async.waterfall([
               async.eachSeries(links, (item, callback) => {
                 GetMovie.go(item, count++, callback)
               }, () => {
-                cb(false, 'done')
+                return cb(null, '电影完美')
               })
             }
           })
     },
     (res, cb) => {
-      cb(false, 'done')
-      return
+      // return cb('done')
       superAgent
         .get(dtUrl2)
         .set('Connection', 'keep-alive')
+        .timeout({
+          response: 10000 // Wait 10 seconds for the server to start sending,
+        })
         .set('Content-Type', 'application/x-www-form-urlencoded; charset=gb2312')
         .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36')
         .charset('gb2312')
@@ -133,7 +132,7 @@ async.waterfall([
           if (err || !res.ok) {
               // console.log(err)
               console.log('Oh no! error')
-              cb(false)
+              cb(null)
           } else {
               let html = res.text //iconv.decode(new Buffer(res.text, 'binary'), 'gb2312')
                var $ = cheerio.load(html, {
@@ -157,7 +156,7 @@ async.waterfall([
               async.eachSeries(links, (item, callback) => {
                 GetMovie2.go(item, count++, callback)
               }, () => {
-                cb(false, 'done')
+                cb(null)
               })
               // cb(false, 'done')
             }

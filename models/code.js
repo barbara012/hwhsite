@@ -2,15 +2,19 @@ const sourceCode1 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'
 const sourceCode2 = [1,2,3,4,5,6,7,8,9,0]
 module.exports = {
   getCode () {
-    let letter = this.createHandle(sourceCode1, 0, 25)
-    let num = this.createHandle(sourceCode2, 0, 9)
+    const length = 6
+    let letterNumber = Math.floor(Math.random() * (6 - 1 + 1) + 1)
+    let letter = this.createHandle(sourceCode1, letterNumber)
+    let num = this.createHandle(sourceCode2, length - letterNumber)
     let code = num.concat(letter)
     return this.shuffle(code)
   },
-  createHandle (arr, min, max) {
+  createHandle (arr, len) {
     let stack = []
     let result = []
-    for (let i = 0; i < 2; i++) {
+    let min = 0
+    let max = arr.length - 1
+    for (let i = 0; i < len; i++) {
       let index = Math.floor(Math.random() * (max - min + 1) + min)
       while(stack.find(n => n === index)) {
         index = Math.floor(Math.random() * (max - min + 1) + min)

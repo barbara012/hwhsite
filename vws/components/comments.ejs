@@ -16,10 +16,12 @@
     <% comments.forEach(function (comment) { %>
     <div class="comment">
       <a href="javascript:;" class="commenter_avatar">
-        <%- comment.author.name.substr(0,1) %>
+        <%- comment.userId ? comment.author.name.substr(0,1) : '无' %>
       </a>
       <div class="content">
-        <a class="commnet_author" href="/posts?author=<%= comment.author._id %>"><%= comment.author.name %></a>
+        <a class="commnet_author" href="/posts?author=<%= comment.author._id %>">
+          <%- comment.userId ? comment.author.name : '无名' %>
+        </a>
         <div class="text"><%- comment.content %></div>
         <% if (user && comment.author._id && user._id.toString() === comment.author._id.toString()) { %>
         <div class="actions">

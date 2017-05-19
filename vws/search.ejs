@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= blog.title %></title>
+    <link rel="stylesheet" href="/lib/noty/noty.min.css">
+    <link rel="stylesheet" href="/dist/css/app.css">
+  </head>
+<body>
+  <div class="app app-articles app-search">
+    <%- include('components/nav') %>
+    <div class="app-main">
+      <div class="articles-list">
+        <% articles.forEach(function (article) { %>
+          <%- include('components/article-item', { article: article }) %>
+        <% }) %>
+      </div>
+    </div>
+    <%- include('components/footer') %>
+    <script src="/dist/js/app.js"></script>
+  </div>
+</body>
+</html>
