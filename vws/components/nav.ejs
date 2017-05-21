@@ -2,27 +2,10 @@
   <div class="nav-content">
     <a class="logo" href="/news">HwH</a>
     <ul class="nav_menu">
-      <% if (articleType == 'news') { %>
-      <li><a class="nav_menu_item" href="/posts">原创</a></li>
-      <li><a class="nav_menu_item active" href="/news">IT资讯</a></li>
-      <li><a class="nav_menu_item" href="/articles">文集</a></li>
-      <li><a class="nav_menu_item" href="/movies">电影</a></li>
-      <% } else if (articleType == 'articles') { %>
-      <li><a class="nav_menu_item" href="/movies">原创</a></li>
-      <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
-      <li><a class="nav_menu_item active" href="/articles">文集</a></li>
-      <li><a class="nav_menu_item" href="/movies">电影</a></li>
-      <% } else if (articleType == 'movies') { %>
-      <li><a class="nav_menu_item" href="/posts">原创</a></li>      
-      <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
-      <li><a class="nav_menu_item" href="/articles">文集</a></li>
-      <li><a class="nav_menu_item active" href="/movies">电影</a></li>
-      <% } else { %>
-      <li><a class="nav_menu_item active" href="/posts">原创</a></li>
-      <li><a class="nav_menu_item" href="/news">IT资讯</a></li>
-      <li><a class="nav_menu_item" href="/articles">文集</a></li>
-      <li><a class="nav_menu_item" href="/movies">电影</a></li>
-      <% } %>
+      <li><a class="nav_menu_item <%- articleType == 'posts' ? 'active' : '' %>" href="/posts">原创</a></li>
+      <li><a class="nav_menu_item <%- articleType == 'news' ? 'active' : '' %>" href="/news">IT资讯</a></li>
+      <li><a class="nav_menu_item <%- articleType == 'articles' ? 'active' : '' %>" href="/articles">博文</a></li>
+      <li><a class="nav_menu_item <%- articleType == 'movies' ? 'active' : '' %>" href="/movies">电影</a></li>
     </ul>
     <div class="nav-_form-wrapper">
       <form method="get" action="/search" target="_blank">
