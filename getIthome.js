@@ -8,9 +8,10 @@ const schedule = require("node-schedule")
 const async = require('async')
 const rule = new schedule.RecurrenceRule()
 rule.minute = [10, 20, 30, 40, 50]
+const url = 'http://www.ithome.com'
 module.exports = {
-  go: (url) => {
-    let task = schedule.scheduleJob(rule, function(){
+  go: () => {
+    let task = schedule.scheduleJob(rule, function () {
       // console.log('scheduleRecurrenceRule:' + new Date())
       async.waterfall([
         (cb) => {

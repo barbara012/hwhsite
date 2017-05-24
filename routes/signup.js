@@ -28,6 +28,10 @@ router.post('/', checkNotLogin, function(req, res, next) {
 
     // 校验参数
   try {
+    let reg = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/
+    if (!reg.test(name)) {
+      throw new Error('邮箱格式有误')
+    }
     if (!(name.length >= 5 && name.length <= 20)) {
       throw new Error('名字请限制在 5-20 个字符')
     }

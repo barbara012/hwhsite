@@ -35,6 +35,26 @@ module.exports = {
         }
       })
   },
+  getByKeyWords: function getByKeyWords(keyWords) {
+    let pattern = new RegExp("^.*" + keyWords + ".*$", "i")
+    return JshuPost
+      .find({
+        $or: [
+          {
+            title: pattern
+          },
+          {
+            content: pattern
+          },
+          {
+            tag: pattern
+          }
+        ]
+      })
+      .sort({ _id: -1 })
+      .addCreatedAt()
+      .exec()
+  },
   incPv: function incPv(articleId) {
     return JshuPost
       .update({ _id: articleId }, { $inc: { pv: 1 } })

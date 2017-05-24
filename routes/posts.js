@@ -4,6 +4,7 @@ const CommentModel = require('../models/comments')
 const path = require('path')
 const express = require('express')
 const router = express.Router()
+const FormatePost = require('../filters/index').formateArticle
 const checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', function(req, res, next) {
@@ -16,19 +17,7 @@ router.get('/', function(req, res, next) {
     PostModel.getCount()
   ])
   .then(result => {
-    let articles = result[0].map((article) => {
-      let r = article.content.match(/<img.+?>/)
-      let rendNumber = Math.random() * (200 - 150 + 1) + 150
-      let p = article.content.replace(/<[^>]+>/g, '')
-      const author = article.author
-      article.author = author.name,
-      article.userId = author._id
-      article.img = r ? r[0] : ''
-      article.content = p.substr(0, rendNumber) + '...'
-      article.tag = article.tag.split(/，|\/|,|\\|-|&|\||@|·/)
-      article.pv = article.pv || 0
-      return article
-    })
+    let articles = FormatePost(result[0])
     res.render('articles', {
       originalUrl: req.originalUrl,
       articleType: 'posts',
@@ -171,22 +160,7 @@ router.post('/:postId/edit', checkLogin, function(req, res, next) {
             res.redirect(`/posts/${postId}`);
         })
         .catch(next);
-});
-
-// GET /posts/:postId/remove 删除一篇文章
-router.get('/:postId/remove', checkLogin, function(req, res, next) {
-    var postId = req.params.postId;
-    var author = req.session.user._id;
-
-    PostModel.delPostById(postId, author)
-        .then(function () {
-            req.flash('success', '删除文章成功');
-            // 删除成功后跳转到主页
-            res.redirect('/posts');
-        })
-        .catch(next);
 })
-
 // 创建一条留言
 router.post('/:articleId/comment', checkLogin, function(req, res, next) {
   let author = req.session.user._id
@@ -234,18 +208,27 @@ router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
     .catch(next)
 })
 router.post('/:articleId/remove', checkLogin, function(req, res, next) {
-  if (req.session.user && req.session.user.name == 'huwenhua') {
-    const articleId = req.params.articleId
-    PostModel.removeOne(articleId)
-      .then(function (result) {
-        res.send(result.result)
-      })
-      .catch(next)
+  const articleId = req.params.articleId
+  let author
+  if (req.session.user.privilege === 1) {
+    author = null
   } else {
-    res.send({
-      n: '没有权限',
-      ok: false
-    })
+    author = req.session.user._id
   }
+  PostModel.removeOne(articleId, author)
+    .then(function (result) {
+      if (result) {
+        res.send({
+          ok: 1,
+          mes: '删除成功'
+        })
+      } else {
+        res.send({
+          ok: 1,
+          mes: '未找到'
+        })
+      }
+    })
+    .catch(next)
 })
 module.exports = router

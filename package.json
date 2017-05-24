@@ -30,6 +30,7 @@
     "winston": "2.2.0"
   },
   "devDependencies": {
+    "ramda": "^0.23.0",
     "cheerio": "^0.22.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",

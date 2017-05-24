@@ -130,7 +130,7 @@
                     new Noty({
                       type: 'error',
                       layout: 'topRight',
-                      text: res.n,
+                      text: res.mes,
                       timeout: 2000,
                       progressBar: true,
                       animation: animat,

@@ -16,9 +16,6 @@ const events = require('events')
 const GetNews = require('./getIthome')
 const GetJshu = require('./getJianshu')
 const GetDy = require('./getDy')
-const url = 'http://www.ithome.com'
-const jsUrl = 'http://www.jianshu.com'
-const dyUrl = 'http://www.dy2018.com'
 
 const app = express()
 
@@ -119,7 +116,7 @@ if (module.parent) {
   httpsServer.listen(4001, function () {
     console.log(`${pkg.name} listening on port 4001`)
   })
-  GetNews.go(url)
-  GetJshu.go(jsUrl)
-  GetDy.go(dyUrl)
+  GetNews.go()
+  GetJshu.go()
+  GetDy.go()
 }

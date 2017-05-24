@@ -46,8 +46,18 @@ module.exports = {
                 }
               })
             }
-            // 
-            let content = $content.html().replace(/<script.*<\/script>/g, '')
+            //
+            console.log(article.link)
+            console.log(article.title)
+            let content
+            try {
+              content = $content.html().replace(/<script.*<\/script>/g, '')
+            } catch (e) {
+              console.log('-------------------')
+              console.log(e)
+              console.log('--------------------')
+            }
+            // let content = $content.html().replace(/<script.*<\/script>/g, '')
             let pdate = $article.find('.author .publish-time').text().replace(/\*/g, '')
             let ts = (new Date(pdate)).getTime()
             let tag = article.tag

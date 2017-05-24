@@ -11,10 +11,11 @@ const async = require('async')
 const rule = new schedule.RecurrenceRule()
 superCharset(superAgent)
 rule.minute = 55
+const url = 'http://www.dy2018.com'
 const indexUrl = 'http://www.dytt8.net/index.htm'
 const dtUrl = 'http://www.dytt8.net'
 module.exports = {
-  go: (url) => {
+  go: () => {
     let task = schedule.scheduleJob(rule, function(){
       async.waterfall([
         (cb) => {

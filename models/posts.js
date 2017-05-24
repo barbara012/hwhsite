@@ -109,11 +109,15 @@ module.exports = {
     return Post.update({ author: author, _id: postId }, { $set: data }).exec()
   },
   // 超级管理员删除文章
-  removeOne: function removeOne (postId) {
+  removeOne: function removeOne (postId, author) {
+    let query = {
+      _id: postId
+    }
+    if (author) {
+      query.author = auther
+    }
     return Post
-      .remove({
-        _id: postId
-      })
+      .remove(query)
       .exec()
       .then(function (res) {
         // 文章删除后，再删除该文章下的所有留言
@@ -121,6 +125,27 @@ module.exports = {
             return CommentModel.delCommentsByPostId(postId)
         }
       })
+  },
+  getByKeyWords: function getByKeyWords(keyWords) {
+    let pattern = new RegExp("^.*" + keyWords + ".*$", "i")
+    return Post
+      .find({
+        $or: [
+          {
+            title: pattern
+          },
+          {
+            content: pattern
+          },
+          {
+            tag: pattern
+          }
+        ]
+      })
+      .populate({ path: 'author', model: 'User' })
+      .sort({ _id: -1 })
+      .addCreatedAt()
+      .exec()
   },
   // 通过用户 id 和文章 id 删除一篇文章
   delPostById: function delPostById(postId, author) {

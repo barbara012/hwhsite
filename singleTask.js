@@ -17,7 +17,7 @@ const dtUrl2 = 'http://www.dytt8.net/index.htm'
 async.waterfall([
     (cb) => {
       // return cb('done')
-      return cb(null, 'done')
+      // return cb(null, 'done')
       superAgent
         .get('http://www.ithome.com/')
         .set('Connection', 'keep-alive')
@@ -78,7 +78,7 @@ async.waterfall([
          })
     },
     (res, cb) => {
-      // return cb(null, 'done')
+      return cb(null, 'done')
       superAgent
         .get(dyUrl)
         .set('Connection', 'keep-alive')
@@ -118,7 +118,7 @@ async.waterfall([
           })
     },
     (res, cb) => {
-      // return cb('done')
+      return cb('done')
       superAgent
         .get(dtUrl2)
         .set('Connection', 'keep-alive')

@@ -1,9 +1,11 @@
 const express = require('express')
+const R = require('ramda')
 const router = express.Router()
 const NewsModel = require('../models/news')
 const PostModel = require('../models/posts')
 const JshuModel = require('../models/jsarticle')
-const FormateNews = require('../filters/index').formateNews
+const FormateArticle = require('../filters/index').formateArticle
+const HightLight = require('../filters/index').highLight
 
 // var checkLogin = require('../middlewares/check').checkLogin;
 
@@ -11,16 +13,26 @@ const FormateNews = require('../filters/index').formateNews
 router.get('/', function(req, res, next) {
   // 清空 session 中用户信息
   let keyword = req.query.keyword
-  NewsModel.getByKeyWords(keyword)
-    .then(result => {
-      let news = FormateNews(result)
-      res.render('search', {
-        articleType: 'search',
-        articles: news,
-        originalUrl: req.originalUrl,
-      })
+  Promise.all([
+    PostModel.getByKeyWords(keyword),
+    JshuModel.getByKeyWords(keyword),
+    NewsModel.getByKeyWords(keyword)
+  ])
+  .then(result => {
+    let news = FormateArticle(result[2])
+    let jShu = FormateArticle(result[1])
+    let post = FormateArticle(result[0])
+    let articles= R.concat(R.concat(news, jShu), post)
+    articles = HightLight(articles, keyword)
+    let byCreatedAt = R.descend(R.prop('pv'))
+    articles = R.sort(byCreatedAt)(articles)
+    res.render('search', {
+      articleType: 'search',
+      articles: articles,
+      originalUrl: req.originalUrl,
     })
-    .catch(next)
+  })
+  .catch(next)
 });
 
 module.exports = router;

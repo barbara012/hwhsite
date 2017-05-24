@@ -7,9 +7,10 @@ const superAgent = require('superagent')
 const schedule = require("node-schedule")
 const async = require('async')
 const rule = new schedule.RecurrenceRule()
+const url = 'http://www.jianshu.com'
 rule.minute = 0
 module.exports = {
-  go: (url) => {
+  go: () => {
     let task = schedule.scheduleJob(rule, function(){
       console.log('scheduleRecurrenceRule:' + new Date())
       async.waterfall([

@@ -27,11 +27,15 @@ module.exports = {
           (cb3) => {
             let title = $('.post_title h1').text()
             if (!title) {
-              cb3(false, [])
-              return
+              return cb3(false, [])
             }
+            title = title.replace(/IT之家/g, '火星')
             // 解析图片，存到本地
             let $new = $('#paragraph')
+            let regs = new RegExp(/火辣的价格、火辣的商品，更多促销优惠访问辣品|img\.alicdn\.com/)
+            if (regs.test($new.html())) {
+              return cb3('done')
+            }
             let $img = $new.find('img')
             let imgs = []
             if ($img) {
@@ -47,7 +51,7 @@ module.exports = {
                 }
               })
             }
-            // 
+            //
             let content = $new.html().replace(/<script.*<\/script>/g, '')
             content = content.replace(/IT之家/g, '火星')
             let pdate = $('#pubtime_baidu').text()

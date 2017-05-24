@@ -2,7 +2,7 @@ const NewsModel = require('../models/news')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
 const checkLogin = require('../middlewares/check').checkLogin
-const FormateNews = require('../filters/index').formateNews
+const FormateNews = require('../filters/index').formateArticle
 const express = require('express')
 const async = require('async')
 const router = express.Router()
@@ -94,10 +94,27 @@ router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
 })
 router.post('/:newId/remove', checkLogin, function(req, res, next) {
   const newId = req.params.newId
-  NewsModel.removeOne(newId)
-    .then(function (result) {
-      res.send(result.result)
+  if (req.session.user && req.session.user.privilege === 1) {
+    NewsModel.removeOne(newId)
+      .then(function (result) {
+        if (result) {
+          res.send({
+            ok: 1,
+            mes: '删除成功' 
+          })
+        } else {
+          res.send({
+            ok: 0,
+            mes: '未找到' 
+          })
+        }
+      })
+      .catch(next)
+  } else {
+    res.send({
+      ok: 0,
+      mes: '日你大呗，你没权限' 
     })
-    .catch(next)
+  }
 })
 module.exports = router
