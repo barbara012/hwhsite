@@ -9,7 +9,7 @@
     </ul>
     <div class="nav-_form-wrapper">
       <form method="get" action="/search" target="_blank">
-        <input type="text" class="nav_form_input" name="keyword">
+        <input type="text" class="nav_form_input" name="keyword" placeholder="标题/内容/标签">
         <button style="submit" class="nav_form_submit icon icon-search"></button>
       </form>
     </div>
@@ -26,8 +26,7 @@
       <a href="/posts/create" class="post icon icon-pencil-1"></a>
       <div class="app-selector">
         <div class="selector_text">
-          <a href="/" class="user_avatar"><%= user.name.substr(0, 1) %></a>
-          <span class="icon icon-down"></span>
+          <a href="/" class="user_avatar icon icon-user" title="<%= user.name %>"></a>
         </div>
         <div class="selector_menu">
           <a href="/admin" class="selector_option"><span class="icon icon-cog"></span>后台管理</a>

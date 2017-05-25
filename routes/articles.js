@@ -1,7 +1,10 @@
 const JshuModel = require('../models/jsarticle')
+const NewsModel = require('../models/news')
+const PostModel = require('../models/posts')
 const MoviesModel = require('../models/movies')
+const R = require('ramda')
 const CommentModel = require('../models/comments')
-const FormateArticles = require('../filters/index').formateArticle
+const FormateData = require('../filters/index').formateArticle
 const checkLogin = require('../middlewares/check').checkLogin
 const express = require('express')
 const async = require('async')
@@ -12,12 +15,21 @@ router.get('/', function(req, res, next) {
   let pCount = JshuModel.getCount()
   let pArticles = JshuModel.getArticles(page)
   let pMovies = MoviesModel.getMovies(1, 3)
-  Promise.all([pCount, pArticles, pMovies]).then(result => {
+  let newHot = NewsModel.getHot()
+  let articleHot = JshuModel.getHot()
+  let postHot = PostModel.getHot()
+  Promise.all([pCount, pArticles, pMovies, newHot, articleHot, postHot]).then(result => {
     // console.log(result)
-    let articles = FormateArticles(result[1])
+    let articles = FormateData(result[1])
+    let newH = FormateData(result[3])
+    let articleH = FormateData(result[4])
+    let postH = FormateData(result[5])
+    let sortByPv = R.descend(R.prop('pv'))
+    let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
     res.render('articles', {
       articles: articles,
       movies: result[2],
+      hotArticles: hotArticles,
       isFirstPage: page === 1,
       articleType: 'articles',
       originalUrl: req.originalUrl,

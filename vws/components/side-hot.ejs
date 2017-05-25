@@ -1,0 +1,14 @@
+<% hots.forEach(function (item) {%>
+<a class="hot-item" href="<%= item.path + item._id %>">
+  <div class="hot_cover">
+    <%- item.img || '<img src="dist/img/hwh.png">' %>
+  </div>
+  <div class="hot_detail">
+    <div class="hot_title"><%= item.title %></div>
+    <div class="hot_other-info">
+      <span class="hot_date"><%= item.created_at %></span>
+      <span class="hot_pv icon icon-fire"><%= item.pv %></span>
+    </div>
+  </div>
+</a> 
+<% })%>

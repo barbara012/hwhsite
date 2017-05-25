@@ -70,6 +70,16 @@ module.exports = {
         .addCreatedAt()
         .exec()
   },
+  getHot: function getHot() {
+    return Post
+      .find({}, {
+        skip: 0,
+        limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
+      .exec()
+  },
   getCount: function getCount () {
     let query = {}
     return Post.count(query).exec()

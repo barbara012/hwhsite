@@ -17,6 +17,21 @@ module.exports = {
       .sort({ ts: -1 })
       .exec()
   },
+  getHot: function getHot() {
+    return MoviesPost
+      .find({}, {
+        skip: 0,
+        limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
+      .exec()
+  },
+  incPv: function incPv(newId) {
+    return MoviesPost
+      .update({ _id: newId }, { $inc: { pv: 1 } })
+      .exec();
+  },
   getCount: function getCount () {
     let query = {}
     return MoviesPost.count(query).exec()

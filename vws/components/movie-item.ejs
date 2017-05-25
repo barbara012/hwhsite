@@ -1,5 +1,5 @@
-<div class="movie-item">
-  <a class="movie_cover" href="/movies/<%= movie._id %>">
+<a class="movie-item" href="/movies/<%= movie._id %>">
+  <div class="movie_cover">
     <img src="<%= movie.cover %>" alt="movie.title">
     <div class="movie_info">
       <div class="movie_title">
@@ -8,8 +8,10 @@
       <div class="movie_score">IMDb：<b><%= movie.score %></b></div>
       <div class="movie_type">类型：<b><%- movie.movieType %></b></div>
     </div>
-  </a>
-  <div class="check-more-wrapper">
-    <a href="/movies/<%= movie._id %>" class="check-more">查看详情</a>
   </div>
-</div>
+  <div class="movie_other">
+    <span class="movie_title"><%- movie.name %></span>
+    <span class="movie_score"><%= movie.score %></span>
+    <span class="more">详情</span>
+  </div>
+</a>

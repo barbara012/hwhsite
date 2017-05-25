@@ -8,14 +8,23 @@ module.exports = {
     return NewPost.create(article).exec();
   },
   getNews: function getNews(page) {
-    let query = {}
     return NewPost
-      .find(query, {
+      .find({}, {
         skip: (page - 1) * 10,
         limit: 10
       })
       .addCreatedAt()
       .sort({ ts: -1 })
+      .exec()
+  },
+  getHot: function getHot() {
+    return NewPost
+      .find({}, {
+        skip: 0,
+        limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
       .exec()
   },
   getCount: function getCount () {

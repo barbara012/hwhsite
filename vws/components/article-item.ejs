@@ -1,6 +1,6 @@
 <div class="article-item">
   <% if (user && user.privilege == 1) {%>
-  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="/<%= articleType %>/<%= article._id %>/remove"></a>
+  <a href="javascript:;" data-title="<%= article.title %>" class="delete-btn icon icon-trash" data-url="<%= article.path + article._id + '/remove' %>"></a>
   <%}%>
   <div class="article_other-info">
     <a href="javascript:;" class="article_avatar">

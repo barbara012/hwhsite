@@ -8,8 +8,12 @@ router.get('/', function(req, res, next) {
   let pCount = MoviesModel.getCount()
   let pMovies = MoviesModel.getMovies(page, 12)
   Promise.all([pCount, pMovies]).then(result => {
+    let movies = result[1].map(movie => {
+      movie.name = movie.name.split('/')[0]
+      return movie
+    })
     res.render('movies', {
-      movies: result[1],
+      movies: movies,
       isFirstPage: page === 1,
       isLastPage: page * 12 >= result[0],
       articleType: 'movies',
@@ -20,16 +24,18 @@ router.get('/', function(req, res, next) {
 })
 router.get('/:movieId', function(req, res, next) {
   const movieId = req.params.movieId
-  MoviesModel.getOne(movieId)
-    .then(function (movie) {
-      // article.tag = article.tag ? article.tag.split('，') : []
-      res.render('movie', {
-        movie: movie,
-        articleType: 'movies',
-        originalUrl: req.originalUrl,
-        disclaimer: '内容均来自网络，侵删'
-      })
+  Promise.all([
+    MoviesModel.getOne(movieId),
+    MoviesModel.incPv(movieId)
+  ])
+  .then(result => {
+    res.render('movie', {
+      movie: result[0],
+      articleType: 'movies',
+      originalUrl: req.originalUrl,
+      disclaimer: '内容均来自网络，侵删'
     })
-    .catch(next)
+  })
+  .catch(next)
 })
 module.exports = router

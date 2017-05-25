@@ -1,10 +1,13 @@
 const PostModel = require('../models/posts')
+const JshuModel = require('../models/jsarticle')
+const NewsModel = require('../models/news')
+const R = require('ramda')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
 const path = require('path')
 const express = require('express')
 const router = express.Router()
-const FormatePost = require('../filters/index').formateArticle
+const FormateData = require('../filters/index').formateArticle
 const checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', function(req, res, next) {
@@ -14,13 +17,22 @@ router.get('/', function(req, res, next) {
   Promise.all([
     PostModel.getPosts(page),
     MoviesModel.getMovies(1, 3),
-    PostModel.getCount()
+    PostModel.getCount(),
+    NewsModel.getHot(),
+    JshuModel.getHot(),
+    PostModel.getHot(),
   ])
   .then(result => {
-    let articles = FormatePost(result[0])
+    let articles = FormateData(result[0])
+    let newH = FormateData(result[3])
+    let articleH = FormateData(result[4])
+    let postH = FormateData(result[5])
+    let sortByPv = R.descend(R.prop('pv'))
+    let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
     res.render('articles', {
       originalUrl: req.originalUrl,
       articleType: 'posts',
+      hotArticles: hotArticles,
       articles: articles,
       movies: result[1],
       isFirstPage: page === 1,

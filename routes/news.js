@@ -1,8 +1,11 @@
 const NewsModel = require('../models/news')
+const JshuModel = require('../models/jsarticle')
+const PostModel = require('../models/posts')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
+const R = require('ramda')
 const checkLogin = require('../middlewares/check').checkLogin
-const FormateNews = require('../filters/index').formateArticle
+const FormateData = require('../filters/index').formateArticle
 const express = require('express')
 const async = require('async')
 const router = express.Router()
@@ -12,11 +15,20 @@ router.get('/', function(req, res, next) {
   let pCount = NewsModel.getCount()
   let pNews = NewsModel.getNews(page)
   let pMovies = MoviesModel.getMovies(1, 3)
-  Promise.all([pCount, pNews, pMovies]).then(function (result) {
-    const articles = FormateNews(result[1])
+  let newHot = NewsModel.getHot()
+  let articleHot = JshuModel.getHot()
+  let postHot = PostModel.getHot()
+  Promise.all([pCount, pNews, pMovies, newHot, articleHot, postHot]).then(function (result) {
+    const articles = FormateData(result[1])
+    let newH = FormateData(result[3])
+    let articleH = FormateData(result[4])
+    let postH = FormateData(result[5])
+    let sortByPv = R.descend(R.prop('pv'))
+    let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
     res.render('articles', {
       articles: articles,
       movies: result[2],
+      hotArticles: hotArticles, // 热门博文
       isFirstPage: page === 1,
       articleType: 'news',
       originalUrl: req.originalUrl,

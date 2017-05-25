@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <title><%= blog.title %></title>
-    <meta name="description" content="HwH的小站，IT、博客、Web前端、CSS3，个人博客的小二逼">
+    <meta name="description" content="HwH的小站，IT、博客、Web前端、CSS3，个人博客的小二货">
     <meta name="keywords" content="IT资讯,it资讯,Web,HTML,H5,CSS3,HwH小站，HwH的小站">
     <link rel="stylesheet" href="/lib/swiper/swiper-3.4.2.min.css">
     <link rel="stylesheet" href="/lib/noty/noty.min.css">
@@ -109,51 +109,6 @@
           preloadImages: true,
           // Enable lazy loading
           lazyLoading: true
-        })
-        $.getScript('http://php.weather.sina.com.cn/iframe/index/w_cl.php?code=js&day=0&city=&dfc=1&charset=utf-8',function(res){
-          if (window.SWther.w.length === 0) {
-            return
-          }
-          var s = ""
-          var r = ""
-          var q = ""
-          for(s in window.SWther.w){
-            q = SWther.w[s][0]
-            r = {
-              city: s,
-              date: SWther.add.now.split(" ")[0]||"",
-              day_weather: q.s1,
-              night_weather: q.s2,
-              day_temp: q.t1,
-              night_temp: q.t2,
-              day_wind: q.p1,
-              night_wind: q.p2
-            }
-          }
-          console.log(r)
-          var date = new Date()
-          var hour = date.getHours()
-          var weather = hour > 19 ? r.night_weather : r.day_weather  //天气
-          $weatherIcon = $('.weather_icon')
-          if (weather.indexOf('小雨') != -1) {
-            $weatherIcon.addClass('icon-drizzle')
-          } else if (weather.indexOf('中雨') != -1 || weather.indexOf('大雨') != -1){
-            $weatherIcon.addClass('icon-rain')
-          } else {
-            $weatherIcon.addClass('icon-sun')
-          }
-          $('.temp_max').text(r.day_temp + '℃')
-          $('.temp_min').text(r.night_temp + '℃')
-          $('.weather_city').text(r.city)
-          $('.weather_date').text(r.date)
-          var $weatherLoading = $('.weather_loading')
-          setTimeout(function () {
-            $weatherLoading.animate({
-              opacity: 0
-            }, 500, function() {
-              $weatherLoading.hide()
-            })
-          }, 1000)
         })
       </script>
     </div>

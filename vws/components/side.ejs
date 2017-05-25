@@ -1,6 +1,6 @@
 <div class="app-main_side">
   <div class="side_section weather-wrapper">
-    <span class="weather_icon icon"></span>
+    <!-- <span class="weather_icon icon"></span>
     <span class="weather_temp">
       <b class="temp_max"> 0℃</b>
       <span>/</span>
@@ -12,24 +12,30 @@
     </span>
     <div class="weather_loading">
       <span class="icon icon-sun"></span>
-    </div>
+    </div> -->
+    <div id="tp-weather-widget"></div>
+    <script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
+    <script>
+      tpwidget("init", {
+        "flavor": "slim",
+        "location": "WX4FBXXFKE4F",
+        "geolocation": "enabled",
+        "language": "zh-chs",
+        "unit": "c",
+        "theme": "chameleon",
+        "container": "tp-weather-widget",
+        "bubble": "enabled",
+        "alarmType": "badge",
+        "uid": "UB9AE3CD6F",
+        "hash": "ec2195a713b5b83de588b2ec2499ec2b"
+      })
+      tpwidget("show")
+    </script>
   </div>
   <div class="side_section">
     <div class="section_title">热门文章</div>
     <div class="section_content">
-      
-    </div>
-  </div>
-  <div class="side_section">
-    <div class="section_title">热门文集</div>
-    <div class="section_content">
-      
-    </div>
-  </div>
-  <div class="side_section">
-    <div class="section_title">热门电影</div>
-    <div class="section_content">
-      
+    <%- include('./side-hot', { hots: hotArticles }) %>
     </div>
   </div>
 </div>
