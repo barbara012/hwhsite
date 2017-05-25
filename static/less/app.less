@@ -985,7 +985,8 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
 .app-movies {
   background: url(/dist/img/bg.gif);
   .app-main {
-    width: 730px;
+    width: auto;
+    padding: 0 20px;
   }
   .app-main_content {
     width: 100%;
@@ -994,16 +995,16 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   .movies-list {
     font-size: 0;
     padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .movie-item {
     width: 160px;
     display: inline-block;
     vertical-align: top;
-    margin: 0 30px 13px 0;
+    margin: 0 20px 20px;
     color: @color2;
-    &:nth-child(4n+4) {
-      margin-right: 0;
-    }
   }
   .movie_cover {
     width: 100%;

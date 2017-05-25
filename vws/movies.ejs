@@ -10,10 +10,12 @@
     <div class="app app-movies">
       <%- include('components/nav') %>
       <div class="app-main clearfix">
-        <div class="app-main_content movies-list">
+        <div class="app-main_content">
+          <div class="movies-list">
           <% movies.forEach(function (movie) { %>
             <%- include('components/movie-item', { movie: movie }) %>
           <% }) %>
+          </div>
           <%- include('components/page-nav') %>
         </div>
       </div>
