@@ -1,0 +1,6 @@
+const GetNews = require('./getIthome')
+const GetJshu = require('./getJianshu')
+const GetDy = require('./getDy')
+GetNews.go()
+GetJshu.go()
+GetDy.go()

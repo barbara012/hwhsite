@@ -13,9 +13,6 @@ const pkg = require('./package')
 const winston = require('winston')
 const expressWinston = require('express-winston')
 const events = require('events')
-const GetNews = require('./getIthome')
-const GetJshu = require('./getJianshu')
-const GetDy = require('./getDy')
 
 const app = express()
 
@@ -116,7 +113,4 @@ if (module.parent) {
   httpsServer.listen(4001, function () {
     console.log(`${pkg.name} listening on port 4001`)
   })
-  GetNews.go()
-  GetJshu.go()
-  GetDy.go()
 }
