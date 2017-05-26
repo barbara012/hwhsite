@@ -1,6 +1,7 @@
 const PostModel = require('../models/posts')
 const JshuModel = require('../models/jsarticle')
 const NewsModel = require('../models/news')
+const ImageModel = require('../models/images')
 const R = require('ramda')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
@@ -153,12 +154,18 @@ router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
 // 上传图片
 router.post('/image', checkLogin, (req, res, next) => {
   const imagePath = req.files.upload_file.path.split(path.sep).pop()
-  console.log(imagePath)
-  res.send({
-    success: true,
-    msg: 'error message',
-    file_path: `/img-db/${imagePath}`
+  ImageModel.create({
+    name: imagePath,
+    path: `/img-db/${imagePath}`
   })
+  .then(result => {
+    res.send({
+      success: true,
+      msg: '成功',
+      file_path: `/img-db/${imagePath}`
+    })
+  })
+  .catch(next)
 })
 // GET /posts/:postId 单独一篇的文章页
 router.get('/:articleId', function(req, res, next) {

@@ -4,21 +4,22 @@
     <meta charset="utf-8">
     <title><%= blog.title %></title>
     <link rel="stylesheet" href="/lib/noty/noty.min.css">
+    <link rel="stylesheet" href="/lib/image-cut/cropper.min.css">
     <link rel="stylesheet" href="/dist/css/app.css">
   </head>
 <body>
   <div class="app admin">
     <div class="app-main clearfix">
       <%- include('components/admin-sider') %>
+      <% if (active == 'set') { %>
+      <%- include('components/set') %>
+      <%} else {%>
       <%- include('components/admin-content') %>
+      <%}%>
     </div>
     <%- include('components/script')%>
-    <script src="/dist/js/app.js"></script>
+    <script src="/dist/js/cropper.js"></script>
+    <script src="/dist/js/admin.js"></script>
   </div>
-  <script>
-    $(document).ready(function() {
-      DeleteOperate.init($('.article_delete'), '.article-item')
-    })
-  </script>
 </body>
 </html>

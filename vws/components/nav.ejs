@@ -26,7 +26,13 @@
       <a href="/posts/create" class="post icon icon-pencil-1"></a>
       <div class="app-selector">
         <div class="selector_text">
-          <a href="/" class="user_avatar icon icon-user" title="<%= user.name %>"></a>
+          <a href="/" class="user_avatar" title="<%= user.name %>">
+          <% if (user.avatar) { %>
+          <img src="<%= user.avatar %>">
+          <%} else { %>
+            <span class="icon icon-user"></span>
+          <%}%>
+          </a>
         </div>
         <div class="selector_menu">
           <a href="/admin" class="selector_option"><span class="icon icon-cog"></span>后台管理</a>

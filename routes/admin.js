@@ -3,6 +3,7 @@ const NewsModel = require('../models/news')
 const JshuModel = require('../models/jsarticle')
 const UserModel = require('../models/users')
 const R = require('ramda')
+const fs = require('fs')
 const sha1 = require('sha1')
 const CommentModel = require('../models/comments')
 const EmailCode = require('../models/code')
@@ -66,6 +67,40 @@ router.get('/banner', checkLogin, (req, res, next) => {
     })
   })
   .catch(next)
+})
+router.get('/set', checkLogin, (req, res, next) => {
+  res.render('admin', {
+    active: 'set'
+  })
+})
+//上传图像
+router.post('/upload/image', checkLogin, (req, res, next) => {
+  let avatarOriginalPath = req.files.file.path
+  let imagePath = req.files.file.path.split(path.sep).pop()
+  let avatar = `/img-db/${imagePath}`
+  let oldAvatar = req.session.user.avatarOriginalPath
+  UserModel.updateAvatar(req.session.user.name, { avatar, avatarOriginalPath})
+    .then((result, user) => {
+      fs.unlink(oldAvatar || '/img-bg/hwh', (res) => {
+        console.log(res)
+      })
+      req.session.user.avatar = avatar
+      req.session.user.avatarOriginalPath = avatarOriginalPath
+      if (result && result.result.ok === 1) {
+        return res.send({
+          status: 'ok',
+          mes: '修改成功',
+          file_path: null
+        })
+      } else {
+        return res.send({
+          status: 'false',
+          mes: '好像上传出错，再试一次',
+          file_path: null
+        })
+      }
+    })
+    .catch(next)
 })
 router.get('/reset', checkNotLogin, function (req, res, next) {
   res.render('login', {

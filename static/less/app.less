@@ -297,8 +297,12 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     vertical-align: middle;
     font-size: 22px;
     background-color: @color1;
+    overflow: hidden;
     &::before {
       line-height: 35px;
+    }
+    img {
+      width: 100%;
     }
   }
   .selector_menu {
@@ -1276,6 +1280,16 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       color: #fff;
       background-color: #0facf3;
     }
+  }
+  .avatar-submit {
+    display: inline-block;
+    width: 90px;
+    line-height: 35px;
+    text-align: center;
+    background-color: @color1;
+    color: #fff;
+    margin-top: 20px;
+    border-radius: 5px;
   }
 }
 @media (max-width: 940px) {
