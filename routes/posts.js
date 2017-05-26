@@ -15,15 +15,20 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    PostModel.getPosts(page),
+    PostModel.getPosts(page, 10),
     MoviesModel.getMovies(1, 3),
     PostModel.getCount(),
     NewsModel.getHot(),
     JshuModel.getHot(),
     PostModel.getHot(),
+    NewsModel.getBanner(),
+    JshuModel.getBanner(),
+    PostModel.getBanner()
   ])
   .then(result => {
     let articles = FormateData(result[0])
+    let banner = R.concat(R.concat(result[6], result[7]), result[8]) //FormateData(result[6])
+    banner = FormateData(banner)
     let newH = FormateData(result[3])
     let articleH = FormateData(result[4])
     let postH = FormateData(result[5])
@@ -33,6 +38,7 @@ router.get('/', function(req, res, next) {
       originalUrl: req.originalUrl,
       articleType: 'posts',
       hotArticles: hotArticles,
+      banners: banner,
       articles: articles,
       movies: result[1],
       isFirstPage: page === 1,
@@ -96,14 +102,62 @@ router.post('/create', checkLogin, function(req, res, next) {
     })
     .catch(next)
 })
-
+//编辑banner
+router.get('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+  let articleId = req.params.articleId
+  PostModel.getOne(articleId)
+    .then(article => {
+      res.render('edit', {
+        article: article,
+        active: 'banner'
+      })
+    })
+    .catch(next)
+})
+router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+  let articleId = req.params.articleId
+  const title = req.fields.title
+  const content = req.fields.content
+  const tag = req.fields.tag || '原创'
+  const mark = 'banner'
+  // 校验参数
+  try {
+    if (!title.length) {
+        throw new Error('请填写标题')
+    }
+    if (!content.length) {
+        throw new Error('请填写内容')
+    }
+  } catch (e) {
+    req.flash('error', e.message)
+    return res.send({
+      status: 'fail',
+      mes: e.message
+    })
+  }
+  PostModel.updateOne(articleId, {
+      title,
+      content,
+      tag,
+      mark
+    })
+    .then(result => {
+      return res.send({
+        status: 'ok',
+        mes: '修改成功',
+        url: '/admin/banner'
+      })
+    })
+    .catch(next)
+})
 // 上传图片
 router.post('/image', checkLogin, (req, res, next) => {
   const imagePath = req.files.upload_file.path.split(path.sep).pop()
+  console.log(imagePath)
   res.send({
     success: true,
     msg: 'error message',
-    file_path: imagePath
+    file_path: `/img-db/${imagePath}`
   })
 })
 // GET /posts/:postId 单独一篇的文章页

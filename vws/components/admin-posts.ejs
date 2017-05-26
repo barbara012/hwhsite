@@ -1,10 +1,14 @@
 <div class="posts">
   <% articles.forEach(function(article){ %>
   <div class="article-item">
-    <span class="article_hot">[ comments：<i><%= article.commentsCount %></i> ]</span>
-    <a target="_blank" class="article_title" href="/posts/<%= article._id  %>"><%= article.title %></a>
+    <span class="article_hot"><span class="icon icon-fire"></span><i><%= article.pv || 0 %></i> </span>
+    <a target="_blank" class="article_title" href="<%= article.path + article._id  %>"><%= article.title %></a>
     <span class="article_date"><%= article.created_at %></span>
+    <% if (active === 'posts')  { %>
     <a href="javascript:;" data-url="/admin/<%= article._id  %>/remove" class="article_delete">删除</a>
+    <% } else { %>
+    <a href="<%= article.path + 'banner/' + article._id %>/edit" class="article_edit">编辑</a>
+    <% } %>
   </div>
   <% }) %>
 </div>

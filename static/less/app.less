@@ -348,9 +348,23 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     .swiper-slide {
       width: 100%;
       height: 100%;
+      position: relative;
       img {
         width: 100%;
       }
+    }
+    .banner_title {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .banner-info {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      color: #fff;
+      padding: 100px 20px 20px;
+      background-image: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.0));
     }
     .swiper-pagination-bullet-active {
       background-color: @color1;
@@ -1158,6 +1172,12 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     padding-left: 201px;
     position: relative;
   }
+  .admin_content-inner {
+    height: 100%;
+    position: relative;
+    background-color: #fff;
+    overflow: auto;
+  }
   .admin_side {
     width: 200px;
     position: absolute;
@@ -1220,9 +1240,41 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     .article_date {
       color: #eee;
     }
-    .article_delete {
+    .article_delete,
+    .article_edit {
       color: #999;
       float: right;
+    }
+  }
+  .editor-panel {
+    #title {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-bottom: 1px solid #e8edf3;
+      outline: none;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .post-btn-wrapper {
+      margin-top: 20px;
+    }
+    .post-tag {
+      border: none;
+      border-bottom: 1px solid #e8edf3;
+      outline: none;
+      height: 35px;
+      width: 200px;
+    }
+    .post-btn {
+      float: right;
+      line-height: 35px;
+      padding: 0 20px;
+      color: #fff;
+      background-color: #0facf3;
     }
   }
 }

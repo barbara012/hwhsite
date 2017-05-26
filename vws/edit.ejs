@@ -1,28 +1,27 @@
-<%- include('header') %>
-
-<div class="ui grid">
-    <div class="four wide column">
-        <a class="avatar"
-           href="/posts?author=<%= user._id %>"
-           data-title="<%= user.name %> | <%= ({m: '男', f: '女', x: '保密'})[user.gender] %>"
-           data-content="<%= user.bio %>">
-            <img class="avatar" src="/img/<%= user.avatar %>">
-        </a>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= blog.title %></title>
+    <link rel="stylesheet" href="/lib/noty/noty.min.css">
+    <link rel="stylesheet" href="/lib/simditor/simditor-html.css">
+    <link rel="stylesheet" href="/lib/simditor/simditor.css">
+    <link rel="stylesheet" href="/dist/css/app.css">
+  </head>
+<body>
+  <div class="app admin">
+    <div class="app-main clearfix">
+      <%- include('components/admin-sider') %>
+      <%- include('components/banner-edit') %>
     </div>
-
-    <div class="eight wide column">
-        <form class="ui form segment" method="post" action="/posts/<%= post._id %>/edit">
-            <div class="field required">
-                <label>标题</label>
-                <input type="text" name="title" value="<%= post.title %>">
-            </div>
-            <div class="field required">
-                <label>内容</label>
-                <textarea name="content" rows="15"><%= post.content %></textarea>
-            </div>
-            <input type="submit" class="ui button" value="发布">
-    </div>
-    </form>
-</div>
-
-<%- include('footer') %>
+    <%- include('components/script')%>
+    <script src="/lib/simditor/module.min.js"></script>
+    <script src="/lib/simditor/hotkeys.min.js"></script>
+    <script src="/lib/simditor/uploader.min.js"></script>
+    <script src="/lib/simditor/simditor.min.js"></script>
+    <script src="/lib/simditor/beautify-html.js"></script>
+    <script src="/lib/simditor/simditor-html.js"></script>
+    <script src="/dist/js/admin-banner.js"></script>
+  </div>
+</body>
+</html>

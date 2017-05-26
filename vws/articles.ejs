@@ -13,67 +13,7 @@
     <div class="app app-articles">
       <%- include('components/nav') %>
       <div class="app-main clearfix">
-        <div class="app-banner">
-          <div class="swiper-container hlw-swiper">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw.jpg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw7.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw8.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw1.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw2.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw0.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw4.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw5.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-              <div class="swiper-slide">
-                <img data-src="/dist/img/hlw6.jpeg" class="swiper-lazy">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-          <div class="swiper-container movie-swiper">
-            <div class="swiper-wrapper">
-              <% movies.forEach(function (movie) {%>
-              <a class="swiper-slide" href="/movies/<%= movie._id %>">
-                <img src="<%= movie.cover %>" alt="">
-                <div class="movie-info">
-                  <p class="p1"><%- movie.name %></p>
-                  <p class="p2">
-                    <span class="movie_score">IMDb：<%- movie.score %></span>
-                  </p>
-                </div>
-              </a>
-              <%})%>
-            </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next swiper-button-white"></div>
-            <div class="swiper-button-prev swiper-button-white"></div>
-        </div>
-        </div>
+        <%- include('components/banner') %>
         <div class="app-main_content articles-list">
           <% articles.forEach(function (article) { %>
             <%- include('components/article-item', { article: article }) %>

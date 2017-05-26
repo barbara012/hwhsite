@@ -13,14 +13,19 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   let pCount = JshuModel.getCount()
-  let pArticles = JshuModel.getArticles(page)
+  let pArticles = JshuModel.getArticles(page, 10)
   let pMovies = MoviesModel.getMovies(1, 3)
   let newHot = NewsModel.getHot()
   let articleHot = JshuModel.getHot()
   let postHot = PostModel.getHot()
-  Promise.all([pCount, pArticles, pMovies, newHot, articleHot, postHot]).then(result => {
+  let bannerNew = NewsModel.getBanner()
+  let bannerArticle = JshuModel.getBanner()
+  let bannerPost = PostModel.getBanner()
+  Promise.all([pCount, pArticles, pMovies, newHot, articleHot, postHot, bannerNew, bannerArticle, bannerPost]).then(result => {
     // console.log(result)
     let articles = FormateData(result[1])
+    let banner = R.concat(R.concat(result[6], result[7]), result[8]) //FormateData(result[6])
+    banner = FormateData(banner)
     let newH = FormateData(result[3])
     let articleH = FormateData(result[4])
     let postH = FormateData(result[5])
@@ -30,6 +35,7 @@ router.get('/', function(req, res, next) {
       articles: articles,
       movies: result[2],
       hotArticles: hotArticles,
+      banners: banner,
       isFirstPage: page === 1,
       articleType: 'articles',
       originalUrl: req.originalUrl,
@@ -58,6 +64,54 @@ router.get('/:articleId', function(req, res, next) {
     })
   })
   .catch(next)
+})
+//编辑banner
+router.get('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+  let articleId = req.params.articleId
+  JshuModel.getOne(articleId)
+    .then(article => {
+      res.render('edit', {
+        article: article,
+        active: 'banner'
+      })
+    })
+    .catch(next)
+})
+router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+  let articleId = req.params.articleId
+  const title = req.fields.title
+  const content = req.fields.content
+  const tag = req.fields.tag || '原创'
+  const mark = 'banner'
+  // 校验参数
+  try {
+    if (!title.length) {
+        throw new Error('请填写标题')
+    }
+    if (!content.length) {
+        throw new Error('请填写内容')
+    }
+  } catch (e) {
+    req.flash('error', e.message)
+    return res.send({
+      status: 'fail',
+      mes: e.message
+    })
+  }
+  JshuModel.updateOne(articleId, {
+      title,
+      content,
+      tag,
+      mark
+    })
+    .then(result => {
+      return res.send({
+        status: 'ok',
+        mes: '修改成功',
+        url: '/admin/banner'
+      })
+    })
+    .catch(next)
 })
 // 创建一条留言
 router.post('/:articleId/comment', checkLogin, function(req, res, next) {
@@ -107,7 +161,7 @@ router.post('/comment/:commentId/remove', checkLogin, function(req, res, next) {
 })
 router.post('/:articleId/remove', checkLogin, function(req, res, next) {
   const articleId = req.params.articleId
-  if (req.session.user && req.session.user.privilege === 1) {
+  if (req.session.user.privilege === 1) {
     JshuModel.removeOne(articleId)
       .then(function (result) {
         if (result) {

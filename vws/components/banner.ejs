@@ -1,0 +1,34 @@
+<div class="app-banner">
+  <div class="swiper-container hlw-swiper">
+    <div class="swiper-wrapper">
+      <% banners.forEach(function(item) {%>
+      <a href="<%= item.path + item._id  %>" class="swiper-slide">
+        <%- item.img %>
+        <div class="banner-info">
+          <div class="banner_title"><%= item.title %></div>
+          <div class="banner_des"><%- item.content %></div>
+        </div>
+      </a>
+      <%})%>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <div class="swiper-container movie-swiper">
+    <div class="swiper-wrapper">
+      <% movies.forEach(function (movie) {%>
+      <a class="swiper-slide" href="/movies/<%= movie._id %>">
+        <img src="<%= movie.cover %>" alt="">
+        <div class="movie-info">
+          <p class="p1"><%- movie.name %></p>
+          <p class="p2">
+            <span class="movie_score">IMDb：<%- movie.score %></span>
+          </p>
+        </div>
+      </a>
+      <%})%>
+    </div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next swiper-button-white"></div>
+    <div class="swiper-button-prev swiper-button-white"></div>
+  </div>
+</div>

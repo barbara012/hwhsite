@@ -1,5 +1,8 @@
 const PostModel = require('../models/posts')
+const NewsModel = require('../models/news')
+const JshuModel = require('../models/jsarticle')
 const UserModel = require('../models/users')
+const R = require('ramda')
 const sha1 = require('sha1')
 const CommentModel = require('../models/comments')
 const EmailCode = require('../models/code')
@@ -47,6 +50,22 @@ router.post('/:articleId/remove', function(req, res, next) {
       ok: false
     })
   }
+})
+router.get('/banner', checkLogin, (req, res, next) => {
+  const author = req.session.user._id
+  Promise.all([
+    NewsModel.getNews(1, 4),
+    JshuModel.getArticles(1, 4),
+    PostModel.getPosts(1, 4)
+  ])
+  .then(result => {
+    let articles= R.concat(R.concat(result[0], result[1]), result[2])
+    res.render('admin', {
+      articles: articles,
+      active: 'banner'
+    })
+  })
+  .catch(next)
 })
 router.get('/reset', checkNotLogin, function (req, res, next) {
   res.render('login', {

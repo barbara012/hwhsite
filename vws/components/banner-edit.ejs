@@ -1,0 +1,16 @@
+<div class="admin_content">
+  <div class="admin_content-inner">
+    <div class="posts">
+      <div class="editor-panel">
+        <div class="post-title-wrapper">
+          <input type="text" id="title" value="<%= article.title %>" placeholder="输入标题">
+        </div>
+        <textarea id="editor" cols="30" rows="10"><%= article.content %></textarea>
+        <div class="post-btn-wrapper clearfix">
+          <input type="text" class="post-tag" value="<%= article.tag %>" id="tag" placeholder="给文章打标签，以‘/’分割">
+          <a href="javascript:;" id="post-btn" class="post-btn">提交</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

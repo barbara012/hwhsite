@@ -7,12 +7,12 @@ module.exports = {
     article.path = '/articles/'  // 添加pathname 区分it，文集，原创
     return JshuPost.create(article).exec();
   },
-  getArticles: function getArticles(page) {
+  getArticles: function getArticles(page, size) {
     let query = {}
     return JshuPost
       .find(query, {
-        skip: (page - 1) * 10,
-        limit: 10
+        skip: (page - 1) * size,
+        limit: size
       })
       .addCreatedAt()
       .sort({ ts: -1 })
@@ -23,6 +23,19 @@ module.exports = {
       .find({}, {
         skip: 0,
         limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
+      .exec()
+  },
+  updateOne: function updateOne (articleId, data) {
+    return JshuPost
+      .update({ _id: articleId}, {$set: data})
+  },
+  getBanner: function getBanner () {
+    return JshuPost.find({ mark: 'banner'},{
+        skip: 0,
+        limit: 2
       })
       .addCreatedAt()
       .sort({ pv: -1 })

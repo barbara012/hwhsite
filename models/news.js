@@ -7,11 +7,11 @@ module.exports = {
     article.path = '/news/'  // 添加pathname 区分it，文集，原创
     return NewPost.create(article).exec();
   },
-  getNews: function getNews(page) {
+  getNews: function getNews(page, size) {
     return NewPost
       .find({}, {
-        skip: (page - 1) * 10,
-        limit: 10
+        skip: (page - 1) * size,
+        limit: size
       })
       .addCreatedAt()
       .sort({ ts: -1 })
@@ -22,6 +22,15 @@ module.exports = {
       .find({}, {
         skip: 0,
         limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
+      .exec()
+  },
+  getBanner: function getBanner () {
+    return NewPost.find({ mark: 'banner'},{
+        skip: 0,
+        limit: 2
       })
       .addCreatedAt()
       .sort({ pv: -1 })
@@ -43,6 +52,10 @@ module.exports = {
             return CommentModel.delCommentsByPostId(newId)
         }
       })
+  },
+  updateOne: function updateOne (newId, data) {
+    return NewPost
+      .update({ _id: newId}, {$set: data})
   },
   incPv: function incPv(newId) {
     return NewPost

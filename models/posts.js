@@ -59,11 +59,11 @@ module.exports = {
   },
 
   // 按创建时间降序获取所有用户文章
-  getPosts: function getPosts(page) {
+  getPosts: function getPosts(page, size) {
       return Post
         .find({}, {
-          skip: (page - 1) * 10,
-          limit: 10
+          skip: (page - 1) * size,
+          limit: size
         })
         .populate({ path: 'author', model: 'User' })
         .sort({ _id: -1 })
@@ -75,6 +75,19 @@ module.exports = {
       .find({}, {
         skip: 0,
         limit: 5
+      })
+      .addCreatedAt()
+      .sort({ pv: -1 })
+      .exec()
+  },
+  updateOne: function updateOne (postId, data) {
+    return Post
+      .update({ _id: postId}, {$set: data})
+  },
+  getBanner: function getBanner () {
+    return Post.find({ mark: 'banner'},{
+        skip: 0,
+        limit: 2
       })
       .addCreatedAt()
       .sort({ pv: -1 })
