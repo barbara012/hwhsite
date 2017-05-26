@@ -298,7 +298,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     font-size: 22px;
     background-color: @color1;
     overflow: hidden;
-    &::before {
+    .icon::before {
       line-height: 35px;
     }
     img {
@@ -312,6 +312,27 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       margin-right: 15px;
       font-size: 16px;
     }
+  }
+}
+.article_avatar {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: @color1;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  overflow: hidden;
+  vertical-align: middle;
+  img {
+    width: 100%;
+  }
+  .icon::before {
+    font-size: 25px;
+    line-height: 30px;
   }
 }
 .app-main {
@@ -434,18 +455,6 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
 }
 .app-articles {
-  .article_avatar {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 50%;
-    background-color: @color1;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-  }
   .article-item {
     padding: 40px 0;
     border-bottom: 1px solid #e8edf3;
@@ -518,6 +527,15 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
 }
 .page-content {
   padding: 100px 0 0;
+  .article_avatar {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 5px;
+    .icon::before {
+      line-height: 40px;
+    }
+  }
   .article-content {
     line-height: 1.9;
   }
@@ -531,19 +549,6 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
   .article_other-info {
     margin-bottom: 30px;
-  }
-  .article_avatar {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    margin-right: 5px;
-    text-align: center;
-    border-radius: 50%;
-    background-color: @color1;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
   }
   .article_author {
     display: inline-block;
@@ -1195,6 +1200,10 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
     line-height: 50px;
     padding-left: 15px;
     border-bottom: 1px solid #f3f3f3;
+    &.active {
+      background-color: @color1;
+      color: #fff;
+    }
   }
   .user_avatar {
     display: inline-block;
@@ -1280,6 +1289,24 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
       color: #fff;
       background-color: #0facf3;
     }
+  }
+  .user-set {
+    padding: 20px;
+  }
+  .section_title {
+    font-size: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 30px;
+  }
+  .img-container {
+    max-height: 300px;
+    img {
+      max-width: 100%;
+    }
+  }
+  .preview-wrapper {
+    width: 100px;
   }
   .avatar-submit {
     display: inline-block;

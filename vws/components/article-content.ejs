@@ -1,7 +1,13 @@
 <div class="article-content">
   <h1><a class="article_title" href="<%- article.path +  article._id %>"><%= article.title %></a></h1>
   <div class="article_other-info">
-    <a href="javascript:;" class="article_avatar"><%- article.author.substr(0,1) %></a>
+    <a href="javascript:;" class="article_avatar">
+      <% if (article.avatar)  { %>
+      <img src="<%= article.avatar %>" alt="<%= article.author || '无名' %>">
+      <% } else {%>
+        <%- article.author ? article.author.substr(0,1) : '<span class="icon icon-user"></span>' %>
+      <% } %>
+    </a>
     <a class="article_author" href="javascript:;"><span class="author-tag">作者</span><%= article.author %></a>
     <span class="article_date"><%= article.created_at %></span>
     <span class="disclaimer"><%= disclaimer %></span>

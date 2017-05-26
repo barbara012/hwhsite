@@ -9,7 +9,8 @@ module.exports = {
       if (typeof article.author === 'object') {
         const author = article.author
         article.author = author.name,
-        article.userId = author._id
+        article.userId = author._id,
+        article.avatar = author.avatar
       }
       article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
       article.pv = article.pv || 0

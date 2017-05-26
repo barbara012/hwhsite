@@ -165,105 +165,61 @@ var DeleteOperate = {
 DeleteOperate.init($('.article_delete'), '.article-item')
 $(document).ready(function() {
   (function () {
-    var $image = $('.img-container > img'),
-        resultOption = {},
-        options = {
-          // strict: false,
-          // responsive: false,
-          // checkImageOrigin: false
+    var $preview = $('.preview')
+    $('#image').cropper({
+      aspectRatio: 1 / 1,
+      ready: function (e) {
+        var $clone = $(this).clone().removeClass('cropper-hidden')
 
-          // modal: false,
-          // guides: false,
-          // highlight: false,
-          // background: false,
+        $clone.css({
+          display: 'block',
+          width: '100%',
+          minWidth: 0,
+          minHeight: 0,
+          maxWidth: 'none',
+          maxHeight: 'none'
+        });
 
-          // autoCrop: false,
-          // autoCropArea: 0.5,
-          // dragCrop: false,
-          // movable: false,
-          // resizable: false,
-          // rotatable: false,
-          // zoomable: false,
-          // touchDragZoom: false,
-          // mouseWheelZoom: false,
+        $preview.css({
+          width: '100%',
+          overflow: 'hidden'
+        }).html($clone)
+      },
+      crop: function(e) {
+        // Output the result data for cropping image.
+        var imageData = $(this).cropper('getImageData')
+        var previewAspectRatio = e.width / e.height
+        var previewWidth = $preview.width();
+        var previewHeight = previewWidth / previewAspectRatio;
+        var imageScaledRatio = e.width / previewWidth;
 
-          // minCanvasWidth: 320,
-          // minCanvasHeight: 180,
-          // minCropBoxWidth: 160,
-          // minCropBoxHeight: 90,
-          // minContainerWidth: 320,
-          // minContainerHeight: 180,
-
-          // build: null,
-          // built: null,
-          // dragstart: null,
-          // dragmove: null,
-          // dragend: null,
-          // zoomin: null,
-          // zoomout: null,
-
-          aspectRatio: 1 / 1,
-          crop: function (data) {
-            resultOption.dataX = Math.round(data.x)
-            resultOption.dataY = Math.round(data.y)
-            resultOption.dataHeight = Math.round(data.height)
-            resultOption.dataWidth = Math.round(data.width)
-            resultOption.dataRotate = Math.round(data.width)
-          }
-        };
-
-    $image.on({
-      'build.cropper': function (e) {
-        console.log(e.type)
-      },
-      'built.cropper': function (e) {
-        console.log(e.type)
-      },
-      'dragstart.cropper': function (e) {
-        console.log(e.type, e.dragType)
-      },
-      'dragmove.cropper': function (e) {
-        console.log(e.type, e.dragType)
-      },
-      'dragend.cropper': function (e) {
-        var canvas = $image.cropper("getCroppedCanvas")
-        // console.log(canvas.toDataURL())
-        $('.img-preview').html(canvas)
-      },
-      'zoomin.cropper': function (e) {
-        console.log(e.type)
-      },
-      'zoomout.cropper': function (e) {
-        console.log(e.type)
+        $preview.height(previewHeight).find('img').css({
+          width: imageData.naturalWidth / imageScaledRatio,
+          height: imageData.naturalHeight / imageScaledRatio,
+          marginLeft: -e.x / imageScaledRatio,
+          marginTop: -e.y / imageScaledRatio
+        })
       }
-    }).cropper(options)
+    })
 
 
     // Methods
     $(document.body).on('click', '#avatar-submit', function () {
-      var canvas = $image.cropper("getCroppedCanvas")
-      var data = canvas.toDataURL()
-      data = data.split(',')[1]
-      data = window.atob(data)
-      var ia = new Uint8Array(data.length)
-      for (var i = 0; i < data.length; i++) {
-          ia[i] = data.charCodeAt(i)
-      }
-
-      // canvas.toDataURL 返回的默认格式就是 image/png
-      var blob = new Blob([ia], { type: 'image/png' })
-      blob.name = 'hlw.png'
-      var fd = new FormData()
-      fd.append('file', blob)
-      $.ajax({
-        url: '/admin/upload/image',
-        type: 'POST',
-        data: fd,
-        processData: false,
-        contentType: false
-      }).done(function(res) {
-        console.log(res)
-        if (res.status === 'ok') {
+      $('#image').cropper('getCroppedCanvas', {
+        width: 200,
+        height: 200
+      })
+      .toBlob(function (blob) {
+        var fd = new FormData()
+        fd.append('file', blob)
+        $.ajax({
+          url: '/admin/upload/image',
+          type: 'POST',
+          data: fd,
+          processData: false,
+          contentType: false
+        }).done(function(res) {
+          if (res.status === 'ok') {
             new Noty({
               type: 'success',
               layout: 'topRight',
@@ -277,16 +233,24 @@ $(document).ready(function() {
                 }
               }
             }).show()
+          } else {
+            new Noty({
+              type: 'error',
+              layout: 'topRight',
+              text: res.mes,
+              timeout: 1000,
+              progressBar: true,
+              animation: animat
+            }).show()
           }
-      }).fail(function(res) {})
+        }).fail(function(res) {})
+      })
     })
-
 
     // Import image
     var $inputImage = $('#inputImage'),
         URL = window.URL || window.webkitURL,
         blobURL;
-
     if (URL) {
       $inputImage.change(function () {
         var files = this.files,
@@ -297,7 +261,7 @@ $(document).ready(function() {
 
           if (/^image\/\w+$/.test(file.type)) {
             blobURL = URL.createObjectURL(file)
-            $image.one('built.cropper', function () {
+            $('#image').one('built.cropper', function () {
               URL.revokeObjectURL(blobURL); // Revoke when load complete
             }).cropper('reset', true).cropper('replace', blobURL)
             // $inputImage.val('')

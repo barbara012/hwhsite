@@ -4,10 +4,10 @@
       <span class="user_avatar"><%- user.name.substr(0,1) %></span>
       <span class="user_name"><%- user.name %></span>
     </a>
-    <a href="/admin/posts" class="side_item <%- active == 'post' ? 'active': '' %>">已发表文章</a>
+    <a href="/admin/posts" class="side_item <%- active == 'posts' ? 'active': '' %>">已发表文章</a>
     <% if (user.privilege == 1) { %>
     <a href="/admin/banner" class="side_item <%- active == 'banner' ? 'active': '' %>">Banner编辑</a>
     <% } %>
-    <a href="/admin/set" class="side_item">帐户设置</a>
+    <a href="/admin/set" class="side_item <%- active == 'set' ? 'active': '' %>">帐户设置</a>
   </div>
 </div>

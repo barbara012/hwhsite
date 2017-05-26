@@ -1,14 +1,14 @@
 <div class="admin_content">
   <div class="admin_content-inner">
-    <div class="posts">
+    <div class="user-set">
       <div class="section">
         <div class="section_title">修改头像</div>
         <div class="section_content">
           <div class="img-container">
-            <img src="/dist/img/404.jpg">
+            <img src="<%= user.avatar || '/dist/img/hlw7.jpeg' %>" id="image">
           </div>
           <div class="preview-wrapper">
-            <div class="img-preview"></div>
+            <div class="preview"></div>
           </div>
           <input type="file" id="inputImage"/>
           <a class="avatar-submit" id="avatar-submit" href="javascript:;">提交</a>
