@@ -2,6 +2,7 @@ const NewsModel = require('../models/news')
 const JshuModel = require('../models/jsarticle')
 const PostModel = require('../models/posts')
 const GetBanner = require('../models/common/getBanner')
+const GetHot = require('../models/common/getHot')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
 const R = require('ramda')
@@ -13,21 +14,17 @@ const router = express.Router()
 router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
-  let pCount = NewsModel.getCount()
-  let pNews = NewsModel.getNews(page, 10)
-  let pMovies = MoviesModel.getMovies(1, 3)
-  let newHot = NewsModel.getHot()
-  let articleHot = JshuModel.getHot()
-  let postHot = PostModel.getHot()
-  Promise.all([pCount, pNews, pMovies, newHot, articleHot, postHot, GetBanner.get(2)])
-  .then(function (result) {
+  Promise.all([
+    NewsModel.getCount(),
+    NewsModel.getNews(page, 10), 
+    MoviesModel.getMovies(1, 3),
+    GetHot.get(4),
+    GetBanner.get(2)
+  ]).then(function (result) {
     const articles = FormateData(result[1])
-    let newH = FormateData(result[3])
-    let articleH = FormateData(result[4])
-    let postH = FormateData(result[5])
     let sortByPv = R.descend(R.prop('pv'))
-    let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
-    let banner = FormateData(result[6][0].concat(result[6][1], result[6][2]))
+    let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
+    let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
     let sortByTs = function (a, b) {
       if (a.ts > b.ts) return -1
       if (a.ts < b.ts) return 1
@@ -56,15 +53,19 @@ router.get('/:newId', function(req, res, next) {
   ])
   .then(result => {
     let article = result[0]
-    article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
-    article.pv = article.pv || 0
-    res.render('article', {
-      article: article,
-      comments: result[1], 
-      originalUrl: req.originalUrl,
-      articleType: 'news',
-      disclaimer: '内容均来自网络，侵删'
-    })
+    if (article) {
+      article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
+      article.pv = article.pv || 0
+      res.render('article', {
+        article: article,
+        comments: result[1], 
+        originalUrl: req.originalUrl,
+        articleType: 'news',
+        disclaimer: '内容均来自网络，侵删'
+      })
+    } else {
+      res.redirect('/')
+    }
   })
   .catch(next)
 })

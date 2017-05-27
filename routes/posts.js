@@ -3,6 +3,7 @@ const JshuModel = require('../models/jsarticle')
 const NewsModel = require('../models/news')
 const ImageModel = require('../models/images')
 const GetBanner = require('../models/common/getBanner')
+const GetHot = require('../models/common/getHot')
 const R = require('ramda')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
@@ -13,32 +14,26 @@ const FormateData = require('../filters/index').formateArticle
 const checkLogin = require('../middlewares/check').checkLogin
 
 router.get('/', function(req, res, next) {
-  // var author = req.query.author;
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
     PostModel.getPosts(page, 10),
     MoviesModel.getMovies(1, 3),
     PostModel.getCount(),
-    NewsModel.getHot(),
-    JshuModel.getHot(),
-    PostModel.getHot(),
+    GetHot.get(4),
     GetBanner.get(2)
   ])
   .then(result => {
     let articles = FormateData(result[0])
-    let banner = FormateData(result[6][0].concat(result[6][1], result[6][2]))
+    let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
     let sortByTs = function (a, b) {
       if (a.ts > b.ts) return -1
       if (a.ts < b.ts) return 1
       if (a.ts === b.ts) return 0
     }
     banner = R.sort(sortByTs)(banner)
-    let newH = FormateData(result[3])
-    let articleH = FormateData(result[4])
-    let postH = FormateData(result[5])
     let sortByPv = R.descend(R.prop('pv'))
-    let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
+    let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
     res.render('articles', {
       originalUrl: req.originalUrl,
       articleType: 'posts',
@@ -184,24 +179,25 @@ router.get('/:articleId', function(req, res, next) {
     PostModel.incPv(articleId)// pv 加 1
   ])
   .then(function (result) {
-    let article = result[0];
-    let comments = result[1]
-    if (!article) {
-      throw new Error('该文章不存在')
+    let article = result[0]
+    if (article) {
+      let comments = result[1]
+      const author = article.author
+      article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
+      article.pv = article.pv || 0
+      article.author = author.name
+      article.userId = author._id
+      article.avatar = author.avatar
+      res.render('article', {
+        article: article,
+        comments: comments,
+        originalUrl: req.originalUrl,
+        articleType: 'posts',
+        disclaimer: '原创作品，转载请联系作者'
+      })
+    } else {
+      res.redirect('/')
     }
-    const author = article.author
-    article.tag = article.tag ? article.tag.split(/，|\/|,|\\|-|&|\||@|·/) : []
-    article.pv = article.pv || 0
-    article.author = author.name
-    article.userId = author._id
-    article.avatar = author.avatar
-    res.render('article', {
-      article: article,
-      comments: comments,
-      originalUrl: req.originalUrl,
-      articleType: 'posts',
-      disclaimer: '原创作品，转载请联系作者'
-    })
   })
   .catch(next)
 })

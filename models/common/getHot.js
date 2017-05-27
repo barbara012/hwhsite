@@ -4,9 +4,9 @@ const PostModel = require('../posts')
 module.exports = {
   get (size) {
    return Promise.all([
-      NewsModel.getBanner(size),
-      JshuModel.getBanner(size),
-      PostModel.getBanner(size)
+      NewsModel.getHot(size),
+      JshuModel.getHot(size),
+      PostModel.getHot(size)
     ])
   }
 }

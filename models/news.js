@@ -17,11 +17,11 @@ module.exports = {
       .sort({ ts: -1 })
       .exec()
   },
-  getHot: function getHot() {
+  getHot: function getHot(size) {
     return NewPost
       .find({}, {
         skip: 0,
-        limit: 5
+        limit: size
       })
       .addCreatedAt()
       .sort({ pv: -1 })

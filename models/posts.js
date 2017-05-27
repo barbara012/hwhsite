@@ -54,11 +54,11 @@ module.exports = {
         .addCreatedAt()
         .exec()
   },
-  getHot: function getHot() {
+  getHot: function getHot(size) {
     return Post
       .find({}, {
         skip: 0,
-        limit: 5
+        limit: size
       })
       .addCreatedAt()
       .sort({ pv: -1 })
