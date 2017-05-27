@@ -1,6 +1,12 @@
 <div class="app-nav">
   <div class="nav-content">
     <a class="logo" href="/news" title="HwH的小站"><img src="/dist/img/logo@2.png" alt="HwH的小站的小站"></a>
+    <input id="menu-btn" type="checkbox">
+    <label for="menu-btn" class="menu-btn-wrapper">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
     <ul class="nav_menu">
       <li><a class="nav_menu_item <%- articleType == 'posts' ? 'active' : '' %>" href="/posts">原创</a></li>
       <li><a class="nav_menu_item <%- articleType == 'news' ? 'active' : '' %>" href="/news">IT资讯</a></li>
@@ -26,7 +32,7 @@
       <a href="/posts/create" class="post icon icon-pencil-1"></a>
       <div class="app-selector">
         <div class="selector_text">
-          <a href="/" class="user_avatar" title="<%= user.name %>">
+          <a href="javascript:;" class="user_avatar" title="<%= user.name %>">
           <% if (user.avatar) { %>
           <img src="<%= user.avatar %>">
           <%} else { %>
