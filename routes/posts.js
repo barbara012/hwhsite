@@ -2,6 +2,7 @@ const PostModel = require('../models/posts')
 const JshuModel = require('../models/jsarticle')
 const NewsModel = require('../models/news')
 const ImageModel = require('../models/images')
+const GetBanner = require('../models/common/getBanner')
 const R = require('ramda')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
@@ -22,14 +23,17 @@ router.get('/', function(req, res, next) {
     NewsModel.getHot(),
     JshuModel.getHot(),
     PostModel.getHot(),
-    NewsModel.getBanner(),
-    JshuModel.getBanner(),
-    PostModel.getBanner()
+    GetBanner.get(2)
   ])
   .then(result => {
     let articles = FormateData(result[0])
-    let banner = R.concat(R.concat(result[6], result[7]), result[8]) //FormateData(result[6])
-    banner = FormateData(banner)
+    let banner = FormateData(result[6][0].concat(result[6][1], result[6][2]))
+    let sortByTs = function (a, b) {
+      if (a.ts > b.ts) return -1
+      if (a.ts < b.ts) return 1
+      if (a.ts === b.ts) return 0
+    }
+    banner = R.sort(sortByTs)(banner)
     let newH = FormateData(result[3])
     let articleH = FormateData(result[4])
     let postH = FormateData(result[5])
@@ -106,7 +110,7 @@ router.post('/create', checkLogin, function(req, res, next) {
 //编辑banner
 router.get('/banner/:articleId/edit', checkLogin, (req, res, next) => {
   let articleId = req.params.articleId
-  PostModel.getOne(articleId)
+  PostModel.getPostById(articleId)
     .then(article => {
       res.render('edit', {
         article: article,
@@ -115,12 +119,14 @@ router.get('/banner/:articleId/edit', checkLogin, (req, res, next) => {
     })
     .catch(next)
 })
-router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+router.post('/:type/:articleId/edit', checkLogin, (req, res, next) => {
+  let type = req.params.type
   let articleId = req.params.articleId
   const title = req.fields.title
   const content = req.fields.content
   const tag = req.fields.tag || '原创'
-  const mark = 'banner'
+  const mark = type === 'banner' ? 'banner' : 'normal'
+  const ts = (new Date()).getTime()
   // 校验参数
   try {
     if (!title.length) {
@@ -140,6 +146,7 @@ router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
       title,
       content,
       tag,
+      ts,
       mark
     })
     .then(result => {

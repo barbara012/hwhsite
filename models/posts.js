@@ -68,13 +68,13 @@ module.exports = {
     return Post
       .update({ _id: postId}, {$set: data})
   },
-  getBanner: function getBanner () {
+  getBanner: function getBanner (size) {
     return Post.find({ mark: 'banner'},{
         skip: 0,
-        limit: 2
+        limit: size
       })
       .addCreatedAt()
-      .sort({ pv: -1 })
+      .sort({ ts: -1 })
       .exec()
   },
   getCount: function getCount () {

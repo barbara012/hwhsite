@@ -1,6 +1,7 @@
 const NewsModel = require('../models/news')
 const JshuModel = require('../models/jsarticle')
 const PostModel = require('../models/posts')
+const GetBanner = require('../models/common/getBanner')
 const MoviesModel = require('../models/movies')
 const CommentModel = require('../models/comments')
 const R = require('ramda')
@@ -18,19 +19,21 @@ router.get('/', function(req, res, next) {
   let newHot = NewsModel.getHot()
   let articleHot = JshuModel.getHot()
   let postHot = PostModel.getHot()
-  let bannerNew = NewsModel.getBanner()
-  let bannerArticle = JshuModel.getBanner()
-  let bannerPost = PostModel.getBanner()
-  Promise.all([pCount, pNews, pMovies, newHot, articleHot, postHot, bannerNew, bannerArticle, bannerPost])
+  Promise.all([pCount, pNews, pMovies, newHot, articleHot, postHot, GetBanner.get(2)])
   .then(function (result) {
     const articles = FormateData(result[1])
-    let banner = R.concat(R.concat(result[6], result[7]), result[8]) //FormateData(result[6])
-    banner = FormateData(banner)
     let newH = FormateData(result[3])
     let articleH = FormateData(result[4])
     let postH = FormateData(result[5])
     let sortByPv = R.descend(R.prop('pv'))
     let hotArticles = R.sort(sortByPv)(R.concat(R.concat(newH, articleH), postH))
+    let banner = FormateData(result[6][0].concat(result[6][1], result[6][2]))
+    let sortByTs = function (a, b) {
+      if (a.ts > b.ts) return -1
+      if (a.ts < b.ts) return 1
+      if (a.ts === b.ts) return 0
+    }
+    banner = R.sort(sortByTs)(banner)
     res.render('articles', {
       articles: articles,
       movies: result[2],
@@ -99,12 +102,14 @@ router.get('/banner/:articleId/edit', checkLogin, (req, res, next) => {
     })
     .catch(next)
 })
-router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
+router.post('/:type/:articleId/edit', checkLogin, (req, res, next) => {
   let articleId = req.params.articleId
+  let type = req.params.type
   const title = req.fields.title
   const content = req.fields.content
   const tag = req.fields.tag || '原创'
-  const mark = 'banner'
+  const ts = (new Date()).getTime()
+  const mark = type === 'banner' ? 'banner': 'normal'
   // 校验参数
   try {
     if (!title.length) {
@@ -124,6 +129,7 @@ router.post('/banner/:articleId/edit', checkLogin, (req, res, next) => {
       title,
       content,
       tag,
+      ts,
       mark
     })
     .then(result => {
