@@ -14,7 +14,7 @@ module.exports = {
         limit: size
       })
       .addCreatedAt()
-      .sort({ ts: -1 })
+      .sort({ _id: -1 })
       .exec()
   },
   getHot: function getHot(size) {
