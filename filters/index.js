@@ -29,7 +29,14 @@ module.exports = {
       let r = article.content.match(/<img.+?>/)
       let rendNumber = Math.random() * (200 - 150 + 1) + 150
       let p = article.content.replace(/<[^>]+>/g, '')
-      article.img = r ? r[0] : ''
+      if (r) {
+        let imgUrl = r[0].match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i)
+        article.img = r[0]
+        article.imgUrl = imgUrl[1]
+      } else {
+        article.img = null
+        article.imgUrl = null
+      }
       article.content = p.substr(0, rendNumber) + '...'
       article.created_at = dateFormate(article.created_at)
       if (typeof article.author === 'object') {

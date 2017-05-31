@@ -44,32 +44,52 @@ router.get('/', function(req, res, next) {
     })
   }).catch(next)
 })
-//app
-router.get('/app', function(req, res, next) {
+//app-news
+router.get('/app/news', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    NewsModel.getCount(),
     NewsModel.getNews(page, 10), 
-    MoviesModel.getMovies(1, 3),
-    GetHot.get(4),
-    GetBanner.get(2)
+    NewsModel.getCount()
   ])
   .then(result => {
-    let articles = FormateData(result[1])
-    let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
-    let sortByTs = function (a, b) {
-      if (a.ts > b.ts) return -1
-      if (a.ts < b.ts) return 1
-      if (a.ts === b.ts) return 0
-    }
-    banner = R.sort(sortByTs)(banner)
-    let sortByPv = R.descend(R.prop('pv'))
-    let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
+    let articles = FormateData(result[0])
     res.send({
       articles: articles
     })
   })
   .catch(next)
+})
+//app-posts
+router.get('/app/posts', function (req, res, next) {
+  let page = req.query.p || 1
+  page = page * 1
+  Promise.all([
+    PostModel.getPosts(page, 10),
+    PostModel.getCount()
+  ])
+    .then(result => {
+      let articles = FormateData(result[0])
+      res.send({
+        articles: articles
+      })
+    })
+    .catch(next)
+})
+//app-jShu
+router.get('/app/articles', function (req, res, next) {
+  let page = req.query.p || 1
+  page = page * 1
+  Promise.all([
+    JshuModel.getArticles(page, 10),
+    JshuModel.getCount()
+  ])
+    .then(result => {
+      let articles = FormateData(result[0])
+      res.send({
+        articles: articles
+      })
+    })
+    .catch(next)
 })
 module.exports = router
