@@ -22,8 +22,12 @@ a {
 ul {
   list-style: none;
 }
+input, button, textarea {
+  -webkit-appearance: none;
+}
 input, button, textarea,select {
   font: inherit; 
+  -webkit-appearance: none;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */ 
 color: #aaa; 
@@ -583,6 +587,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
   }
   .article_content {
     font-size: 16px;
+    line-height: 1.9;
     a {
       color: #22624b;
     }
@@ -1533,7 +1538,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
         font-size: 15px;
       }
       .article_text {
-        max-height: 16vw;
+        max-height: 71px;
         overflow: hidden;
         font-size: 12px;
       }
@@ -1542,7 +1547,7 @@ input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
         left: 0;
         top: 43px;
         width: 28vw;
-        height: 14vw;
+        height: 65px;
         padding: 2px;
         max-width: none;
         max-height: none;

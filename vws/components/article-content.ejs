@@ -1,4 +1,4 @@
-<div class="article-content">
+<div class="article-content simditor">
   <h1><a class="article_title" href="<%- article.path +  article._id %>"><%= article.title %></a></h1>
   <div class="article_other-info">
     <a href="javascript:;" class="article_avatar">
@@ -12,7 +12,7 @@
     <span class="article_date"><%= article.created_at %></span>
     <span class="disclaimer"><%= disclaimer %></span>
   </div>
-  <div class="article_content"><%- article.content %></div>
+  <div class="article_content simditor-body"><%- article.content %></div>
   <% if (article.tag.length > 0) {%>
   <div class="article_tags">
     <% article.tag.forEach(function(tg){ %>
