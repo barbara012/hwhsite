@@ -188,6 +188,7 @@ router.get('/:articleId', function(req, res, next) {
       article.author = author.name
       article.userId = author._id
       article.avatar = author.avatar
+      console.log(comments)
       res.render('article', {
         article: article,
         comments: comments,
