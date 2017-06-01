@@ -15,13 +15,13 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    NewsModel.getCount(),
-    NewsModel.getNews(page, 10), 
+    PostModel.getPosts(page, 10),
+    PostModel.getCount(),
     MoviesModel.getMovies(1, 3),
     GetHot.get(4),
     GetBanner.get(2)
   ]).then(function (result) {
-    const articles = FormateData(result[1])
+    const articles = FormateData(result[0])
     let sortByPv = R.descend(R.prop('pv'))
     let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
     let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
@@ -37,9 +37,9 @@ router.get('/', function(req, res, next) {
       banners: banner,
       hotArticles: hotArticles, // 热门博文
       isFirstPage: page === 1,
-      articleType: 'news',
+      articleType: 'posts',
       originalUrl: req.originalUrl,
-      isLastPage: page * 10 >= result[0],
+      isLastPage: page * 10 >= result[1],
       page: page
     })
   }).catch(next)
