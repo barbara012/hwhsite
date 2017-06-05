@@ -174,6 +174,115 @@ $(document).ready(function() {
   if ($deleteBtn) {
     DeleteOperate.init($deleteBtn, '.article-item')
   }
+  //初始化评论框
+  var $commentEditor = $('#commenter_text')
+  if ($commentEditor.length > 0) {
+    var editor = new Simditor({
+      textarea: $('#commenter_text'),
+      toolbar: ['emoji', 'bold','italic','underline','strikethrough','color','blockquote', 'code'],
+      emoji: {
+        imagePath: '/emoji/',
+        images: [
+          'smile.png',
+          'smiley.png',
+          'laughing.png',
+          'astonished.png',
+          'confounded.png',
+          'confused.png',
+          'cry.png',
+          'blush.png',
+          'heart_eyes.png',
+          'smirk.png',
+          'flushed.png',
+          'grin.png',
+          'wink.png',
+          'kissing_closed_eyes.png',
+          'stuck_out_tongue_winking_eye.png',
+          'stuck_out_tongue.png',
+          'sleeping.png',
+          'worried.png',
+          'expressionless.png',
+          'sweat_smile.png',
+          'cold_sweat.png',
+          'joy.png',
+          'sob.png',
+          'angry.png',
+          'mask.png',
+          'scream.png',
+          'sunglasses.png',
+          'triumph.png',
+          'imp.png',
+          'hushed.png',
+          'metal.png',
+          'monkey.png',
+          'neckbeard.png',
+          'mushroom.png',
+          'octocat.png',
+          'runner.png',
+          'sun_with_face.png',
+          'tennis.png',
+          'ticket.png',
+          'triangular_flag_on_post.png',
+          'uk.png',
+          'video_game.png',
+          'watermelon.png',
+          'yen.png',
+          'pound.png',
+          'womans_hat.png',
+          'vs.png',
+          'us.png',
+          'underage.png',
+          'umbrella.png',
+          'vertical_traffic_light.png',
+          'two_women_holding_hands.png',
+          'two_men_holding_hands.png',
+          'tractor.png',
+          'tropical_fish.png',
+          'syringe.png',
+          'spaghetti.png',
+          'rice.png',
+          'ramen.png',
+          'raised_hands.png',
+          'ring.png',
+          'pineapple.png',
+          'page_facing_up.png',
+          'page_with_curl.png',
+          'outbox_tray.png',
+          'oden.png',
+          'octocat.png',
+          'mount_fuji.png',
+          'mountain_bicyclist.png',
+          'nail_care.png',
+          'musical_score.png',
+          'musical_keyboard.png',
+          'oncoming_automobile.png',
+          'heart.png',
+          'broken_heart.png',
+          'star.png',
+          'anger.png',
+          'exclamation.png',
+          'question.png',
+          'zzz.png',
+          'thumbsup.png',
+          'thumbsdown.png',
+          'ok_hand.png',
+          'punch.png',
+          'v.png',
+          'clap.png',
+          'muscle.png',
+          'pray.png',
+          'skull.png',
+          'trollface.png',
+          'dog.png',
+          'eyeglasses.png',
+          'full_moon_with_face.png',
+          'ghost.png',
+          'hankey.png',
+          '100.png'
+         ]
+      }
+    })  
+  }
   //评论
   var $commentBtn = $('.commenter_button')
   var $commentText = $('.commenter_text')
@@ -193,7 +302,7 @@ $(document).ready(function() {
       }
       submitFlag = false
       var val = $commentText.val()
-      val = val ? val.replace(/\s/g, ''): null
+      // val =  null
       if (!val) {
         new Noty({
           type: 'error',
@@ -235,7 +344,7 @@ $(document).ready(function() {
   }
   // 删除评论
   var $commentReply = $('.comment_reply')
-  if ($commentReply) {
+  if ($commentReply.length > 0) {
     $commentReply.click(function() {
       var commentId = $(this).data('id')
       var $this = $(this)

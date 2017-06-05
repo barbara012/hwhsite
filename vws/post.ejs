@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/lib/noty/noty.min.css">
     <link rel="stylesheet" href="/lib/simditor/simditor.css">
+    <link rel="stylesheet" href="/lib/simditor/simditor-emoji.css">
     <link rel="stylesheet" href="/dist/css/app.css">
   </head>
 <body>
@@ -24,10 +25,7 @@
       </div>
     </div>
     <%- include('components/footer') %>
-    <script src="/lib/simditor/module.min.js"></script>
-    <script src="/lib/simditor/hotkeys.min.js"></script>
-    <script src="/lib/simditor/uploader.min.js"></script>
-    <script src="/lib/simditor/simditor.min.js"></script>
+    <%- include('components/simditor') %>
     <script src="/dist/js/post.js"></script>
   </div>
 </body>

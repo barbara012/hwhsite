@@ -3,7 +3,7 @@
   <div class="commenter">
     <% if (user) { %>
     <div class="commenter_field">
-      <textarea name="content" class="commenter_text" required></textarea>
+      <textarea name="content" id="commenter_text" class="commenter_text" required></textarea>
     </div>
     <input type="submit" class="commenter_button" value="留言" data-id="<%= article._id %>" />
     <% } else { %>
@@ -22,11 +22,11 @@
           <%- comment.author.name.substr(0,1) %>
         <% } %>
       </a>
-      <div class="content-wrapper">
+      <div class="content-wrapper simditor">
         <a class="commnet_author" href="/posts?author=<%= comment.author._id %>">
           <%- comment.author.name %>
         </a>
-        <div class="comment_content"><%- comment.content %></div>
+        <div class="comment_content simditor-body"><%- comment.content %></div>
         <% if (user && comment.author._id && user._id.toString() === comment.author._id.toString()) { %>
         <div class="actions">
           <a class="comment_reply" href="javascript:;" data-url="/<%= articleType %>/comment/<%= comment._id %>/remove">删除</a>
