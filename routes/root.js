@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
       movies: result[2],
       banners: banner,
       hotArticles: hotArticles, // 热门博文
-      lastTs: lastTs: len > 0 ? articles[len - 1].ts : 0,
+      lastTs: len > 0 ? articles[len - 1].ts : 0,
       isFirstPage: page === 1,
       articleType: 'posts',
       originalUrl: req.originalUrl,
