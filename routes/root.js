@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
     GetBanner.get(2)
   ]).then(function (result) {
     const articles = FormateData(result[0])
+    const len = articles.length
     let sortByPv = R.descend(R.prop('pv'))
     let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
     let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
@@ -36,6 +37,7 @@ router.get('/', function(req, res, next) {
       movies: result[2],
       banners: banner,
       hotArticles: hotArticles, // 热门博文
+      lastTs: lastTs: len > 0 ? articles[len - 1].ts : 0,
       isFirstPage: page === 1,
       articleType: 'posts',
       originalUrl: req.originalUrl,
