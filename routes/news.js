@@ -16,12 +16,13 @@ router.get('/', function(req, res, next) {
   page = page * 1
   Promise.all([
     NewsModel.getCount(),
-    NewsModel.getNews(page, 10), 
+    NewsModel.getArticles(page, 10), 
     MoviesModel.getMovies(1, 3),
     GetHot.get(4),
     GetBanner.get(2)
   ]).then(function (result) {
     const articles = FormateData(result[1])
+    const len = articles.length
     let sortByPv = R.descend(R.prop('pv'))
     let hotArticles = FormateData(R.sort(sortByPv)(R.concat(R.concat(result[3][0], result[3][1]), result[3][2])))
     let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
@@ -35,6 +36,7 @@ router.get('/', function(req, res, next) {
       articles: articles,
       movies: result[2],
       banners: banner,
+      lastTs: len > 0 ? articles[len - 1].ts : 0,
       hotArticles: hotArticles, // 热门博文
       isFirstPage: page === 1,
       articleType: 'news',

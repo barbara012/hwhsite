@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    PostModel.getPosts(page, 10),
+    PostModel.getArticles(page, 10),
     MoviesModel.getMovies(1, 3),
     PostModel.getCount(),
     GetHot.get(4),
@@ -25,6 +25,7 @@ router.get('/', function(req, res, next) {
   ])
   .then(result => {
     let articles = FormateData(result[0])
+    const len = articles.length
     let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
     let sortByTs = function (a, b) {
       if (a.ts > b.ts) return -1
@@ -38,6 +39,7 @@ router.get('/', function(req, res, next) {
       originalUrl: req.originalUrl,
       articleType: 'posts',
       hotArticles: hotArticles,
+      lastTs: len > 0 ? articles[len - 1].ts : 0,
       banners: banner,
       articles: articles,
       movies: result[1],

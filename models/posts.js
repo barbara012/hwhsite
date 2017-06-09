@@ -43,16 +43,22 @@ module.exports = {
   },
 
   // 按创建时间降序获取所有用户文章
-  getPosts: function getPosts(page, size) {
-      return Post
-        .find({}, {
-          skip: (page - 1) * size,
-          limit: size
-        })
-        .populate({ path: 'author', model: 'User' })
-        .sort({ _id: -1 })
-        .addCreatedAt()
-        .exec()
+  getArticles: function getArticles(page, size, lastTs) {
+    var query = {}
+    if (lastTs) {
+      query = {
+        ts: {$lt: lastTs}
+      }
+    }
+    return Post
+      .find(query, {
+        skip: (page - 1) * size,
+        limit: size
+      })
+      .populate({ path: 'author', model: 'User' })
+      .sort({ _id: -1 })
+      .addCreatedAt()
+      .exec()
   },
   getHot: function getHot(size) {
     return Post

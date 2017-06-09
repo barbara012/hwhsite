@@ -7,9 +7,15 @@ module.exports = {
     article.path = '/news/'  // 添加pathname 区分it，文集，原创
     return NewPost.create(article).exec();
   },
-  getNews: function getNews(page, size) {
+  getArticles: function getArticles(page, size, lastTs) {
+    var query = {}
+    if (lastTs) {
+      query = {
+        ts: {$lt: lastTs}
+      }
+    }
     return NewPost
-      .find({}, {
+      .find(query, {
         skip: (page - 1) * size,
         limit: size
       })

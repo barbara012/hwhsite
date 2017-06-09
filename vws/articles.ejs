@@ -21,13 +21,15 @@
           <% articles.forEach(function (article) { %>
             <%- include('components/article-item', { article: article }) %>
           <% }) %>
-          <%- include('components/page-nav') %>
+          <div class="more-wrapper">
+            <a href="javascript:;" data-type="<%- articleType %>" id="get-more" data-ts="<%- lastTs %>" data-page="<%- page + 1 %>" class="more">更多</a>
+          </div>
         </div>
         <%- include('components/side') %>
       </div>
       <%- include('components/footer') %>
-      <script src="/dist/js/app.js"></script>
       <script src="/lib/swiper/swiper-3.4.2.jquery.min.js"></script>
+      <script src="/dist/js/app.js"></script>
       <script>
         new Swiper('.movie-swiper', {
           paginationClickable: true,
@@ -54,6 +56,96 @@
           preloadImages: true,
           // Enable lazy loading
           lazyLoading: true
+        })
+        var $getMore = $('#get-more')
+        function appendArticle(articles, cb) {
+          var html = []
+          articles.forEach(function (article) {
+            var $item = $('<div class="article-item"></div>')
+
+            var $other = $('<div class="article_other-info"></div>')
+            var $avatar = $('<a class="article_avatar" href="javascript:;"></a>')
+            if (article.avatar) {
+              $avatar.append($('<img src="'+ article.avatar +'" />'))
+            } else {
+              $avatar.text(article.author ? article.author.substr(0, 1) : '无')
+            }
+            var $author = $('<span class="article_author"></span>')
+            $author.text(article.author ? article.author : '无名')
+            var $date = $('<span class="article_date"></span>').text(article.created_at)
+            var $hot = $('<span class="article_hot icon icon-fire"></span>').text(article.pv + '℃')
+            $other.append($avatar).append($author).append($date).append($hot)
+            $item.append($other)
+
+            var $itemInner = $('<div class="article-item-inner"></div>')
+            var $h3 = $('<h3></h3>')
+            var $title = $('<a href="'+ article.path + article._id +'">'+ article.title +'</a>')
+            $h3.append($title)
+            var $content = $('<div class="article_text"></div>').html(article.content)
+            var $img
+            if (article.img) {
+              $itemInner.addClass('with-img')
+              $img = $('<div class="article_img"></div>').append(article.img)
+            }
+            $tags = $('<div class="article_tags"></div>')
+            article.tag.forEach(function(tag) {
+              $tags.append($('<span class="article_tag">'+ tag +'</span>'))
+            })
+            $itemInner.append($h3).append($content).append($img).append($tags)
+
+            $item.append($itemInner)
+
+            html.push($item)
+          })
+          $getMore.parent().before(html)
+          cb()
+        }
+        function getMore(url, cb) {
+          $.get(url, function (response) {
+            if (response.status === 'ok' && response.articles.length > 0) {
+              appendArticle(response.articles, function() {
+                cb(1, response.lastTs)
+              })
+            } else {
+              console.log('没有查到更多文章，可能是出错了')
+              cb(0)
+            }
+          })
+        }
+
+        var isFetching = false
+        var type = $getMore.data('type')
+        var lastTs = $getMore.data('ts')
+        $getMore.click(function() {
+          if (isFetching && !lastTs) return
+          isFetching = true
+          var $this = $(this)
+          $this.text('加载中……')
+          var url = '/items?type=' + type + '&lastTs=' + lastTs
+          getMore(url, function(code, ts) {
+            if (code === 1 && ts !== 0) {
+               // page++
+              lastTs = ts
+              isFetching = false
+              $this.text('更多')
+            } else {
+              // page++
+              // isFetching = false
+              lastTs = 0
+              $this.text('没有更多了')
+            }
+          })
+        })
+
+        $(document).scroll(function() {
+          var scrollHeight = document.body.scrollHeight
+          var offsetHeight = document.body.offsetHeight
+          var scrollTop = $(document).scrollTop()
+          var diff = scrollHeight - (offsetHeight + scrollTop)
+          if (Math.abs(diff) < 10 && !isFetching && lastTs) {
+            console.log(12)
+            $getMore.trigger('click')
+          }
         })
       </script>
     </div>

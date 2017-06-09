@@ -22,6 +22,7 @@ router.get('/', function(req, res, next) {
     GetBanner.get(2)]).then(result => {
     // console.log(result)
     let articles = FormateData(result[1])
+    let len = articles.length
     let banner = FormateData(result[4][0].concat(result[4][1], result[4][2]))
     let sortByTs = function (a, b) {
       if (a.ts > b.ts) return -1
@@ -35,6 +36,7 @@ router.get('/', function(req, res, next) {
       articles: articles,
       movies: result[2],
       hotArticles: hotArticles,
+      lastTs: len > 0 ? articles[len - 1].ts : 0,
       banners: banner,
       isFirstPage: page === 1,
       articleType: 'articles',

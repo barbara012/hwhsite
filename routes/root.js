@@ -44,12 +44,50 @@ router.get('/', function(req, res, next) {
     })
   }).catch(next)
 })
+router.get('/items', (req, res, next) => {
+  const type = req.query.type
+  const lastTs = req.query.lastTs * 1
+  if (typeof lastTs !== 'number' || lastTs <= 0) {
+    return res.send({
+      status: 'fail',
+      mes: 'page必须是正整型'
+    })
+  }
+  let ItemsModel
+  if (type === 'news') {
+    ItemsModel = NewsModel
+  } else if (type === 'posts') {
+    ItemsModel = PostModel
+  } else if (type === 'articles') {
+    ItemsModel = JshuModel
+  } else {
+    return res.send({
+      status: 'fail',
+      mes: '请求出错'
+    })
+  }
+  Promise.all([
+      ItemsModel.getArticles(1, 10, lastTs),
+      ItemsModel.getCount()
+    ])
+    .then(result => {
+      let articles = result[0]
+      let len = articles.length
+      return res.send({
+        status: 'ok',
+        articles: articles ? FormateData(articles) : [],
+        lastTs: len > 0 ? articles[len - 1].ts: 0,
+        total: result[1]
+      })
+    })
+    .catch(next)
+})
 //app-news
 router.get('/app/news', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    NewsModel.getNews(page, 10), 
+    NewsModel.getArticles(page, 10), 
     NewsModel.getCount()
   ])
   .then(result => {
@@ -65,7 +103,7 @@ router.get('/app/posts', function (req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    PostModel.getPosts(page, 10),
+    PostModel.getArticles(page, 10),
     PostModel.getCount()
   ])
     .then(result => {
