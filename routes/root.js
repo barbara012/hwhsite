@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   let page = req.query.p || 1
   page = page * 1
   Promise.all([
-    PostModel.getPosts(page, 10),
+    PostModel.getArticles(page, 10),
     PostModel.getCount(),
     MoviesModel.getMovies(1, 3),
     GetHot.get(4),
