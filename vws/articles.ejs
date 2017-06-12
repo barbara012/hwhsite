@@ -143,7 +143,6 @@
           var scrollTop = $(document).scrollTop()
           var diff = scrollHeight - (offsetHeight + scrollTop)
           if (Math.abs(diff) < 10 && !isFetching && lastTs) {
-            console.log(12)
             $getMore.trigger('click')
           }
         })
