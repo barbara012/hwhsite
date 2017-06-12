@@ -55,9 +55,9 @@ router.post('/:articleId/remove', function(req, res, next) {
 router.get('/banner', checkLogin, (req, res, next) => {
   const author = req.session.user._id
   Promise.all([
-    NewsModel.getNews(1, 10),
+    NewsModel.getArticles(1, 10),
     JshuModel.getArticles(1, 10),
-    PostModel.getPosts(1, 10)
+    PostModel.getArticles(1, 10)
   ])
   .then(result => {
     let articles= R.concat(R.concat(result[0], result[1]), result[2])
